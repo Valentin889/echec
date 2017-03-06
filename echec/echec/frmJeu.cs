@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace echec
 {
-    public partial class Form1 : Form
+    public partial class frmJeu : Form
     {
-        public Form1()
+        public frmJeu()
         {
             InitializeComponent();
+        }
+        public frmJeu(string nomJoueur1, string nomJoueur2)
+            :this()
+        {
+
         }
     }
 }
