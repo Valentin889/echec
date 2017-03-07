@@ -15,27 +15,33 @@ namespace echec
         private TableLayoutPanel tlpAffichage;
         private int iColonne;
         private int iLigne;
+        private Jeu jeu;
         public frmJeu()
         {
             InitializeComponent();
-        }
-        public frmJeu(string nomJoueur1, string nomJoueur2)
-            :this()
-        {
+            jeu = new Jeu(this);
+            jeu.Creationpiece();
+            jeu.CreationJoueur(new Humain(), new Humain());
+            jeu.PositionPiece();
+
+
             tlpAffichage = new TableLayoutPanel();
             tlpAffichage.Location = new Point(0, 0);
             tlpAffichage.AutoScroll = true;
             tlpAffichage.AutoSize = true;
             Controls.Add(tlpAffichage);
-            GenerationJeu();
+            GenerationJeu(jeu);
         }
-
+        public frmJeu(string nomJoueur1, string nomJoueur2)
+            :this()
+        {
+           
+        }
         private void btnQuitter_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
-        private void GenerationJeu()
+        private void GenerationJeu(Jeu jeu)
         {
             iColonne = 8;
             iLigne = 8;

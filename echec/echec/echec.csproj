@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cavalier.cs" />
+    <Compile Include="Fou.cs" />
     <Compile Include="frmMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,8 +60,16 @@
     <Compile Include="frmJeu.Designer.cs">
       <DependentUpon>frmJeu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Humain.cs" />
+    <Compile Include="Jeu.cs" />
+    <Compile Include="Joueur.cs" />
+    <Compile Include="Piece.cs" />
+    <Compile Include="Pion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reine.cs" />
+    <Compile Include="Roi.cs" />
+    <Compile Include="Tour.cs" />
     <EmbeddedResource Include="frmJeu.resx">
       <DependentUpon>frmJeu.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,6 +97,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ressource\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
