@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ namespace echec
             tlpAffichage.AutoSize = true;
             Controls.Add(tlpAffichage);
             GenerationJeu(jeu);
+
+            
         }
         public frmJeu(string nomJoueur1, string nomJoueur2)
             :this()
@@ -69,9 +72,19 @@ namespace echec
                     bColor = !bColor;
                     pct.Size = new Size(this.Size.Width / 9, this.Size.Height / 9);
                     tlpAffichage.Controls.Add(pct);
+
+                    AffichagePiece("", pct);
                 }
             }
 
         }
+
+        private void AffichagePiece(string strPiece, PictureBox pct)
+        {
+            FileStream fs = new FileStream(@"ressource\CavalierNoir.png", FileMode.Open);
+            pct.Image = Image.FromStream(fs);
+            fs.Close();
+        }
+
     }
 }
