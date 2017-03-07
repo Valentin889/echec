@@ -17,6 +17,8 @@ namespace echec
         private int iColonne;
         private int iLigne;
         private Jeu jeu;
+        private List<String> imagePiece;
+
         public frmJeu()
         {
             InitializeComponent();
@@ -24,6 +26,9 @@ namespace echec
             jeu.Creationpiece();
             jeu.CreationJoueur(new Humain(), new Humain());
             jeu.PositionPiece();
+            imagePiece = new List<string>();
+
+            ChargementListImage();
 
 
             tlpAffichage = new TableLayoutPanel();
@@ -73,18 +78,38 @@ namespace echec
                     pct.Size = new Size(this.Size.Width / 9, this.Size.Height / 9);
                     tlpAffichage.Controls.Add(pct);
 
-                    AffichagePiece("TourNoire.png", pct);
+                    int y = i + j;
+                    string s = jeu.Piece[y].Image;
+                    AffichagePiece(s, pct);
                 }
             }
 
         }
 
+        private void ChargementListImage()
+        {
+            string path = "ressource";
+            foreach (string sFileName in  Directory.GetFiles(path))
+            {
+                if (Path.GetExtension(sFileName) == ".png")
+                {
+                    imagePiece.Add(Path.GetFileName(sFileName));
+                }
+            }
+
+
+        }
         private void AffichagePiece(string strPiece, PictureBox pct)
         {
             FileStream fs = new FileStream(@"ressource\"+strPiece, FileMode.Open);
             pct.Image = Image.FromStream(fs);
             fs.Close();
             pct.SizeMode = PictureBoxSizeMode.CenterImage;
+        }
+
+        private void AjoutImageParPiece()
+        {
+            
         }
 
     }

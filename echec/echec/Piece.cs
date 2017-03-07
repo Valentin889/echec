@@ -16,7 +16,7 @@ namespace echec
         public int PositionY { get; set; }
         
 
-        public string Image { get; private set; }
+        public string Image { get;  set; }
         public Piece(string couleur)
         {
             Couleur = couleur;

@@ -75,6 +75,7 @@ namespace echec
                     }
                 }
             }
+            RemplissageTablePiece();
         }
 
         public void CreationJoueur(Joueur joueur1, Joueur joueur2)
@@ -90,6 +91,15 @@ namespace echec
                 return lstPiece;
             }
         }
+
+        private void RemplissageTablePiece()
+        {
+            foreach (Piece p in lstPiece)
+            {
+                tableauPiece[p.PositionX][p.PositionY] = p;
+            }
+        }
+
 
     }
 }
