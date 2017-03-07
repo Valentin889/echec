@@ -105,16 +105,36 @@
     <Content Include="ressource\CavalierNoir.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ressource\FouBlanc.png" />
-    <Content Include="ressource\FouNoir.png" />
-    <Content Include="ressource\PionBlanc.png" />
-    <Content Include="ressource\PionNoir.png" />
-    <Content Include="ressource\ReineBlanche.png" />
-    <Content Include="ressource\ReineNoire.png" />
-    <Content Include="ressource\RoiBlanc.png" />
-    <Content Include="ressource\RoiNoir.png" />
-    <Content Include="ressource\TourBlanche.png" />
-    <Content Include="ressource\TourNoire.png" />
+    <Content Include="ressource\FouBlanc.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ressource\FouNoir.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ressource\PionBlanc.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ressource\PionNoir.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ressource\ReineBlanche.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ressource\ReineNoire.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ressource\RoiBlanc.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ressource\RoiNoir.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ressource\TourBlanche.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ressource\TourNoire.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

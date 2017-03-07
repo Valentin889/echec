@@ -73,7 +73,7 @@ namespace echec
                     pct.Size = new Size(this.Size.Width / 9, this.Size.Height / 9);
                     tlpAffichage.Controls.Add(pct);
 
-                    AffichagePiece("", pct);
+                    AffichagePiece("TourNoire.png", pct);
                 }
             }
 
@@ -81,9 +81,10 @@ namespace echec
 
         private void AffichagePiece(string strPiece, PictureBox pct)
         {
-            FileStream fs = new FileStream(@"ressource\CavalierNoir.png", FileMode.Open);
+            FileStream fs = new FileStream(@"ressource\"+strPiece, FileMode.Open);
             pct.Image = Image.FromStream(fs);
             fs.Close();
+            pct.SizeMode = PictureBoxSizeMode.CenterImage;
         }
 
     }
