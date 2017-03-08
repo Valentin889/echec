@@ -38,7 +38,9 @@ namespace echec
             Controls.Add(tlpAffichage);
             GenerationPlateau();
             PlacementPiece();
-            TournePlateau();
+
+            jeu.DeplacementPiece(jeu.LstPiece[0]);
+
         }
         public frmJeu(string nomJoueur1, string nomJoueur2)
             :this()

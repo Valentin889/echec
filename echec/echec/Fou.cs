@@ -14,5 +14,9 @@ namespace echec
         {
 
         }
+        public override List<string> DeplacementPossible(Jeu jeu)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

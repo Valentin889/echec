@@ -155,5 +155,13 @@ namespace echec
                 return strCouleur2;
             }
         }
+
+        public List<String> DeplacementPiece(Piece p)
+        {
+            List<String> renvoie = p.DeplacementPossible(this);
+
+            return renvoie;
+        }
+
     }
 }

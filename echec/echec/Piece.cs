@@ -14,8 +14,8 @@ namespace echec
 
         public int PositionX { get; set; }
         public int PositionY { get; set; }
-        
 
+        public abstract List<string> DeplacementPossible(Jeu jeu);
         public string Image { get;  set; }
         public Piece(string couleur)
         {
