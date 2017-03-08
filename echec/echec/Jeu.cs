@@ -33,24 +33,33 @@ namespace echec
         }
         public void Creationpiece()
         {
-            string Couleur = strCouleur1;
-            for(int i=0; i<2; i++)
-            {
-                lstPiece.Add(new Tour(Couleur));
-                lstPiece.Add(new Cavalier(Couleur));
-                lstPiece.Add(new Fou(Couleur));
-                lstPiece.Add(new Reine(Couleur));
-                lstPiece.Add(new Roi(Couleur));
-                lstPiece.Add(new Fou(Couleur));
-                lstPiece.Add(new Cavalier(Couleur));
-                lstPiece.Add(new Tour(Couleur));
+            string Couleur = strCouleur2;
+            lstPiece.Add(new Tour(Couleur));
+            lstPiece.Add(new Cavalier(Couleur));
+            lstPiece.Add(new Fou(Couleur));
+            lstPiece.Add(new Reine(Couleur));
+            lstPiece.Add(new Roi(Couleur));
+            lstPiece.Add(new Fou(Couleur));
+            lstPiece.Add(new Cavalier(Couleur));
+            lstPiece.Add(new Tour(Couleur));
 
-                for (int j = 0; j < 8; j++)
-                {
-                    lstPiece.Add(new Pion(Couleur));
-                }
-                Couleur = strCouleur2;
+            for (int j = 0; j < 8; j++)
+            {
+                lstPiece.Add(new Pion(Couleur));
             }
+            Couleur = strCouleur1;
+            for (int j = 0; j < 8; j++)
+            {
+                lstPiece.Add(new Pion(Couleur));
+            }
+            lstPiece.Add(new Tour(Couleur));
+            lstPiece.Add(new Cavalier(Couleur));
+            lstPiece.Add(new Fou(Couleur));
+            lstPiece.Add(new Reine(Couleur));
+            lstPiece.Add(new Roi(Couleur));
+            lstPiece.Add(new Fou(Couleur));
+            lstPiece.Add(new Cavalier(Couleur));
+            lstPiece.Add(new Tour(Couleur));
         }
 
         public void PositionPiece()
@@ -84,22 +93,67 @@ namespace echec
             lstJoueur.Add(joueur2);
         } 
 
-        public List<Piece> Piece
+        public List<Piece> LstPiece
         {
             get
             {
                 return lstPiece;
             }
         }
-
+        public Piece[][] TabPiece
+        {
+            get
+            {
+                return tableauPiece;
+            }
+        }
         private void RemplissageTablePiece()
         {
             foreach (Piece p in lstPiece)
             {
-                tableauPiece[p.PositionX][p.PositionY] = p;
+                tableauPiece[p.PositionY][p.PositionX] = p;
             }
         }
+        public void TournePlateau()
+        {
+            Piece[][] tempHorizontal = new Piece[tableauPiece.Length][];
+            Piece[][] temp = new Piece[tableauPiece.Length][];
+            for (int i = 0; i < tempHorizontal.Length; i++)
+            {
+                tempHorizontal[i] = new Piece[tableauPiece[i].Length];
+                temp[i] = new Piece[tableauPiece[i].Length];
+            }
 
+            for (int i = 0; i < tableauPiece.Length; i++)
+            {
+                for (int j = 0; j < tableauPiece[i].Length; j++)
+                {
+                    tempHorizontal[i][j] = tableauPiece[i][tableauPiece[i].Length - j - 1];
 
+                }
+            }
+            for (int i = 0; i < tempHorizontal.Length; i++)
+            {
+                for (int j = 0; j < tempHorizontal[i].Length; j++)
+                {
+                    temp[i][j] = tempHorizontal[tempHorizontal.Length - i - 1][j];
+                }
+            }
+            tableauPiece = temp;
+        }
+        public string Couleur1
+        {
+            get
+            {
+                return strCouleur1;
+            }
+        }
+        public string Couleur2
+        {
+            get
+            {
+                return strCouleur2;
+            }
+        }
     }
 }

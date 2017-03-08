@@ -29,16 +29,16 @@ namespace echec
             imagePiece = new List<string>();
 
             ChargementListImage();
-
+            AjoutImageParPiece();
 
             tlpAffichage = new TableLayoutPanel();
             tlpAffichage.Location = new Point(0, 0);
             tlpAffichage.AutoScroll = true;
             tlpAffichage.AutoSize = true;
             Controls.Add(tlpAffichage);
-            GenerationJeu(jeu);
-
-            
+            GenerationPlateau();
+            PlacementPiece();
+            TournePlateau();
         }
         public frmJeu(string nomJoueur1, string nomJoueur2)
             :this()
@@ -49,7 +49,7 @@ namespace echec
         {
             this.Close();
         }
-        private void GenerationJeu(Jeu jeu)
+        private void GenerationPlateau()
         {
             iColonne = 8;
             iLigne = 8;
@@ -78,12 +78,36 @@ namespace echec
                     pct.Size = new Size(this.Size.Width / 9, this.Size.Height / 9);
                     tlpAffichage.Controls.Add(pct);
 
-                    int y = i + j;
-                    string s = jeu.Piece[y].Image;
-                    AffichagePiece(s, pct);
+                    /*
+                    if (jeu.TabPiece[i][j] != null)
+                    {
+                        string s = jeu.TabPiece[i][j].Image;
+                        AffichagePiece(s, pct);
+                    }
+                    */
                 }
             }
 
+        }
+
+        private void PlacementPiece()
+        {
+            int x = 0;
+            int y = 0;
+            for (int i=0; i<jeu.TabPiece.Length*jeu.TabPiece[0].Length;i++)
+            {
+                
+                if(jeu.TabPiece[x][y]!=null)
+                {
+                    AffichagePiece(jeu.TabPiece[x][y].Image, (PictureBox)tlpAffichage.Controls[i]);
+                }
+                y++;
+                if(y%8==0)
+                {
+                    y = 0;
+                    x++;
+                }
+            }
         }
 
         private void ChargementListImage()
@@ -109,8 +133,43 @@ namespace echec
 
         private void AjoutImageParPiece()
         {
-            
+           
+            foreach(Piece p in jeu.LstPiece)
+            {
+                int index = 0;
+                if(p.Couleur==jeu.Couleur2)
+                {
+                    index += 6;
+                }
+
+               switch(p.ToString())
+                {
+                    case "echec.Cavalier":
+                        index += 1;
+                        break;
+                    case "echec.Fou":
+                        index += 2;
+                        break;
+                    case "echec.Reine":
+                        index += 3;
+                        break;
+                    case "echec.Roi":
+                        index += 4;
+                        break;
+                    case "echec.Pion":
+                        index += 5;
+                        break;
+                }
+                p.Image = imagePiece[index];
+            }
         }
 
+        private void TournePlateau()
+        {
+            jeu.TournePlateau();
+            PlacementPiece();
+
+
+        }
     }
 }
