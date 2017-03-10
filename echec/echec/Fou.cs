@@ -8,7 +8,7 @@ namespace echec
 {
     public class Fou : Piece
     {
-
+        List<String> Renvoie;
         public Fou(string couleur)
             : base(couleur)
         {
@@ -16,7 +16,9 @@ namespace echec
         }
         public override List<string> DeplacementPossible(Jeu jeu)
         {
-            throw new NotImplementedException();
+            Renvoie = new List<string>();
+
+            return Renvoie;
         }
     }
 }
