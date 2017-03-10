@@ -156,12 +156,23 @@ namespace echec
             }
         }
 
-        public List<String> DeplacementPiece(Piece p)
+        public List<String> DeplacementPiece(String str)
         {
-            List<String> renvoie = p.DeplacementPossible(this);
+            char[] s = str.ToCharArray();
+            List<String> renvoie = new List<string>();
 
+            /*
+            if (tableauPiece[colonne][ligne] != null)
+            {
+                Piece p = tableauPiece[colonne][ligne];
+                renvoie = p.DeplacementPossible(this);
+            }
+            */
             return renvoie;
         }
+
+    
+
 
     }
 }

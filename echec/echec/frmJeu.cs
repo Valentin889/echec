@@ -39,8 +39,6 @@ namespace echec
             GenerationPlateau();
             PlacementPiece();
 
-            jeu.DeplacementPiece(jeu.LstPiece[0]);
-
         }
         public frmJeu(string nomJoueur1, string nomJoueur2)
             :this()
@@ -80,13 +78,9 @@ namespace echec
                     pct.Size = new Size(this.Size.Width / 9, this.Size.Height / 9);
                     tlpAffichage.Controls.Add(pct);
 
-                    /*
-                    if (jeu.TabPiece[i][j] != null)
-                    {
-                        string s = jeu.TabPiece[i][j].Image;
-                        AffichagePiece(s, pct);
-                    }
-                    */
+                    pct.Tag = i.ToString() + j.ToString();
+
+                    pct.Click += new System.EventHandler(PictureBox_click);
                 }
             }
 
@@ -111,7 +105,6 @@ namespace echec
                 }
             }
         }
-
         private void ChargementListImage()
         {
             string path = "ressource";
@@ -132,7 +125,6 @@ namespace echec
             fs.Close();
             pct.SizeMode = PictureBoxSizeMode.CenterImage;
         }
-
         private void AjoutImageParPiece()
         {
            
@@ -165,7 +157,6 @@ namespace echec
                 p.Image = imagePiece[index];
             }
         }
-
         private void TournePlateau()
         {
             jeu.TournePlateau();
@@ -173,5 +164,17 @@ namespace echec
 
 
         }
+
+        private void PictureBox_click(object sender, EventArgs e)
+        {
+            PictureBox pct = (PictureBox)sender;
+
+            string s = pct.Tag.ToString();
+
+            List<String> Deplacement = jeu.DeplacementPiece(s);
+
+        }
+
+
     }
 }

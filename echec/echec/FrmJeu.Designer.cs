@@ -52,6 +52,8 @@
             this.Text = "FrmJeu";
             this.ResumeLayout(false);
 
+
+
         }
 
         #endregion
