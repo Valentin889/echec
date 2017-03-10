@@ -20,28 +20,28 @@ namespace echec
 
             for (int i = PositionY + 1; i < jeu.TabPiece.Length; i++)
             {
-                if (!Deplacemennt(jeu, i, PositionX))
+                if (!Deplacement(jeu, i, PositionX))
                 {
                     i = jeu.TabPiece.Length;
                 }
             }
             for (int i = PositionY - 1; i > 0; i--)
             {
-                if (!Deplacemennt(jeu, i, PositionX))
+                if (!Deplacement(jeu, i, PositionX))
                 {
                     i = 0;
                 }
             }
             for (int i = PositionX + 1; i < jeu.TabPiece[0].Length; i++)
             {
-                if (!Deplacemennt(jeu, PositionY, i))
+                if (!Deplacement(jeu, PositionY, i))
                 {
                     i = jeu.TabPiece[i].Length;
                 }
             }
             for (int i = PositionX - 1; i > 0; i--)
             {
-                if (!Deplacemennt(jeu, PositionY, i))
+                if (!Deplacement(jeu, PositionY, i))
                 {
                     i = 0;
                 }
@@ -50,7 +50,7 @@ namespace echec
 
             for (int i = PositionY+1, j = PositionX+1; i<jeu.TabPiece.Length&&j<jeu.TabPiece[0].Length;i++,j++)
             {
-                if(!Deplacemennt(jeu, i, j))
+                if(!Deplacement(jeu, i, j))
                 {
                     i = jeu.TabPiece.Length;
                     j = jeu.TabPiece[0].Length;
@@ -59,7 +59,7 @@ namespace echec
 
             for (int i = PositionY + 1, j = PositionX - 1; i < jeu.TabPiece.Length && j >0; i++, j--)
             {
-                if (!Deplacemennt(jeu, i, j))
+                if (!Deplacement(jeu, i, j))
                 {
                     i = jeu.TabPiece.Length;
                     j = 0;
@@ -68,7 +68,7 @@ namespace echec
 
             for (int i = PositionY - 1, j = PositionX + 1; i >0 && j < jeu.TabPiece[0].Length; i--, j++)
             {
-                if (!Deplacemennt(jeu, i, j))
+                if (!Deplacement(jeu, i, j))
                 {
                     i = 0;
                     j = jeu.TabPiece[0].Length;
@@ -77,18 +77,16 @@ namespace echec
 
             for (int i = PositionY -1, j = PositionX - 1; i >0 && j > 0; i--, j--)
             {
-                if (!Deplacemennt(jeu, i, j))
+                if (!Deplacement(jeu, i, j))
                 {
                     i = 0;
                     j = 0;
                 }
             }
 
-
-
             return Renvoie;
         }
-        private bool Deplacemennt(Jeu jeu, int i, int j)
+        private bool Deplacement(Jeu jeu, int i, int j)
         {
             bool b = true;
             if (jeu.TabPiece[i][j] == null)
