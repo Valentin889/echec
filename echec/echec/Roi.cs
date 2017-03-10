@@ -15,7 +15,26 @@ namespace echec
         }
         public override List<string> DeplacementPossible(Jeu jeu)
         {
-            throw new NotImplementedException();
+            List<String> renvoie = new List<string>();
+            Renvoie = renvoie;
+
+            for (int i = PositionY - 1; i <= PositionY + 1; i++)
+            {
+                if (i < jeu.TabPiece.Length && i >= 0)
+                {
+                    for (int j = PositionX - 1; j <= PositionX + 1; j++)
+                    {
+                        if(j<jeu.TabPiece.Length&&j>=0)
+                        {
+                            if(i!=PositionY&&j!=PositionX)
+                            {
+                                Deplacement(jeu, i, j);
+                            }
+                        }
+                    }
+                }
+            }
+            return Renvoie;
         }
     }
 }
