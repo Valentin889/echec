@@ -19,14 +19,14 @@ namespace echec
             List<String> renvoie = new List<string>();
             Renvoie = renvoie;
 
-            if (PositionY + 1 > jeu.TabPiece.Length)
+            if (PositionY - 1 >0)
             {
-                Deplacement(jeu, PositionY + 1, PositionX);
+                Deplacement(jeu, PositionY - 1, PositionX);
                 if (PremierDeplacement)
                 {
-                    if (PositionY + 2 > jeu.TabPiece.Length)
+                    if (PositionY - 2 > 0)
                     {
-                        Deplacement(jeu, PositionY + 2, PositionX);
+                        Deplacement(jeu, PositionY - 2, PositionX);
                     }
                 }
             }

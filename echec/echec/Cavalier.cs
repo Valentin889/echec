@@ -29,7 +29,7 @@ namespace echec
             }
 
             j = PositionX - 1;
-            if(i<jeu.TabPiece.Length&&j>0)
+            if(i<jeu.TabPiece.Length&&j>=0)
             {
                 Deplacement(jeu, i, j);
             }
@@ -43,7 +43,7 @@ namespace echec
             }
 
             j = PositionX - 2;
-            if (i < jeu.TabPiece.Length && j > 0)
+            if (i < jeu.TabPiece.Length && j >= 0)
             {
                 Deplacement(jeu, i, j);
             }
@@ -56,21 +56,21 @@ namespace echec
             }
 
             j = PositionX - 2;
-            if(i>0&&j>0)
+            if(i>=0&&j>=0)
             {
                 Deplacement(jeu, i, j);
             }
 
             i = PositionY - 2;
-            j = PositionX + 2;
+            j = PositionX + 1;
 
-            if(i>0&&j<jeu.TabPiece[0].Length)
+            if(i>=0&&j<jeu.TabPiece[0].Length)
             {
                 Deplacement(jeu, i, j);
             }
 
-            j = PositionX - 2;
-            if (i > 0&&j>0)
+            j = PositionX - 1;
+            if (i >= 0&&j>=0)
             {
                 Deplacement(jeu, i, j);
             }

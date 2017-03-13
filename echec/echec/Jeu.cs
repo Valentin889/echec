@@ -16,6 +16,7 @@ namespace echec
         private string strCouleur2;
         private frmJeu Affichage;
         private Piece[][] tableauPiece;
+        private Piece dernierePiece;
         public Jeu(frmJeu form)
         {
             iNbPiece = 32;
@@ -107,7 +108,7 @@ namespace echec
                 return tableauPiece;
             }
         }
-        private void RemplissageTablePiece()
+        public void RemplissageTablePiece()
         {
             foreach (Piece p in lstPiece)
             {
@@ -156,23 +157,31 @@ namespace echec
             }
         }
 
-        public List<String> DeplacementPiece(String str)
+        public List<String> DeplacementPiece(String[] str)
         {
-            char[] s = str.ToCharArray();
+            
             List<String> renvoie = new List<string>();
 
-            /*
-            if (tableauPiece[colonne][ligne] != null)
-            {
-                Piece p = tableauPiece[colonne][ligne];
-                renvoie = p.DeplacementPossible(this);
-            }
-            */
+            int colonne = Convert.ToInt32(str[0]);
+            int ligne = Convert.ToInt32(str[1]);
+
+            dernierePiece = tableauPiece[colonne][ligne];
+            renvoie = dernierePiece.DeplacementPossible(this);
+            
+            
             return renvoie;
         }
 
-    
-
-
+        public Piece DernierePiece
+        {
+            get
+            {
+                return dernierePiece;
+            }
+            set
+            {
+                dernierePiece = value;
+            }
+        }
     }
 }
