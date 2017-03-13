@@ -19,7 +19,7 @@ namespace echec
         private Game Game;
         private List<String> pictureParts;
         private string strActifColor;
-        private bool bIsEchec;
+        private bool bIsCheck;
 
         public frmJeu()
         {
@@ -28,6 +28,7 @@ namespace echec
             Game.Creationpiece();
             Game.CreationJoueur(new Human(Game.Color1), new Human(Game.Color2));
             Game.PositionPiece();
+            Game.InitializeMovePiece();
             pictureParts = new List<string>();
 
             LoadPicture();
@@ -112,7 +113,7 @@ namespace echec
                 
                 if(Game.TabPiece[x][y]!=null)
                 {
-                    PartsDiaplay(Game.TabPiece[x][y].Image, (PictureBox)tlpDisplay.Controls[i]);
+                    PartsDiaplay(Game.TabPiece[x][y].Picture, (PictureBox)tlpDisplay.Controls[i]);
                 }
                 else
                 {
@@ -179,7 +180,7 @@ namespace echec
                         index += 5;
                         break;
                 }
-                p.Image = pictureParts[index];
+                p.Picture = pictureParts[index];
             }
         }
         private void TurnGameAround()
@@ -195,7 +196,7 @@ namespace echec
             string[] t = s.Split('/');
             if (pct.BackColor == Color.Green)
             {
-                bIsEchec = false;
+                bIsCheck = false;
 
                 int[] Coup = new int[2];
                 Coup[0] = Convert.ToInt32(t[0]);
@@ -219,11 +220,9 @@ namespace echec
             else
             {
                 LoadColor();
-                List<String> Deplacement = new List<string>();
                 Piece p = Game.TabPiece[Convert.ToInt32(t[0])][Convert.ToInt32(t[1])];
                 if (p!=null)
                 {
-
                     if(strActifColor == p.Color)
                     {
                          Game.MovePiece(t);
@@ -257,7 +256,5 @@ namespace echec
 
             }
         }
-
-
     }
 }

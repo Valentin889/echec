@@ -23,7 +23,7 @@ namespace echec
             {
                 PremierDeplacement = false;
             }
-            Move.Clear();
+            Move = new List<string>();
 
             if (PositionY - 1 >=0)
             {

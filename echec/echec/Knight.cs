@@ -20,7 +20,7 @@ namespace echec
             jeuCopie.Players[0].DernierePiece = this;
             int i;
             int j;
-            Move.Clear();
+            Move = new List<string>();
 
             i = PositionY + 2;
             j = PositionX + 1;

@@ -17,7 +17,7 @@ namespace echec
         {
             Game jeuCopie = jeu;
             jeuCopie.Players[0].DernierePiece = this;
-            Move.Clear();
+            Move = new List<string>();
 
             for (int i = PositionY + 1; i < jeuCopie.TabPiece.Length; i++)
             {

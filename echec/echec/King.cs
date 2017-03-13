@@ -17,7 +17,7 @@ namespace echec
         {
             Game jeuCopie = game;
             jeuCopie.Players[0].DernierePiece = this;
-            Move.Clear();
+            Move = new List<string>();
 
             for (int i = PositionY - 1; i <= PositionY + 1; i++)
             {
@@ -41,8 +41,24 @@ namespace echec
             }
         }
 
-        public bool IsCheck()
+        public bool IsCheck(Game game)
         {
+            foreach (Piece p in game.ListPieces)
+            {
+                foreach(string s in p.Move)
+                {
+                    string[] tmp = s.Split('/');
+                    int colonne = Convert.ToInt32(tmp[0]);
+                    int ligne = Convert.ToInt32(tmp[1]);
+
+                    if(this.PositionY==colonne&&this.PositionX==ligne)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+
             return false;
         }
 

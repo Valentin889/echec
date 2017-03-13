@@ -31,6 +31,15 @@ namespace echec
                 tabPiece[i] = new Piece[8];
             }
         }
+
+        public void InitializeMovePiece()
+        {
+            foreach(Piece p in lstPiece)
+            {
+                p.Storagepossible(this);
+                p.FirstTimeAddMove = false;
+            }
+        }
         public void Creationpiece()
         {
             string Couleur = strColor2;
@@ -96,6 +105,7 @@ namespace echec
         }
         public void NextPlayer()
         {
+            InitializeMovePiece();
             lstPlayer.Add(lstPlayer[0]);
             lstPlayer.Remove(lstPlayer[0]);
             lstPlayer[0].Jouer();
@@ -120,6 +130,23 @@ namespace echec
             p.PositionY = lstPlayer[0].DernierPosition[0];
             p.PositionX = lstPlayer[0].DernierPosition[1];
             tabPiece[p.PositionY][p.PositionX] = p;
+        }
+
+        public bool KingCheck()
+        {
+            foreach (Piece p in lstPiece)
+            {
+                if(p.Color==lstPlayer[0].Color)
+                {
+                    if(p.ToString()=="echec.King")
+                    {
+                        King k = (King)p;
+                        return k.IsCheck(this);
+                    }
+                }
+            }
+
+            return false;
         }
         public List<Piece> ListPieces
         {
@@ -201,9 +228,6 @@ namespace echec
                 return strColor2;
             }
         }
-
-
-
 
     }
 }

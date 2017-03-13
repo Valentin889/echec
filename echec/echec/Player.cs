@@ -12,14 +12,14 @@ namespace echec
 
         public Player(string couleur)
         {
-            Couleur = couleur;
+            Color = couleur;
         }
 
 
        public Piece DernierePiece { get; set; }
        public int[] DernierPosition { get; set; }
 
-        public string Couleur { get; private set; }
+        public string Color { get; private set; }
 
     }
 }
