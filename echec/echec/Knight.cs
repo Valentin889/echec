@@ -6,75 +6,75 @@ using System.Threading.Tasks;
 
 namespace echec
 {
-    public class Cavalier : Piece
+    public class Knights : Piece
     {
     
-        public Cavalier(string couleur)
+        public Knights(string couleur)
             : base(couleur)
         {
 
         }
-        public override List<string> DeplacementPossible(Jeu jeu)
+        public override void Storagepossible(Game jeu)
         {
+            Game jeuCopie = jeu;
+            jeuCopie.Players[0].DernierePiece = this;
             int i;
             int j;
-            List<String> renvoie = new List<string>();
-            Renvoie = renvoie;
+            Move.Clear();
 
             i = PositionY + 2;
             j = PositionX + 1;
-            if(i<jeu.TabPiece.Length&&j<jeu.TabPiece[0].Length)
+            if(i<jeuCopie.TabPiece.Length&&j<jeuCopie.TabPiece[0].Length)
             {
-                Deplacement(jeu, i, j);
+                AddMove(jeuCopie, i, j);
             }
 
             j = PositionX - 1;
-            if(i<jeu.TabPiece.Length&&j>=0)
+            if(i<jeuCopie.TabPiece.Length&&j>=0)
             {
-                Deplacement(jeu, i, j);
+                AddMove(jeuCopie, i, j);
             }
 
 
             i = PositionY + 1;
             j = PositionX + 2;
-            if (i < jeu.TabPiece.Length && j < jeu.TabPiece[0].Length)
+            if (i < jeuCopie.TabPiece.Length && j < jeuCopie.TabPiece[0].Length)
             {
-                Deplacement(jeu, i, j);
+                AddMove(jeuCopie, i, j);
             }
 
             j = PositionX - 2;
-            if (i < jeu.TabPiece.Length && j >= 0)
+            if (i < jeuCopie.TabPiece.Length && j >= 0)
             {
-                Deplacement(jeu, i, j);
+                AddMove(jeuCopie, i, j);
             }
 
             i = PositionY - 1;
             j = PositionX + 2;
-            if (i > 0&&j<jeu.TabPiece[0].Length)
+            if (i > 0&&j<jeuCopie.TabPiece[0].Length)
             {
-                Deplacement(jeu, i, j);
+                AddMove(jeuCopie, i, j);
             }
 
             j = PositionX - 2;
             if(i>=0&&j>=0)
             {
-                Deplacement(jeu, i, j);
+                AddMove(jeuCopie, i, j);
             }
 
             i = PositionY - 2;
             j = PositionX + 1;
 
-            if(i>=0&&j<jeu.TabPiece[0].Length)
+            if(i>=0&&j<jeuCopie.TabPiece[0].Length)
             {
-                Deplacement(jeu, i, j);
+                AddMove(jeuCopie, i, j);
             }
 
             j = PositionX - 1;
             if (i >= 0&&j>=0)
             {
-                Deplacement(jeu, i, j);
+                AddMove(jeuCopie, i, j);
             }
-            return Renvoie;
             
                
         }

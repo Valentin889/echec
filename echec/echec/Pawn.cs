@@ -6,35 +6,36 @@ using System.Threading.Tasks;
 
 namespace echec
 {
-    public class Pion : Piece
+    public class Pawn : Piece
     {
         bool PremierDeplacement;
-        public Pion(string couleur)
+        public Pawn(string couleur)
             : base(couleur)
         {
             PremierDeplacement = true;
         }
-        public override List<string> DeplacementPossible(Jeu jeu)
+        public override void Storagepossible(Game jeu)
         {
-            if(PositionY!=6)
+            Game jeuCopie = jeu;
+            jeuCopie.Players[0].DernierePiece = this;
+
+            if (PositionY!=6)
             {
                 PremierDeplacement = false;
             }
-            List<String> renvoie = new List<string>();
-            Renvoie = renvoie;
+            Move.Clear();
 
             if (PositionY - 1 >=0)
             {
-                Deplacement(jeu, PositionY - 1, PositionX);
+                AddMove(jeuCopie, PositionY - 1, PositionX);
                 if (PremierDeplacement)
                 {
                     if (PositionY - 2 >= 0)
                     {
-                        Deplacement(jeu, PositionY - 2, PositionX);
+                        AddMove(jeuCopie, PositionY - 2, PositionX);
                     }
                 }
             }
-            return Renvoie;
         }
     }
 }

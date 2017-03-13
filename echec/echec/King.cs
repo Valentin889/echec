@@ -6,25 +6,26 @@ using System.Threading.Tasks;
 
 namespace echec
 {
-    public class Roi : Piece
+    public class King : Piece
     {
-        public Roi(string couleur)
+        public King(string couleur)
             : base(couleur)
         {
 
         }
-        public override List<string> DeplacementPossible(Jeu jeu)
+        public override void Storagepossible(Game game)
         {
-            List<String> renvoie = new List<string>();
-            Renvoie = renvoie;
+            Game jeuCopie = game;
+            jeuCopie.Players[0].DernierePiece = this;
+            Move.Clear();
 
             for (int i = PositionY - 1; i <= PositionY + 1; i++)
             {
-                if (i < jeu.TabPiece.Length && i >= 0)
+                if (i < jeuCopie.TabPiece.Length && i >= 0)
                 {
                     for (int j = PositionX - 1; j <= PositionX + 1; j++)
                     {
-                        if(j<jeu.TabPiece.Length&&j>=0)
+                        if(j<jeuCopie.TabPiece.Length&&j>=0)
                         {
                             if(i==PositionY&&j==PositionX)
                             {
@@ -32,13 +33,18 @@ namespace echec
                             }
                             else
                             {
-                                Deplacement(jeu, i, j);
+                                AddMove(jeuCopie, i, j);
                             }
                         }
                     }
                 }
             }
-            return Renvoie;
         }
+
+        public bool IsCheck()
+        {
+            return false;
+        }
+
     }
 }

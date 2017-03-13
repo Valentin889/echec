@@ -13,35 +13,35 @@ namespace echec
 {
     public partial class frmJeu : Form
     {
-        private TableLayoutPanel tlpAffichage;
+        private TableLayoutPanel tlpDisplay;
         private int iColonne;
         private int iLigne;
-        private Jeu jeu;
-        private List<String> imagePiece;
-        private string strCouleurActif;
+        private Game Game;
+        private List<String> pictureParts;
+        private string strActifColor;
         private bool bIsEchec;
 
         public frmJeu()
         {
             InitializeComponent();
-            jeu = new Jeu(this);
-            jeu.Creationpiece();
-            jeu.CreationJoueur(new Humain(), new Humain());
-            jeu.PositionPiece();
-            imagePiece = new List<string>();
+            Game = new Game(this);
+            Game.Creationpiece();
+            Game.CreationJoueur(new Human(Game.Color1), new Human(Game.Color2));
+            Game.PositionPiece();
+            pictureParts = new List<string>();
 
-            ChargementListImage();
-            AjoutImageParPiece();
+            LoadPicture();
+            AddPicturePerPiece();
 
-            tlpAffichage = new TableLayoutPanel();
-            tlpAffichage.Location = new Point(0, 0);
-            tlpAffichage.AutoScroll = true;
-            tlpAffichage.AutoSize = true;
-            Controls.Add(tlpAffichage);
-            GenerationPlateau();
-            GenerationCouleur();
-            PlacementPiece();
-            strCouleurActif = jeu.Couleur1;
+            tlpDisplay = new TableLayoutPanel();
+            tlpDisplay.Location = new Point(0, 0);
+            tlpDisplay.AutoScroll = true;
+            tlpDisplay.AutoSize = true;
+            Controls.Add(tlpDisplay);
+            LoadBoardGame();
+            LoadColor();
+            PlacementParts();
+            strActifColor = Game.Color1;
         }
         public frmJeu(string nomJoueur1, string nomJoueur2)
             :this()
@@ -52,15 +52,15 @@ namespace echec
         {
             this.Close();
         }
-        private void GenerationPlateau()
+        private void LoadBoardGame()
         {
             iColonne = 8;
             iLigne = 8;
 
-            tlpAffichage.ColumnStyles.Clear();
-            tlpAffichage.Controls.Clear();
-            tlpAffichage.ColumnCount = iColonne;
-            tlpAffichage.RowCount = iLigne;
+            tlpDisplay.ColumnStyles.Clear();
+            tlpDisplay.Controls.Clear();
+            tlpDisplay.ColumnCount = iColonne;
+            tlpDisplay.RowCount = iLigne;
             
             for(int i=0; i<iColonne;i++)
             {
@@ -69,7 +69,7 @@ namespace echec
                     PictureBox pct = new PictureBox();
                     
                     pct.Size = new Size(this.Size.Width / 9, this.Size.Height / 9);
-                    tlpAffichage.Controls.Add(pct);
+                    tlpDisplay.Controls.Add(pct);
 
                     pct.Tag = i.ToString() +"/" + j.ToString();
 
@@ -78,17 +78,16 @@ namespace echec
             }
 
         }
-
-        private void GenerationCouleur()
+        private void LoadColor()
         {
             bool bColor = true;
-            for(int i=0; i<tlpAffichage.ColumnCount;i++)
+            for(int i=0; i<tlpDisplay.ColumnCount;i++)
             {
                 bColor = !bColor;
-                for(int j=0; j<tlpAffichage.RowCount;j++)
+                for(int j=0; j<tlpDisplay.RowCount;j++)
                 {
                     int indice = i * 8 + j;
-                    PictureBox pct = (PictureBox)tlpAffichage.Controls[indice];
+                    PictureBox pct = (PictureBox)tlpDisplay.Controls[indice];
 
                     if (bColor)
                     {
@@ -104,21 +103,20 @@ namespace echec
             
                
         }
-
-        private void PlacementPiece()
+        private void PlacementParts()
         {
             int x = 0;
             int y = 0;
-            for (int i=0; i<jeu.TabPiece.Length*jeu.TabPiece[0].Length;i++)
+            for (int i=0; i<Game.TabPiece.Length*Game.TabPiece[0].Length;i++)
             {
                 
-                if(jeu.TabPiece[x][y]!=null)
+                if(Game.TabPiece[x][y]!=null)
                 {
-                    AffichagePiece(jeu.TabPiece[x][y].Image, (PictureBox)tlpAffichage.Controls[i]);
+                    PartsDiaplay(Game.TabPiece[x][y].Image, (PictureBox)tlpDisplay.Controls[i]);
                 }
                 else
                 {
-                    ReinitialiserImage((PictureBox)tlpAffichage.Controls[i]);
+                    ResetImage((PictureBox)tlpDisplay.Controls[i]);
                 }
                 y++;
                 if(y%8==0)
@@ -128,66 +126,66 @@ namespace echec
                 }
             }
         }
-        private void ChargementListImage()
+        private void LoadPicture()
         {
             string path = "ressource";
             foreach (string sFileName in  Directory.GetFiles(path))
             {
                 if (Path.GetExtension(sFileName) == ".png")
                 {
-                    imagePiece.Add(Path.GetFileName(sFileName));
+                    pictureParts.Add(Path.GetFileName(sFileName));
                 }
             }
 
 
         }
-        private void AffichagePiece(string strPiece, PictureBox pct)
+        private void PartsDiaplay(string strPiece, PictureBox pct)
         {
             FileStream fs = new FileStream(@"ressource\"+strPiece, FileMode.Open);
             pct.Image = Image.FromStream(fs);
             fs.Close();
             pct.SizeMode = PictureBoxSizeMode.CenterImage;
         }
-        private void ReinitialiserImage(PictureBox pct)
+        private void ResetImage(PictureBox pct)
         {
             pct.Image = null;
         }
-        private void AjoutImageParPiece()
+        private void AddPicturePerPiece()
         {
            
-            foreach(Piece p in jeu.LstPiece)
+            foreach(Piece p in Game.ListPieces)
             {
                 int index = 0;
-                if(p.Couleur==jeu.Couleur2)
+                if(p.Color==Game.Color2)
                 {
                     index += 6;
                 }
 
                switch(p.ToString())
                 {
-                    case "echec.Cavalier":
+                    case "echec.Knights":
                         index += 1;
                         break;
-                    case "echec.Fou":
+                    case "echec.Bishop":
                         index += 2;
                         break;
-                    case "echec.Reine":
+                    case "echec.Queen":
                         index += 3;
                         break;
-                    case "echec.Roi":
+                    case "echec.King":
                         index += 4;
                         break;
-                    case "echec.Pion":
+                    case "echec.Pawn":
                         index += 5;
                         break;
                 }
-                p.Image = imagePiece[index];
+                p.Image = pictureParts[index];
             }
         }
-        private void TournePlateau()
+        private void TurnGameAround()
         {
-            jeu.TournePlateau();
-            PlacementPiece();
+            Game.TournGameAround();
+            PlacementParts();
         }
         private void PictureBox_click(object sender, EventArgs e)
         {
@@ -198,57 +196,54 @@ namespace echec
             if (pct.BackColor == Color.Green)
             {
                 bIsEchec = false;
-                Piece p = jeu.DernierePiece;
-                jeu.TabPiece[p.PositionY][p.PositionX] = null;
 
-                p.PositionY = Convert.ToInt32(t[0]);
-                p.PositionX = Convert.ToInt32(t[1]);
-                jeu.TabPiece[p.PositionY][p.PositionX] = p;
-                PlacementPiece();
-                GenerationCouleur();
-                if(jeu.IsEchec(strCouleurActif))
+                int[] Coup = new int[2];
+                Coup[0] = Convert.ToInt32(t[0]);
+                Coup[1] = Convert.ToInt32(t[1]);
+
+                Game.Players[0].DernierPosition = Coup;
+                Game.Play();
+                PlacementParts();
+                LoadColor();
+                Game.NextPlayer();
+                TurnGameAround();
+                if(strActifColor==Game.Color1)
                 {
-                    bIsEchec = true;
-                    MessageBox.Show("échec");
-                }
-                TournePlateau();
-                if(strCouleurActif==jeu.Couleur1)
-                {
-                    strCouleurActif = jeu.Couleur2;
+                    strActifColor = Game.Color2;
                 }
                 else
                 {
-                    strCouleurActif = jeu.Couleur1;
+                    strActifColor = Game.Color1;
                 }
             }
             else
             {
-                GenerationCouleur();
+                LoadColor();
                 List<String> Deplacement = new List<string>();
-                Piece p = jeu.TabPiece[Convert.ToInt32(t[0])][Convert.ToInt32(t[1])];
+                Piece p = Game.TabPiece[Convert.ToInt32(t[0])][Convert.ToInt32(t[1])];
                 if (p!=null)
                 {
 
-                    if(strCouleurActif == p.Couleur)
+                    if(strActifColor == p.Color)
                     {
-                         Deplacement = jeu.DeplacementPiece(t);
-                         AffichageVertDeplacement(Deplacement);
+                         Game.MovePiece(t);
+                         ShowTraveling();
                     }
                     else
                     {
-                        GenerationCouleur();
+                        LoadColor();
                     }
 
                 }
                 else
                 {
-                    jeu.DernierePiece = null;
+                    Game.Players[0].DernierePiece = null;
                 }
             }
         }
-        private void AffichageVertDeplacement(List<String> deplacementPossible)
+        private void ShowTraveling()
         {
-            foreach(string s in deplacementPossible)
+            foreach(string s in Game.Players[0].DernierePiece.Move)
             {
                 string[] t = s.Split('/');
 
@@ -257,7 +252,7 @@ namespace echec
 
                 int numeroListe = colonne * 8 + ligne;
 
-                PictureBox pct = (PictureBox)tlpAffichage.Controls[numeroListe];
+                PictureBox pct = (PictureBox)tlpDisplay.Controls[numeroListe];
                 pct.BackColor = Color.Green;
 
             }

@@ -8,46 +8,43 @@ namespace echec
 {
     public abstract class Piece
     {
-        private List<String> renvoie;
-        public String Couleur { get; private set; }
-        public int TailleX { get; private set; }
-        public int tailleY { get; private set; }
+        private List<String> lstMove;
+        public String Color { get; private set; }
+       
 
         public int PositionX { get; set; }
         public int PositionY { get; set; }
 
-        public List<String> Renvoie
+        public List<String> Move
         {
             get
             {
-                return renvoie;
+                return lstMove;
             }
             set
             {
-                renvoie = value;
+                lstMove = value;
             }
         }
-
-
-        public abstract List<string> DeplacementPossible(Jeu jeu);
+        public abstract void Storagepossible(Game jeu);
         public string Image { get;  set; }
         public Piece(string couleur)
         {
-            Couleur = couleur;
+            Color = couleur;
         }
-
-        public bool Deplacement(Jeu jeu, int i, int j)
+        public bool AddMove(Game jeu, int i, int j)
         {
+
             bool b = true;
             if (jeu.TabPiece[i][j] == null)
             {
-                renvoie.Add(i.ToString() + "/" + j.ToString());
+                lstMove.Add(i.ToString() + "/" + j.ToString());
             }
             else
             {
-                if (Couleur != jeu.TabPiece[i][j].Couleur)
+                if (Color != jeu.TabPiece[i][j].Color)
                 {
-                    renvoie.Add(i.ToString() + "/" + j.ToString());
+                    lstMove.Add(i.ToString() + "/" + j.ToString());
                 }
                 b = false;
             }

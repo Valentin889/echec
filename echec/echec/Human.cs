@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace echec
 {
-    public class Humain : Joueur
+    public class Human : Player
     {
-        public Humain()
+        public Human(string Couleur)
+            :base(Couleur)
         {
 
+        }
+        public override void Jouer()
+        {
+            
         }
     }
 }
