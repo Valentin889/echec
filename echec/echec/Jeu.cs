@@ -27,7 +27,7 @@ namespace echec
             strCouleur1 = "blanc";
             strCouleur2 = "noir";
             tableauPiece = new Piece[8][];
-            for(int i=0; i<tableauPiece.Length;i++)
+            for (int i = 0; i < tableauPiece.Length; i++)
             {
                 tableauPiece[i] = new Piece[8];
             }
@@ -67,7 +67,7 @@ namespace echec
         {
             int x = 0;
             int y = 0;
-            foreach(Piece p in lstPiece)
+            foreach (Piece p in lstPiece)
             {
                 p.PositionX = x;
                 p.PositionY = y;
@@ -92,7 +92,7 @@ namespace echec
         {
             lstJoueur.Add(joueur1);
             lstJoueur.Add(joueur2);
-        } 
+        }
 
         public List<Piece> LstPiece
         {
@@ -141,9 +141,9 @@ namespace echec
                 }
             }
             tableauPiece = temp;
-            for(int i=0; i<tableauPiece.Length;i++)
+            for (int i = 0; i < tableauPiece.Length; i++)
             {
-                for (int j=0; j<tableauPiece[i].Length;j++)
+                for (int j = 0; j < tableauPiece[i].Length; j++)
                 {
                     if (tableauPiece[i][j] != null)
                     {
@@ -170,7 +170,7 @@ namespace echec
 
         public List<String> DeplacementPiece(String[] str)
         {
-            
+
             List<String> renvoie = new List<string>();
 
             int colonne = Convert.ToInt32(str[0]);
@@ -192,5 +192,51 @@ namespace echec
                 dernierePiece = value;
             }
         }
+
+        public bool IsEchec(string CouleurActif)
+        {
+            List<String> deplacement = new List<string>();
+
+            int colonneRoi=0;
+            int ligneRoi=0;
+
+            foreach (Piece p in lstPiece)
+            {
+                if (p.Couleur != CouleurActif)
+                {
+                    if (p.ToString() == "echec.Roi")
+                    {
+                        colonneRoi = p.PositionY;
+                        ligneRoi = p.PositionX;
+                    }
+                }
+            }
+            foreach(Piece p in lstPiece)
+            {
+                if(p.Couleur==CouleurActif)
+                {
+                    deplacement = p.DeplacementPossible(this);
+
+                    foreach(string s in deplacement)
+                    {
+                        string[] temp = s.Split('/');
+                        int colonne = Convert.ToInt32(temp[0]);
+                        int ligne = Convert.ToInt32(temp[1]);
+
+                        if(colonne==colonneRoi&&ligne==ligneRoi)
+                        {
+                            return true;
+                        }
+                    }
+
+                }
+            }
+
+
+            return false;
+        }
+
+
+
     }
 }

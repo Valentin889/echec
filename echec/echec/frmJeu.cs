@@ -19,6 +19,7 @@ namespace echec
         private Jeu jeu;
         private List<String> imagePiece;
         private string strCouleurActif;
+        private bool bIsEchec;
 
         public frmJeu()
         {
@@ -196,6 +197,7 @@ namespace echec
             string[] t = s.Split('/');
             if (pct.BackColor == Color.Green)
             {
+                bIsEchec = false;
                 Piece p = jeu.DernierePiece;
                 jeu.TabPiece[p.PositionY][p.PositionX] = null;
 
@@ -204,6 +206,11 @@ namespace echec
                 jeu.TabPiece[p.PositionY][p.PositionX] = p;
                 PlacementPiece();
                 GenerationCouleur();
+                if(jeu.IsEchec(strCouleurActif))
+                {
+                    bIsEchec = true;
+                    MessageBox.Show("échec");
+                }
                 TournePlateau();
                 if(strCouleurActif==jeu.Couleur1)
                 {
