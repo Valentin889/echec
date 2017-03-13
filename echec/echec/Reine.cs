@@ -26,11 +26,11 @@ namespace echec
                     i = jeu.TabPiece.Length;
                 }
             }
-            for (int i = PositionY - 1; i > 0; i--)
+            for (int i = PositionY - 1; i >= 0; i--)
             {
                 if (!Deplacement(jeu, i, PositionX))
                 {
-                    i = 0;
+                    i = -1;
                 }
             }
             for (int i = PositionX + 1; i < jeu.TabPiece[0].Length; i++)
@@ -40,11 +40,11 @@ namespace echec
                     i = jeu.TabPiece[i].Length;
                 }
             }
-            for (int i = PositionX - 1; i > 0; i--)
+            for (int i = PositionX - 1; i >= 0; i--)
             {
                 if (!Deplacement(jeu, PositionY, i))
                 {
-                    i = 0;
+                    i = -1;
                 }
             }
 
@@ -58,30 +58,30 @@ namespace echec
                 }
             }
 
-            for (int i = PositionY + 1, j = PositionX - 1; i < jeu.TabPiece.Length && j >0; i++, j--)
+            for (int i = PositionY + 1, j = PositionX - 1; i < jeu.TabPiece.Length && j >=0; i++, j--)
             {
                 if (!Deplacement(jeu, i, j))
                 {
                     i = jeu.TabPiece.Length;
-                    j = 0;
+                    j = -1;
                 }
             }
 
-            for (int i = PositionY - 1, j = PositionX + 1; i >0 && j < jeu.TabPiece[0].Length; i--, j++)
+            for (int i = PositionY - 1, j = PositionX + 1; i >=0 && j < jeu.TabPiece[0].Length; i--, j++)
             {
                 if (!Deplacement(jeu, i, j))
                 {
-                    i = 0;
+                    i = -1;
                     j = jeu.TabPiece[0].Length;
                 }
             }
 
-            for (int i = PositionY -1, j = PositionX - 1; i >0 && j > 0; i--, j--)
+            for (int i = PositionY -1, j = PositionX - 1; i >=0 && j >= 0; i--, j--)
             {
                 if (!Deplacement(jeu, i, j))
                 {
-                    i = 0;
-                    j = 0;
+                    i = -1;
+                    j = -1;
                 }
             }
 

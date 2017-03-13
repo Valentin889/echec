@@ -141,6 +141,17 @@ namespace echec
                 }
             }
             tableauPiece = temp;
+            for(int i=0; i<tableauPiece.Length;i++)
+            {
+                for (int j=0; j<tableauPiece[i].Length;j++)
+                {
+                    if (tableauPiece[i][j] != null)
+                    {
+                        tableauPiece[i][j].PositionY = i;
+                        tableauPiece[i][j].PositionX = j;
+                    }
+                }
+            }
         }
         public string Couleur1
         {
@@ -167,8 +178,6 @@ namespace echec
 
             dernierePiece = tableauPiece[colonne][ligne];
             renvoie = dernierePiece.DeplacementPossible(this);
-            
-            
             return renvoie;
         }
 

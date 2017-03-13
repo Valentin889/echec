@@ -18,7 +18,7 @@ namespace echec
         private int iLigne;
         private Jeu jeu;
         private List<String> imagePiece;
-        private string strDernierCoup;
+        private string strCouleurActif;
 
         public frmJeu()
         {
@@ -40,7 +40,7 @@ namespace echec
             GenerationPlateau();
             GenerationCouleur();
             PlacementPiece();
-
+            strCouleurActif = jeu.Couleur1;
         }
         public frmJeu(string nomJoueur1, string nomJoueur2)
             :this()
@@ -187,8 +187,6 @@ namespace echec
         {
             jeu.TournePlateau();
             PlacementPiece();
-
-
         }
         private void PictureBox_click(object sender, EventArgs e)
         {
@@ -206,16 +204,34 @@ namespace echec
                 jeu.TabPiece[p.PositionY][p.PositionX] = p;
                 PlacementPiece();
                 GenerationCouleur();
+                TournePlateau();
+                if(strCouleurActif==jeu.Couleur1)
+                {
+                    strCouleurActif = jeu.Couleur2;
+                }
+                else
+                {
+                    strCouleurActif = jeu.Couleur1;
+                }
             }
             else
             {
                 GenerationCouleur();
-                
                 List<String> Deplacement = new List<string>();
-                if(jeu.TabPiece[Convert.ToInt32(t[0])][Convert.ToInt32(t[1])]!=null)
+                Piece p = jeu.TabPiece[Convert.ToInt32(t[0])][Convert.ToInt32(t[1])];
+                if (p!=null)
                 {
-                     Deplacement = jeu.DeplacementPiece(t);
-                     AffichageVertDeplacement(Deplacement);
+
+                    if(strCouleurActif == p.Couleur)
+                    {
+                         Deplacement = jeu.DeplacementPiece(t);
+                         AffichageVertDeplacement(Deplacement);
+                    }
+                    else
+                    {
+                        GenerationCouleur();
+                    }
+
                 }
                 else
                 {

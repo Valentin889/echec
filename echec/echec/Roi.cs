@@ -26,7 +26,11 @@ namespace echec
                     {
                         if(j<jeu.TabPiece.Length&&j>=0)
                         {
-                            if(i!=PositionY&&j!=PositionX)
+                            if(i==PositionY&&j==PositionX)
+                            {
+                                
+                            }
+                            else
                             {
                                 Deplacement(jeu, i, j);
                             }

@@ -26,11 +26,11 @@ namespace echec
                     i = jeu.TabPiece.Length;
                 }
             }
-            for (int i = PositionY - 1; i > 0; i--)
+            for (int i = PositionY - 1; i >= 0; i--)
             {
                 if (!Deplacement(jeu, i, PositionX))
                 {
-                    i = 0;
+                    i = -1;
                 }
             }
             for(int i=PositionX+1;i<jeu.TabPiece[0].Length;i++)
@@ -40,11 +40,11 @@ namespace echec
                     i = jeu.TabPiece[i].Length;
                 }
             }
-            for(int i=PositionX-1;i>0;i--)
+            for(int i=PositionX-1;i>=0;i--)
             {
                 if (!Deplacement(jeu, PositionY, i))
                 {
-                    i = 0;
+                    i = -1;
                 }
             }
             return Renvoie;

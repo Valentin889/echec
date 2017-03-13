@@ -16,15 +16,19 @@ namespace echec
         }
         public override List<string> DeplacementPossible(Jeu jeu)
         {
+            if(PositionY!=6)
+            {
+                PremierDeplacement = false;
+            }
             List<String> renvoie = new List<string>();
             Renvoie = renvoie;
 
-            if (PositionY - 1 >0)
+            if (PositionY - 1 >=0)
             {
                 Deplacement(jeu, PositionY - 1, PositionX);
                 if (PremierDeplacement)
                 {
-                    if (PositionY - 2 > 0)
+                    if (PositionY - 2 >= 0)
                     {
                         Deplacement(jeu, PositionY - 2, PositionX);
                     }

@@ -27,30 +27,30 @@ namespace echec
                 }
             }
 
-            for (int i = PositionY + 1, j = PositionX - 1; i < jeu.TabPiece.Length && j > 0; i++, j--)
+            for (int i = PositionY + 1, j = PositionX - 1; i < jeu.TabPiece.Length && j >= 0; i++, j--)
             {
                 if (!Deplacement(jeu, i, j))
                 {
                     i = jeu.TabPiece.Length;
-                    j = 0;
+                    j = -1;
                 }
             }
 
-            for (int i = PositionY - 1, j = PositionX + 1; i > 0 && j < jeu.TabPiece[0].Length; i--, j++)
+            for (int i = PositionY - 1, j = PositionX + 1; i >= 0 && j < jeu.TabPiece[0].Length; i--, j++)
             {
                 if (!Deplacement(jeu, i, j))
                 {
-                    i = 0;
+                    i = -1;
                     j = jeu.TabPiece[0].Length;
                 }
             }
 
-            for (int i = PositionY - 1, j = PositionX - 1; i > 0 && j > 0; i--, j--)
+            for (int i = PositionY - 1, j = PositionX - 1; i >= 0 && j >= 0; i--, j--)
             {
                 if (!Deplacement(jeu, i, j))
                 {
-                    i = 0;
-                    j = 0;
+                    i = -1;
+                    j = -1;
                 }
             }
 
