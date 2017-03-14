@@ -223,25 +223,21 @@ namespace echec
                 Piece p = game.TabCase[Convert.ToInt32(t[0])][Convert.ToInt32(t[1])];
                 if (p != null)
                 {
+                    
                     if (strActifColor == p.Color)
                     {
                         game.SetMovePiece(t);
-
-                        Game copyGame = game.Clone();
-                        copyGame.NoCheck(p);
                         ShowTraveling(game.Players[0].LastPiece.Move, Color.Green);
 
                         if(p.ToString()=="echec.King")
                         {
-                            if(game.IsSmallrock(p.Color))
+                            Game copiGame = game.Clone();
+                            if (copiGame.IsSmallrock(p.Color))
                             {
                                 King k = (King)p;
                                 ShowTraveling(k.Specialmove, Color.Orange);
                             }
                         }
-
-
-
 
                     }
                     else

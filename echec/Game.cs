@@ -107,6 +107,10 @@ namespace echec
             int ligne = Convert.ToInt32(str[1]);
             lstPlayer[0].LastPiece = tabPiece[colonne][ligne];
             lstPlayer[0].LastPiece.Storagepossible(this);
+
+            Game copyGame = this.Clone();
+            copyGame.NoCheck(lstPlayer[0].LastPiece);
+
         }
         
         public void NoCheck(Piece piece)
@@ -241,8 +245,6 @@ namespace echec
         public void Play()
         {
             Piece p = lstPlayer[0].LastPiece;
-
-
             tabPiece[p.PositionY][p.PositionX] = null;
             p.PositionY = lstPlayer[0].DernierPosition[0];
             p.PositionX = lstPlayer[0].DernierPosition[1];
