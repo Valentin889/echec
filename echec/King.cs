@@ -89,7 +89,7 @@ namespace echec
         }
 
         public List<String> Specialmove { get; set; }
-
+        public bool AlreadyMove { get; set; }
 
     }
 }

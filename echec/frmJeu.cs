@@ -213,6 +213,10 @@ namespace echec
                     strActifColor = game.Color1;
                 }
             }
+            else if(pct.BackColor==Color.Orange)
+            {
+
+            }
             else
             {
                 LoadColor();

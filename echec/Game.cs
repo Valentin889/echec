@@ -167,11 +167,70 @@ namespace echec
         }
         public bool IsSmallrock(string color)
         {
-
             //implémente une série de test
-
-
-
+            if(color==strColor1)
+            {
+                try
+                {
+                    Rook r = (Rook)tabPiece[7][7];
+                }
+                catch
+                {
+                    return false;
+                }
+                if(tabPiece[7][6]!=null||tabPiece[7][5]!=null)
+                {
+                    return false;
+                }
+                try
+                {
+                    King k = (King)tabPiece[7][4];
+                    if(k.AlreadyMove)
+                    {
+                        return false;
+                    }
+                    if(k.IsCheck(this))
+                    {
+                        return false;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+                
+            }
+            else
+            {
+                try
+                {
+                    Rook r = (Rook)tabPiece[7][0];
+                }
+                catch
+                {
+                    return false;
+                }
+                if (tabPiece[7][1] != null || tabPiece[7][2] != null)
+                {
+                    return false;
+                }
+                try
+                {
+                    King k = (King)tabPiece[7][3];
+                    if (k.AlreadyMove)
+                    {
+                        return false;
+                    }
+                    if (k.IsCheck(this))
+                    {
+                        return false;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+            }
             return true;
         }
         public bool IsBigRock(string color)
