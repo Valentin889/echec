@@ -232,7 +232,7 @@ namespace echec
                         if(p.ToString()=="echec.King")
                         {
                             Game copiGame = game.Clone();
-                            if (copiGame.IsSmallrock(p.Color))
+                            if (copiGame.IsSmallRock(p.Color))
                             {
                                 King k = (King)p;
                                 ShowTraveling(k.Specialmove, Color.Orange);

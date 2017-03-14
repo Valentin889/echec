@@ -40,7 +40,7 @@ namespace echec
                 }
             }
             
-            if (copieGame.IsSmallrock(this.Color))
+            if (copieGame.IsSmallRock(this.Color))
             {
                 if (this.Color == copieGame.Color1)
                 {

@@ -169,20 +169,36 @@ namespace echec
             clone.tabPiece[0][0] = null;
             return clone;
         }
-        public bool IsSmallrock(string color)
+
+        public void DoRock(string color)
+        {
+            if(color==Color1)
+            {
+
+            }
+        }
+        private void DoSmallRock(string color)
+        {
+
+        }
+        private void doBigRock(string color)
+        {
+
+        }
+        public bool IsBigRock(string color)
         {
             //implémente une série de test
             if(color==strColor1)
             {
                 try
                 {
-                    Rook r = (Rook)tabPiece[7][7];
+                    Rook r = (Rook)tabPiece[7][0];
                 }
                 catch
                 {
                     return false;
                 }
-                if(tabPiece[7][6]!=null||tabPiece[7][5]!=null)
+                if(tabPiece[7][1]!=null||tabPiece[7][2]!=null||tabPiece[7][3]!=null)
                 {
                     return false;
                 }
@@ -203,6 +219,74 @@ namespace echec
                     return false;
                 }
                 
+            }
+            else
+            {
+                try
+                {
+                    Rook r = (Rook)tabPiece[7][7];
+                }
+                catch
+                {
+                    return false;
+                }
+                if (tabPiece[7][4] != null || tabPiece[7][5] != null|| tabPiece[7][6] != null)
+                {
+                    return false;
+                }
+                try
+                {
+                    King k = (King)tabPiece[7][3];
+                    if (k.AlreadyMove)
+                    {
+                        return false;
+                    }
+                    if (k.IsCheck(this))
+                    {
+                        return false;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public bool IsSmallRock(string color)
+        {
+
+            if (color == strColor1)
+            {
+                try
+                {
+                    Rook r = (Rook)tabPiece[7][7];
+                }
+                catch
+                {
+                    return false;
+                }
+                if (tabPiece[7][6] != null || tabPiece[7][5] != null)
+                {
+                    return false;
+                }
+                try
+                {
+                    King k = (King)tabPiece[7][4];
+                    if (k.AlreadyMove)
+                    {
+                        return false;
+                    }
+                    if (k.IsCheck(this))
+                    {
+                        return false;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+
             }
             else
             {
@@ -235,11 +319,6 @@ namespace echec
                     return false;
                 }
             }
-            return true;
-        }
-        public bool IsBigRock(string color)
-        {
-
             return true;
         }
         public void Play()
