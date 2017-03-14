@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CopyObject.cs" />
     <Compile Include="Knight.cs" />
     <Compile Include="Bishop.cs" />
     <Compile Include="frmMenu.cs">

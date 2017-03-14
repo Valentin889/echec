@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Runtime.Serialization.Formatters.Binary;
 namespace echec
 {
     public partial class frmJeu : Form
@@ -43,9 +43,9 @@ namespace echec
             strActifColor = game.Color1;
         }
         public frmJeu(string nomJoueur1, string nomJoueur2)
-            :this()
+            : this()
         {
-           
+
         }
         private void btnQuitter_Click(object sender, EventArgs e)
         {
@@ -60,17 +60,17 @@ namespace echec
             tlpDisplay.Controls.Clear();
             tlpDisplay.ColumnCount = iColonne;
             tlpDisplay.RowCount = iLigne;
-            
-            for(int i=0; i<iColonne;i++)
+
+            for (int i = 0; i < iColonne; i++)
             {
-                for(int j=0; j<iLigne;j++)
+                for (int j = 0; j < iLigne; j++)
                 {
                     PictureBox pct = new PictureBox();
-                    
+
                     pct.Size = new Size(this.Size.Width / 9, this.Size.Height / 9);
                     tlpDisplay.Controls.Add(pct);
 
-                    pct.Tag = i.ToString() +"/" + j.ToString();
+                    pct.Tag = i.ToString() + "/" + j.ToString();
 
                     pct.Click += new System.EventHandler(PictureBox_click);
                 }
@@ -80,10 +80,10 @@ namespace echec
         private void LoadColor()
         {
             bool bColor = true;
-            for(int i=0; i<tlpDisplay.ColumnCount;i++)
+            for (int i = 0; i < tlpDisplay.ColumnCount; i++)
             {
                 bColor = !bColor;
-                for(int j=0; j<tlpDisplay.RowCount;j++)
+                for (int j = 0; j < tlpDisplay.RowCount; j++)
                 {
                     int indice = i * 8 + j;
                     PictureBox pct = (PictureBox)tlpDisplay.Controls[indice];
@@ -99,17 +99,17 @@ namespace echec
                     bColor = !bColor;
                 }
             }
-            
-               
+
+
         }
         private void PlacementParts()
         {
             int x = 0;
             int y = 0;
-            for (int i=0; i<game.TabCase.Length*game.TabCase[0].Length;i++)
+            for (int i = 0; i < game.TabCase.Length * game.TabCase[0].Length; i++)
             {
-                
-                if(game.TabCase[x][y]!=null)
+
+                if (game.TabCase[x][y] != null)
                 {
                     PartsDiaplay(game.TabCase[x][y].Picture, (PictureBox)tlpDisplay.Controls[i]);
                 }
@@ -118,7 +118,7 @@ namespace echec
                     ResetImage((PictureBox)tlpDisplay.Controls[i]);
                 }
                 y++;
-                if(y%8==0)
+                if (y % 8 == 0)
                 {
                     y = 0;
                     x++;
@@ -128,7 +128,7 @@ namespace echec
         private void LoadPicture()
         {
             string path = "ressource";
-            foreach (string sFileName in  Directory.GetFiles(path))
+            foreach (string sFileName in Directory.GetFiles(path))
             {
                 if (Path.GetExtension(sFileName) == ".png")
                 {
@@ -140,7 +140,7 @@ namespace echec
         }
         private void PartsDiaplay(string strPiece, PictureBox pct)
         {
-            FileStream fs = new FileStream(@"ressource\"+strPiece, FileMode.Open);
+            FileStream fs = new FileStream(@"ressource\" + strPiece, FileMode.Open);
             pct.Image = Image.FromStream(fs);
             fs.Close();
             pct.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -151,16 +151,16 @@ namespace echec
         }
         private void AddPicturePerPiece()
         {
-           
-            foreach(Piece p in game.ListPieces)
+
+            foreach (Piece p in game.ListPieces)
             {
                 int index = 0;
-                if(p.Color==game.Color2)
+                if (p.Color == game.Color2)
                 {
                     index += 6;
                 }
 
-               switch(p.ToString())
+                switch (p.ToString())
                 {
                     case "echec.Knights":
                         index += 1;
@@ -204,7 +204,7 @@ namespace echec
                 LoadColor();
                 game.NextPlayer();
                 TurnGameAround();
-                if(strActifColor==game.Color1)
+                if (strActifColor == game.Color1)
                 {
                     strActifColor = game.Color2;
                 }
@@ -217,12 +217,13 @@ namespace echec
             {
                 LoadColor();
                 Piece p = game.TabCase[Convert.ToInt32(t[0])][Convert.ToInt32(t[1])];
-                if (p!=null)
+                if (p != null)
                 {
                     if (strActifColor == p.Color)
                     {
                         game.SetMovePiece(t);
-                        Game copyGame = new Game(game.Players,game.ListPieces,game.TabCase,this);
+
+                        Game copyGame = game.Clone();
                         copyGame.NoCheck(p);
                         ShowTraveling();
                     }
@@ -240,7 +241,7 @@ namespace echec
         }
         private void ShowTraveling()
         {
-            foreach(string s in game.Players[0].LastPiece.Move)
+            foreach (string s in game.Players[0].LastPiece.Move)
             {
                 string[] t = s.Split('/');
 

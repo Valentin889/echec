@@ -8,11 +8,23 @@ namespace echec
 {
     public class Pawn : Piece
     {
-        bool PremierDeplacement;
+        bool bPremierDeplacement;
         public Pawn(string couleur)
             : base(couleur)
         {
-            PremierDeplacement = true;
+            bPremierDeplacement = true;
+        }
+
+        public bool PremierDeplacement
+        {
+            get
+            {
+                return bPremierDeplacement;
+            }
+            set
+            {
+                bPremierDeplacement = value;
+            }
         }
         public override void Storagepossible(Game jeu)
         {
@@ -21,14 +33,14 @@ namespace echec
 
             if (PositionY!=6)
             {
-                PremierDeplacement = false;
+                bPremierDeplacement = false;
             }
             Move = new List<string>();
 
             if (PositionY - 1 >=0)
             {
                 AddMove(jeuCopie, PositionY - 1, PositionX);
-                if (PremierDeplacement)
+                if (bPremierDeplacement)
                 {
                     if (PositionY - 2 >= 0)
                     {

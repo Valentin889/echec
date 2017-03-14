@@ -51,6 +51,49 @@ namespace echec
 
 
         }
+
+        public Piece Clone()
+        {
+            Piece Clone;
+            switch(this.ToString())
+            {
+                case "echec.Rook":
+                    Clone = new Rook(this.Color);
+                    break;
+                case "echec.Queen":
+                    Clone = new Queen(this.Color);
+                    break;
+                case "echec.Pawn":
+                    Clone = new Pawn(this.Color);
+                    Pawn pClone = (Pawn)Clone;
+                    Pawn pOriginal = (Pawn)this;
+                    pClone.PremierDeplacement = pOriginal.PremierDeplacement;
+                    Clone = pClone;
+                    break;
+                case "echec.Knights":
+                    Clone = new Knights(this.Color);
+                    break;
+                case "echec.King":
+                    Clone = new King(this.Color);
+                    break;
+                case "echec.Bishop":
+                    Clone = new Bishop(this.Color);
+                    break;
+                default:
+                    Clone = null;
+                    break;
+                     
+            }
+            Clone.lstMove = this.lstMove;
+            Clone.PositionX = this.PositionX;
+            Clone.PositionY = this.PositionY;
+            Clone.Picture = this.Picture;
+            return Clone;
+
+
+
+        }
+
     }
 }
     

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace echec
 {
@@ -15,7 +16,7 @@ namespace echec
         private string strColor1;
         private string strColor2;
         private frmJeu Affichage;
-        private Piece[][] tabCase;
+        private Piece[][] tabPiece;
         public Game(frmJeu form)
         {
             iNumerberPiece = 32;
@@ -25,21 +26,12 @@ namespace echec
             Affichage = form;
             strColor1 = "blanc";
             strColor2 = "noir";
-            tabCase = new Piece[8][];
-            for (int i = 0; i < tabCase.Length; i++)
+            tabPiece = new Piece[8][];
+            for (int i = 0; i < tabPiece.Length; i++)
             {
-                tabCase[i] = new Piece[8];
+                tabPiece[i] = new Piece[8];
             }
         }
-        public Game (List<Player> player, List<Piece> lpiece, Piece[][] tpiece,frmJeu form)
-            :this(form)
-        {
-            lstPlayer = player;
-            lstPiece = lpiece;
-            tabCase = tpiece;
-        }
-
-
         public void Creationpiece()
         {
             string Couleur = strColor2;
@@ -113,19 +105,18 @@ namespace echec
         {
             int colonne = Convert.ToInt32(str[0]);
             int ligne = Convert.ToInt32(str[1]);
-            lstPlayer[0].LastPiece = tabCase[colonne][ligne];
+            lstPlayer[0].LastPiece = tabPiece[colonne][ligne];
             lstPlayer[0].LastPiece.Storagepossible(this);
         }
-
+        
         public void NoCheck(Piece piece)
         {
-            int posXInitial = piece.PositionX;
-            int posyInitial = piece.PositionY;
+            Piece pieceClone = piece.Clone();
 
             
             List<String> listTemp = new List<string>();
 
-            foreach(string s in piece.Move)
+            foreach(string s in pieceClone.Move)
             {
                 string[] tmp = s.Split('/');
                 int[] Coup = new int[2];
@@ -136,12 +127,12 @@ namespace echec
 
                 Players[0].DernierPosition = Coup;
 
-                tabCase[piece.PositionY][piece.PositionX] = null;
-                piece.PositionY=lstPlayer[0].DernierPosition[0] ;
-                piece.PositionX=lstPlayer[0].DernierPosition[1];
-                tabCase[piece.PositionY][piece.PositionX] = piece;
+                tabPiece[pieceClone.PositionY][pieceClone.PositionX] = null;
+                pieceClone.PositionY=lstPlayer[0].DernierPosition[0] ;
+                pieceClone.PositionX=lstPlayer[0].DernierPosition[1];
+                tabPiece[pieceClone.PositionY][pieceClone.PositionX] = pieceClone;
 
-                if(KingCheck())
+                if(KingCheck(pieceClone))
                 {
                     listTemp.Add(s);
                 }
@@ -150,30 +141,54 @@ namespace echec
             }
             foreach(string s in listTemp)
             {
-                piece.Move.Remove(s);
+                pieceClone.Move.Remove(s);
             }
-            piece.PositionY = posyInitial;
-            piece.PositionX = posXInitial;
             this.Players[0].LastPiece = piece;
         }
+
+        public Game Clone()
+        {
+            Game clone =new Game(Affichage);
+            clone.iNumerberPiece = this.iNumerberPiece;
+            clone.iNumberPiecePerColor = this.iNumberPiecePerColor;
+            foreach(Player p in this.lstPlayer)
+            {
+                clone.lstPlayer.Add(p.Clone());
+            }
+            foreach(Piece p in this.lstPiece)
+            {
+                clone.lstPiece.Add(p.Clone());
+                clone.tabPiece[p.PositionY][p.PositionX] = p;
+            }
+            clone.strColor1 = this.strColor1;
+            clone.strColor2 = this.strColor2;
+            clone.tabPiece[0][0] = null;
+            return clone;
+        }
+
 
         public void Play()
         {
             Piece p = lstPlayer[0].LastPiece;
 
 
-            tabCase[p.PositionY][p.PositionX] = null;
+            tabPiece[p.PositionY][p.PositionX] = null;
             p.PositionY = lstPlayer[0].DernierPosition[0];
             p.PositionX = lstPlayer[0].DernierPosition[1];
-            tabCase[p.PositionY][p.PositionX] = p;
+            tabPiece[p.PositionY][p.PositionX] = p;
         }
 
-        public bool KingCheck()
+        public bool KingCheck(Piece pieceClone)
         {
             foreach (Piece p in lstPiece)
             {
-                if(p.Color != lstPlayer[0].Color)
+                if(p.Color == lstPlayer[0].Color)
                 {
+                    if(p.ToString()==pieceClone.ToString())
+                    {
+                        p.PositionX = pieceClone.PositionX;
+                        p.PositionY = pieceClone.PositionY;
+                    }
                     if(p.ToString()=="echec.King")
                     {
                         King k = (King)p;
@@ -203,31 +218,31 @@ namespace echec
         {
             get
             {
-                return tabCase;
+                return tabPiece;
             }
         }
         public void RemplissageTablePiece()
         {
             foreach (Piece p in lstPiece)
             {
-                tabCase[p.PositionY][p.PositionX] = p;
+                tabPiece[p.PositionY][p.PositionX] = p;
             }
         }
         public void TournGameAround()
         {
-            Piece[][] tempHorizontal = new Piece[tabCase.Length][];
-            Piece[][] temp = new Piece[tabCase.Length][];
+            Piece[][] tempHorizontal = new Piece[tabPiece.Length][];
+            Piece[][] temp = new Piece[tabPiece.Length][];
             for (int i = 0; i < tempHorizontal.Length; i++)
             {
-                tempHorizontal[i] = new Piece[tabCase[i].Length];
-                temp[i] = new Piece[tabCase[i].Length];
+                tempHorizontal[i] = new Piece[tabPiece[i].Length];
+                temp[i] = new Piece[tabPiece[i].Length];
             }
 
-            for (int i = 0; i < tabCase.Length; i++)
+            for (int i = 0; i < tabPiece.Length; i++)
             {
-                for (int j = 0; j < tabCase[i].Length; j++)
+                for (int j = 0; j < tabPiece[i].Length; j++)
                 {
-                    tempHorizontal[i][j] = tabCase[i][tabCase[i].Length - j - 1];
+                    tempHorizontal[i][j] = tabPiece[i][tabPiece[i].Length - j - 1];
 
                 }
             }
@@ -238,15 +253,15 @@ namespace echec
                     temp[i][j] = tempHorizontal[tempHorizontal.Length - i - 1][j];
                 }
             }
-            tabCase = temp;
-            for (int i = 0; i < tabCase.Length; i++)
+            tabPiece = temp;
+            for (int i = 0; i < tabPiece.Length; i++)
             {
-                for (int j = 0; j < tabCase[i].Length; j++)
+                for (int j = 0; j < tabPiece[i].Length; j++)
                 {
-                    if (tabCase[i][j] != null)
+                    if (tabPiece[i][j] != null)
                     {
-                        tabCase[i][j].PositionY = i;
-                        tabCase[i][j].PositionX = j;
+                        tabPiece[i][j].PositionY = i;
+                        tabPiece[i][j].PositionX = j;
                     }
                 }
             }

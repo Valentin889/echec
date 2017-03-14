@@ -45,16 +45,19 @@ namespace echec
         {
             foreach (Piece p in game.ListPieces)
             {
-                p.Storagepossible(game);
-                foreach(string s in p.Move)
+                if (p.Color != this.Color)
                 {
-                    string[] tmp = s.Split('/');
-                    int colonne = Convert.ToInt32(tmp[0]);
-                    int ligne = Convert.ToInt32(tmp[1]);
-
-                    if(this.PositionY==colonne&&this.PositionX==ligne)
+                    p.Storagepossible(game);
+                    foreach (string s in p.Move)
                     {
-                        return true;
+                        string[] tmp = s.Split('/');
+                        int colonne = Convert.ToInt32(tmp[0]);
+                        int ligne = Convert.ToInt32(tmp[1]);
+
+                        if (this.PositionY == colonne && this.PositionX == ligne)
+                        {
+                            return true;
+                        }
                     }
                 }
             }

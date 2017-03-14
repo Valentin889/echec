@@ -21,5 +21,24 @@ namespace echec
 
         public string Color { get; private set; }
 
+        public Player Clone()
+        {
+            Player clone;
+            switch(this.ToString())
+            {
+                case "echec.Human":
+                    clone = new Human(this.Color);
+                    break;
+                default:
+                    clone = null;
+                    break;
+            }
+            clone.LastPiece = this.LastPiece;
+            clone.DernierPosition = this.DernierPosition;
+            clone.Color = this.Color;
+
+
+            return clone;
+        }
     }
 }
