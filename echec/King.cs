@@ -11,34 +11,56 @@ namespace echec
         public King(string couleur)
             : base(couleur)
         {
-
+            Specialmove = new List<string>();
         }
         public override void Storagepossible(Game game)
         {
-            Game jeuCopie = game;
-            jeuCopie.Players[0].LastPiece = this;
+            game.Players[0].LastPiece = this;
             Move = new List<string>();
 
             for (int i = PositionY - 1; i <= PositionY + 1; i++)
             {
-                if (i < jeuCopie.TabCase.Length && i >= 0)
+                if (i < game.TabCase.Length && i >= 0)
                 {
                     for (int j = PositionX - 1; j <= PositionX + 1; j++)
                     {
-                        if(j<jeuCopie.TabCase.Length&&j>=0)
+                        if (j < game.TabCase.Length && j >= 0)
                         {
-                            if(i==PositionY&&j==PositionX)
+                            if (i == PositionY && j == PositionX)
                             {
-                                
+
                             }
                             else
                             {
-                                AddMove(jeuCopie, i, j);
+                                AddMove(game, i, j);
                             }
                         }
                     }
                 }
             }
+            if (game.IsSmallrock(this.Color))
+            {
+                if (this.Color == game.Color1)
+                {
+                    Specialmove.Add("7/6");
+                }
+                else
+                {
+                    Specialmove.Add("7/1");
+                }
+            }
+            if(game.IsBigRock(this.Color))
+            {
+                if (this.Color == game.Color1)
+                {
+                    Specialmove.Add("7/2");
+                }
+                else
+                {
+                    Specialmove.Add("7/5");
+                }
+            }
+
         }
 
         public bool IsCheck(Game game)
@@ -65,6 +87,9 @@ namespace echec
 
             return false;
         }
+
+        public List<String> Specialmove { get; set; }
+
 
     }
 }

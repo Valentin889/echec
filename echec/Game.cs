@@ -165,8 +165,20 @@ namespace echec
             clone.tabPiece[0][0] = null;
             return clone;
         }
+        public bool IsSmallrock(string color)
+        {
+
+            //implémente une série de test
 
 
+
+            return true;
+        }
+        public bool IsBigRock(string color)
+        {
+
+            return true;
+        }
         public void Play()
         {
             Piece p = lstPlayer[0].LastPiece;
@@ -206,7 +218,6 @@ namespace echec
                 return lstPiece;
             }
         }
-
         public List<Player> Players
         {
             get

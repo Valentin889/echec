@@ -225,7 +225,20 @@ namespace echec
 
                         Game copyGame = game.Clone();
                         copyGame.NoCheck(p);
-                        ShowTraveling();
+                        ShowTraveling(game.Players[0].LastPiece.Move, Color.Green);
+
+                        if(p.ToString()=="echec.King")
+                        {
+                            if(game.IsSmallrock(p.Color))
+                            {
+                                King k = (King)p;
+                                ShowTraveling(k.Specialmove, Color.Orange);
+                            }
+                        }
+
+
+
+
                     }
                     else
                     {
@@ -239,9 +252,9 @@ namespace echec
                 }
             }
         }
-        private void ShowTraveling()
+        private void ShowTraveling(List<String> move, Color c)
         {
-            foreach (string s in game.Players[0].LastPiece.Move)
+            foreach (string s in move)
             {
                 string[] t = s.Split('/');
 
@@ -251,7 +264,7 @@ namespace echec
                 int numeroListe = colonne * 8 + ligne;
 
                 PictureBox pct = (PictureBox)tlpDisplay.Controls[numeroListe];
-                pct.BackColor = Color.Green;
+                pct.BackColor = c;
 
             }
         }
