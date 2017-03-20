@@ -33,7 +33,8 @@ namespace echec
                             }
                             else
                             {
-                                AddMove(copyGame, i, j);
+                                    AddMove(copyGame, i, j);
+
                             }
                         }
                     }
@@ -67,34 +68,53 @@ namespace echec
 
         public bool IsCheck(Game game)
         {
-            foreach (Piece p in game.ListPieces)
+            bool Return = false;
+            if(this.Color==game.Color1)
             {
-                if (p.Color != this.Color)
+                foreach(string s in game.DicWhitePiece.Keys)
                 {
-                    p.Storagepossible(game);
-                    foreach (string s in p.Move)
+                    Piece p = game.DicWhitePiece[s];
+                    Return = CalledByIsCheck(p, game);
+                    if(Return)
                     {
-                        string[] tmp = s.Split('/');
-                        int colonne = Convert.ToInt32(tmp[0]);
-                        int ligne = Convert.ToInt32(tmp[1]);
-
-                        if (this.PositionY == colonne && this.PositionX == ligne)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
+            else
+            {
+                foreach (string s in game.DicBlackPiece.Keys)
+                {
+                    Piece p = game.DicBlackPiece[s];
+                    Return = CalledByIsCheck(p, game);
+                    if (Return)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+            
+        }
+        private bool CalledByIsCheck(Piece p,Game game)
+        {
+            p.Storagepossible(game);
+            foreach (string s in p.Move)
+            {
+                string[] tmp = s.Split('/');
+                int colonne = Convert.ToInt32(tmp[0]);
+                int ligne = Convert.ToInt32(tmp[1]);
 
-
+                if (this.PositionY == colonne && this.PositionX == ligne)
+                {
+                    return true;
+                }
+            }
             return false;
         }
 
+
         public List<String> Specialmove { get; set; }
         public bool AlreadyMove { get; set; }
-
-
-
-
     }
 }

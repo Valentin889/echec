@@ -81,25 +81,43 @@ namespace echec
 
         public bool IsCheck(Game game)
         {
-            foreach(Piece p in game.ListPieces)
+            if (Color == game.Color1)
             {
-                if(p!=null)
+                foreach (string s in game.DicBlackPiece.Keys)
                 {
-                    if (p.Color != Color)
+                    Piece p = game.DicBlackPiece[s];
+                    if(CalledByIsCheck(p,game))
                     {
-                        p.Storagepossible(game);
-                        foreach (string s in p.Move)
-                        {
-                            string[] tmp = s.Split('/');
-                            int colonne = Convert.ToInt32(tmp[0]);
-                            int ligne = Convert.ToInt32(tmp[1]);
-
-                            if (PositionY == colonne && PositionX == ligne)
-                            {
-                                return true;
-                            }
-                        }
+                        return true;
                     }
+                }
+            }
+            else
+            {
+                foreach (string s in game.DicWhitePiece.Keys)
+                {
+                    Piece p = game.DicWhitePiece[s];
+                    if (CalledByIsCheck(p, game))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private bool CalledByIsCheck(Piece p, Game game)
+        {
+            p.Storagepossible(game);
+            foreach (string s in p.Move)
+            {
+                string[] tmp = s.Split('/');
+                int colonne = Convert.ToInt32(tmp[0]);
+                int ligne = Convert.ToInt32(tmp[1]);
+
+                if (PositionY == colonne && PositionX == ligne)
+                {
+                    return true;
                 }
             }
             return false;

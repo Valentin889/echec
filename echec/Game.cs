@@ -12,20 +12,26 @@ namespace echec
         private int iNumerberPiece;
         private int iNumberPiecePerColor;
         private List<Player> lstPlayer;
-        private List<Piece> lstPiece;
+        private Dictionary<string,Piece> dicWhitePiece;
+        private Dictionary<string, Piece> dicBlackPiece;
+
         private string strColor1;
         private string strColor2;
         private frmGame Affichage;
         private Piece[][] tabPiece;
+
         public Game(frmGame form)
         {
             iNumerberPiece = 32;
             iNumberPiecePerColor = iNumerberPiece / 2;
             lstPlayer = new List<Player>();
-            lstPiece = new List<Piece>();
+            dicWhitePiece = new Dictionary<string, Piece>();
+            dicBlackPiece = new Dictionary<string, Piece>();
+
+            
             Affichage = form;
-            strColor1 = "blanc";
-            strColor2 = "noir";
+            strColor1 = "White";
+            strColor2 = "Black";
             tabPiece = new Piece[8][];
             for (int i = 0; i < tabPiece.Length; i++)
             {
@@ -35,32 +41,41 @@ namespace echec
         public void Creationpiece()
         {
             string Couleur = strColor2;
-            lstPiece.Add(new Rook(Couleur));
-            lstPiece.Add(new Knights(Couleur));
-            lstPiece.Add(new Bishop(Couleur));
-            lstPiece.Add(new Queen(Couleur));
-            lstPiece.Add(new King(Couleur));
-            lstPiece.Add(new Bishop(Couleur));
-            lstPiece.Add(new Knights(Couleur));
-            lstPiece.Add(new Rook(Couleur));
 
-            for (int j = 0; j < 8; j++)
+            dicBlackPiece.Add("Rook1" + Couleur, new Rook(Couleur));
+            dicBlackPiece.Add("Knights1" + Couleur, new Knights(Couleur));
+            dicBlackPiece.Add("Bishop1" + Couleur, new Bishop(Couleur));
+            dicBlackPiece.Add("Queen" + Couleur, new Queen(Couleur));
+            dicBlackPiece.Add("King" + Couleur, new King(Couleur));
+            dicBlackPiece.Add("Bishop2" + Couleur, new Bishop(Couleur));
+            dicBlackPiece.Add("Knights2" + Couleur, new Knights(Couleur));
+            dicBlackPiece.Add("Rook2" + Couleur, new Rook(Couleur));
+
+            for (int i =1; i<9;i++)
             {
-                lstPiece.Add(new Pawn(Couleur));
+                dicBlackPiece.Add("Pawn" + i + Couleur, new Pawn(Couleur));
             }
             Couleur = strColor1;
-            for (int j = 0; j < 8; j++)
+
+            for (int i = 1; i < 9; i++)
             {
-                lstPiece.Add(new Pawn(Couleur));
+                dicWhitePiece.Add("Pawn" + i + Couleur, new Pawn(Couleur));
             }
-            lstPiece.Add(new Rook(Couleur));
-            lstPiece.Add(new Knights(Couleur));
-            lstPiece.Add(new Bishop(Couleur));
-            lstPiece.Add(new Queen(Couleur));
-            lstPiece.Add(new King(Couleur));
-            lstPiece.Add(new Bishop(Couleur));
-            lstPiece.Add(new Knights(Couleur));
-            lstPiece.Add(new Rook(Couleur));
+            dicWhitePiece.Add("Rook1" + Couleur, new Rook(Couleur));
+            dicWhitePiece.Add("Knights1" + Couleur, new Knights(Couleur));
+            dicWhitePiece.Add("Bishop1" + Couleur, new Bishop(Couleur));
+            dicWhitePiece.Add("Queen" + Couleur, new Queen(Couleur));
+            dicWhitePiece.Add("King" + Couleur, new King(Couleur));
+            dicWhitePiece.Add("Bishop2" + Couleur, new Bishop(Couleur));
+            dicWhitePiece.Add("Knights2" + Couleur, new Knights(Couleur));
+            dicWhitePiece.Add("Rook2" + Couleur, new Rook(Couleur));
+
+
+
+
+
+
+
         }
         public void CreationJoueur(Player joueur1, Player joueur2)
         {
@@ -71,22 +86,28 @@ namespace echec
         {
             int x = 0;
             int y = 0;
-            foreach (Piece p in lstPiece)
+            foreach(string s in dicBlackPiece.Keys)
             {
-                p.PositionX = x;
-                p.PositionY = y;
-                if (x < 7)
+                dicBlackPiece[s].PositionX = x;
+                dicBlackPiece[s].PositionY = y;
+                x++;
+                if(x==8)
                 {
-                    x++;
-                }
-                else
-                {
-                    x = 0;
                     y++;
-                    if (y > 1 && y < 7)
-                    {
-                        y = 6;
-                    }
+                    x = 0;
+                }
+            }
+            x = 0;
+            y = 6;
+            foreach(string s in dicWhitePiece.Keys)
+            {
+                dicWhitePiece[s].PositionX = x;
+                dicWhitePiece[s].PositionY = y;
+                x++;
+                if(x==8)
+                {
+                    y++;
+                    x = 0;
                 }
             }
             RemplissageTablePiece();
@@ -159,9 +180,17 @@ namespace echec
             {
                 clone.lstPlayer.Add(p.Clone());
             }
-            foreach(Piece p in this.lstPiece)
+
+            foreach(string s in dicBlackPiece.Keys)
             {
-                clone.lstPiece.Add(p.Clone());
+                Piece p = dicBlackPiece[s];
+                clone.dicBlackPiece.Add(s, p);
+                clone.tabPiece[p.PositionY][p.PositionX] = p;
+            }
+            foreach (string s in dicWhitePiece.Keys)
+            {
+                Piece p = dicWhitePiece[s];
+                clone.dicWhitePiece.Add(s, p);
                 clone.tabPiece[p.PositionY][p.PositionX] = p;
             }
             clone.strColor1 = this.strColor1;
@@ -322,11 +351,22 @@ namespace echec
                 }
                 try
                 {
-                    King k = (King)tabPiece[7][4];
+                    King k = (King)tabPiece[7][4].Clone();
                     if (k.AlreadyMove)
                     {
                         return false;
                     }
+                    k.PositionX = 5;
+                    if(k.IsCheck(this))
+                    {
+                        return false;
+                    }
+                    k.PositionX = 6;
+                    if(k.IsCheck(this))
+                    {
+                        return false;
+                    }
+                    
                 }
                 catch
                 {
@@ -349,8 +389,18 @@ namespace echec
                 }
                 try
                 {
-                    King k = (King)tabPiece[0][4];
+                    King k = (King)tabPiece[0][4].Clone();
                     if (k.AlreadyMove)
+                    {
+                        return false;
+                    }
+                    k.PositionX = 5;
+                    if(k.IsCheck(this))
+                    {
+                        return false;
+                    }
+                    k.PositionX = 6;
+                    if(k.IsCheck(this))
                     {
                         return false;
                     }
@@ -365,6 +415,11 @@ namespace echec
         public void Play()
         {
             Piece p = lstPlayer[0].LastPiece;
+            if(p.GetType()==typeof(King))
+            {
+                King k = (King)p;
+                k.AlreadyMove = true;
+            }
             tabPiece[p.PositionY][p.PositionX] = null;
             p.PositionY = lstPlayer[0].LastPosition[0];
             p.PositionX = lstPlayer[0].LastPosition[1];
@@ -373,30 +428,30 @@ namespace echec
 
         public bool KingCheck(Piece pieceClone)
         {
-            foreach (Piece p in lstPiece)
+            King k = null;
+            if (lstPlayer[0].Color == strColor2)
             {
-                if(p.Color == lstPlayer[0].Color)
-                {
-                    if(p.ToString()==pieceClone.ToString())
-                    {
-                        p.PositionX = pieceClone.PositionX;
-                        p.PositionY = pieceClone.PositionY;
-                    }
-                    if(p.ToString()=="echec.King")
-                    {
-                        King k = (King)p;
-                        return k.IsCheck(this);
-                    }
-                }
+                k = (King)dicWhitePiece["KingWhite"];
             }
-
-            return false;
+            else
+            {
+                k = (King)dicBlackPiece["KingBlack"];
+            }
+            return k.IsCheck(this);
         }
-        public List<Piece> ListPieces
+
+        public Dictionary<string,Piece> DicWhitePiece
         {
             get
             {
-                return lstPiece;
+                return dicWhitePiece;
+            }
+        }
+        public Dictionary<String,Piece> DicBlackPiece
+        {
+            get
+            {
+                return dicBlackPiece;
             }
         }
         public List<Player> Players
@@ -415,10 +470,17 @@ namespace echec
         }
         public void RemplissageTablePiece()
         {
-            foreach (Piece p in lstPiece)
+            foreach(string s in dicWhitePiece.Keys)
             {
+                Piece p = dicWhitePiece[s];
                 tabPiece[p.PositionY][p.PositionX] = p;
             }
+            foreach (string s in dicBlackPiece.Keys)
+            {
+                Piece p = dicBlackPiece[s];
+                tabPiece[p.PositionY][p.PositionX] = p;
+            }
+
         }
         public string Color1
         {

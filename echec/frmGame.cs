@@ -193,36 +193,45 @@ namespace echec
         }
         private void AddPicturePerPiece()
         {
-
-            foreach (Piece p in game.ListPieces)
+            foreach (string s in game.DicWhitePiece.Keys)
             {
-                int index = 0;
-                if (p.Color == game.Color2)
-                {
-                    index += 6;
-                }
+                SetPicture(game.DicWhitePiece[s]);
+            }
 
-                switch (p.ToString())
-                {
-                    case "echec.Knights":
-                        index += 1;
-                        break;
-                    case "echec.Bishop":
-                        index += 2;
-                        break;
-                    case "echec.Queen":
-                        index += 3;
-                        break;
-                    case "echec.King":
-                        index += 4;
-                        break;
-                    case "echec.Pawn":
-                        index += 5;
-                        break;
-                }
-                p.Picture = pictureParts[index];
+            foreach (string s in game.DicBlackPiece.Keys)
+            {
+                SetPicture(game.DicBlackPiece[s]);
             }
         }
+        private void SetPicture(Piece p)
+        {
+            int index = 0;
+            if (p.Color == game.Color2)
+            {
+                index += 6;
+            }
+
+            switch (p.GetType().FullName)
+            {
+                case "echec.Knights":
+                    index += 1;
+                    break;
+                case "echec.Bishop":
+                    index += 2;
+                    break;
+                case "echec.Queen":
+                    index += 3;
+                    break;
+                case "echec.King":
+                    index += 4;
+                    break;
+                case "echec.Pawn":
+                    index += 5;
+                    break;
+            }
+            p.Picture = pictureParts[index];
+        }
+
         private void PictureBox_click(object sender, EventArgs e)
         {
             PictureBox pct = (PictureBox)sender;
