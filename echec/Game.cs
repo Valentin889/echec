@@ -204,7 +204,6 @@ namespace echec
             clone.strColor2 = this.strColor2;
             return clone;
         }
-
         public void DoRock(string color)
         {
             if (lstPlayer[0].LastPosition[1] == 6)
@@ -299,11 +298,25 @@ namespace echec
                 }
                 try
                 {
-                    King k = (King)tabPiece[7][4];
+                    King k = (King)tabPiece[7][4].Clone();
                     if(k.AlreadyMove)
                     {
                         return false;
                     }
+
+
+
+                    k.PositionX = 3;
+                    if (k.IsCheck(this))
+                    {
+                        return false;
+                    }
+                    k.PositionX = 2;
+                    if (k.IsCheck(this))
+                    {
+                        return false;
+                    }
+
                 }
                 catch
                 {
@@ -327,8 +340,20 @@ namespace echec
                 }
                 try
                 {
-                    King k = (King)tabPiece[0][4];
+                    King k = (King)tabPiece[0][4].Clone();
                     if (k.AlreadyMove)
+                    {
+                        return false;
+                    }
+
+
+                    k.PositionX = 3;
+                    if (k.IsCheck(this))
+                    {
+                        return false;
+                    }
+                    k.PositionX = 2;
+                    if (k.IsCheck(this))
                     {
                         return false;
                     }
