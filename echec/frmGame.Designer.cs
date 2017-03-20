@@ -1,6 +1,6 @@
 ﻿namespace echec
 {
-    partial class frmJeu
+    partial class frmGame
     {
         /// <summary>
         /// Required designer variable.

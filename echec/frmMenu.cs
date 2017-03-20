@@ -17,7 +17,7 @@ namespace echec
             InitializeComponent();
         }
 
-        public frmJeu frmJeu
+        public frmGame frmJeu
         {
             get
             {
@@ -31,7 +31,7 @@ namespace echec
 
         private void btnJouer_Click(object sender, EventArgs e)
         {
-            frmJeu form = new frmJeu(tbxNom1.Text, tbxNom2.Text);
+            frmGame form = new frmGame(tbxNom1.Text, tbxNom2.Text);
             form.Show();
         }
     }

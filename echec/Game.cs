@@ -15,9 +15,9 @@ namespace echec
         private List<Piece> lstPiece;
         private string strColor1;
         private string strColor2;
-        private frmJeu Affichage;
+        private frmGame Affichage;
         private Piece[][] tabPiece;
-        public Game(frmJeu form)
+        public Game(frmGame form)
         {
             iNumerberPiece = 32;
             iNumberPiecePerColor = iNumerberPiece / 2;
@@ -166,7 +166,6 @@ namespace echec
             }
             clone.strColor1 = this.strColor1;
             clone.strColor2 = this.strColor2;
-            clone.tabPiece[0][0] = null;
             return clone;
         }
 

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters.Binary;
 namespace echec
 {
-    public partial class frmJeu : Form
+    public partial class frmGame : Form
     {
         private TableLayoutPanel tlpDisplay;
         private int iColonne;
@@ -19,13 +19,13 @@ namespace echec
         private Game game;
         private List<String> pictureParts;
         private string strActifColor;
+        private bool bTurnedGame;
         private bool bIsGameTurned;
         private Piece[][] DisplayBoardGame;
 
 
 
-
-        public frmJeu()
+        public frmGame()
         {
             InitializeComponent();
             game = new Game(this);
@@ -44,12 +44,14 @@ namespace echec
             Controls.Add(tlpDisplay);
             LoadBoardGame();
             LoadColor();
-            DisplayBoardGame = game.TabPiece;
+            DisplayBoardGame = game.Clone().TabPiece;
+            TurnGame();
             PlacementParts();
             strActifColor = game.Color1;
+            bTurnedGame = false;
             bIsGameTurned = false;
         }
-        public frmJeu(string nomJoueur1, string nomJoueur2)
+        public frmGame(string nomJoueur1, string nomJoueur2)
             : this()
         {
 
@@ -111,7 +113,31 @@ namespace echec
         }
         private void PlacementParts()
         {
-            if (bIsGameTurned)
+            int x = 0;
+            int y = 0;
+            for (int i = 0; i < DisplayBoardGame.Length * DisplayBoardGame[0].Length; i++)
+            {
+
+                if (DisplayBoardGame[x][y] != null)
+                {
+                    PartsDiaplay(DisplayBoardGame[x][y].Picture, (PictureBox)tlpDisplay.Controls[i]);
+                }
+                else
+                {
+                    ResetImage((PictureBox)tlpDisplay.Controls[i]);
+                }
+                y++;
+                if (y % 8 == 0)
+                {
+                    y = 0;
+                    x++;
+                }
+            }
+        }
+
+        private void TurnGame()
+        {
+            if (bTurnedGame)
             {
                 Piece[][] tempHorizontal = new Piece[DisplayBoardGame.Length][];
                 Piece[][] tempVertical = new Piece[DisplayBoardGame.Length][];
@@ -136,51 +162,8 @@ namespace echec
                         tempVertical[i][j] = tempHorizontal[tempHorizontal.Length - i - 1][j];
                     }
                 }
-                String[][] NewTag = new string[DisplayBoardGame.Length][];
-                
-                for(int i=0;i<DisplayBoardGame.Length;i++)
-                {
-                    NewTag[i] = new string[DisplayBoardGame[i].Length];
-
-                    for(int j=0; j<DisplayBoardGame[i].Length;j++)
-                    {
-                        int index = i * 8 + j;
-                        NewTag[i][j] = tlpDisplay.Controls[tlpDisplay.Controls.Count - index - 1].Tag.ToString();
-                    }
-                }
-                for(int i=0;i<NewTag.Length;i++)
-                {
-                    for(int j=0; j<NewTag[i].Length;j++)
-                    {
-                        int index = i * 8 + j;
-                        tlpDisplay.Controls[index].Tag = NewTag[i][j];
-                    }
-                }
-
-
-
-
                 DisplayBoardGame = tempVertical;
-            }
-            int x = 0;
-            int y = 0;
-            for (int i = 0; i < DisplayBoardGame.Length * DisplayBoardGame[0].Length; i++)
-            {
-
-                if (DisplayBoardGame[x][y] != null)
-                {
-                    PartsDiaplay(DisplayBoardGame[x][y].Picture, (PictureBox)tlpDisplay.Controls[i]);
-                }
-                else
-                {
-                    ResetImage((PictureBox)tlpDisplay.Controls[i]);
-                }
-                y++;
-                if (y % 8 == 0)
-                {
-                    y = 0;
-                    x++;
-                }
+                bIsGameTurned = !bIsGameTurned;
             }
         }
         private void LoadPicture()
@@ -196,6 +179,7 @@ namespace echec
 
 
         }
+
         private void PartsDiaplay(string strPiece, PictureBox pct)
         {
             FileStream fs = new FileStream(@"ressource\" + strPiece, FileMode.Open);
@@ -245,13 +229,40 @@ namespace echec
 
             string s = pct.Tag.ToString();
             string[] t = s.Split('/');
+            if (bIsGameTurned)
+            {
+                int[] Coup = new int[2];
+                Coup[0] = Convert.ToInt32(t[0]);
+                Coup[1] = Convert.ToInt32(t[1]);
+                Coup[0] = DisplayBoardGame.Length - 1 - Coup[0];
+                Coup[1] = DisplayBoardGame[Coup[0]].Length - 1 - Coup[1];
+
+                t[0] = Convert.ToString(Coup[0]);
+                t[1]=Convert.ToString(Coup[1]);
+
+
+            }
             if (pct.BackColor == Color.Green)
             {
                 int[] Coup = new int[2];
                 Coup[0] = Convert.ToInt32(t[0]);
                 Coup[1] = Convert.ToInt32(t[1]);
 
+                
                 game.Players[0].LastPosition = Coup;
+
+                if (bIsGameTurned)
+                {
+                    TurnGame();
+                    PlayDisplayMove();
+                }
+                else
+                {
+                    PlayDisplayMove();
+                    TurnGame();
+                }
+
+
                 game.Play();
                 LoadColor();
                 game.NextPlayer();
@@ -272,6 +283,7 @@ namespace echec
                 Coup[1] = Convert.ToInt32(t[1]);
                 game.Players[0].LastPosition = Coup;
                 game.DoRock(strActifColor);
+                TurnGame();
                 PlacementParts();
                 LoadColor();
                 game.NextPlayer();
@@ -293,7 +305,14 @@ namespace echec
                     if (strActifColor == p.Color)
                     {
                         game.SetMovePiece(t);
-                        ShowTraveling(game.Players[0].LastPiece.Move, Color.Green);
+
+                        List<String> Move = game.Players[0].LastPiece.Move;
+
+                        if(bIsGameTurned)
+                        {
+                            Move = TurnedList(Move);
+                        }
+                        ShowTraveling(Move, Color.Green);
 
                         if(p.ToString()=="echec.King")
                         {
@@ -323,6 +342,36 @@ namespace echec
                 }
             }
         }
+        private void PlayDisplayMove()
+        {
+            Piece p = game.Clone().Players[0].LastPiece.Clone();
+            DisplayBoardGame[p.PositionY][p.PositionX] = null;
+            p.PositionY = game.Players[0].LastPosition[0];
+            p.PositionX = game.Players[0].LastPosition[1];
+            DisplayBoardGame[p.PositionY][p.PositionX] = p;
+        }
+
+        private List<String> TurnedList(List<String> lst)
+        {
+            List<String> Return = new List<string>();
+
+            foreach(string s in lst)
+            {
+                string[] t = s.Split('/');
+                int colonne = Convert.ToInt32(t[0]);
+                int ligne = Convert.ToInt32(t[1]);
+
+                colonne = DisplayBoardGame.Length - colonne-1;
+                ligne = DisplayBoardGame[colonne].Length - ligne-1;
+
+                Return.Add(Convert.ToString(colonne)+"/"+Convert.ToString(ligne));
+            }
+
+
+            return Return;
+
+        }
+
         private void ShowTraveling(List<String> move, Color c)
         {
             foreach (string s in move)
@@ -339,10 +388,9 @@ namespace echec
 
             }
         }
-
         private void btnTurnGame_Click(object sender, EventArgs e)
         {
-            bIsGameTurned = true;
+            bTurnedGame = true;
         }
     }
 }

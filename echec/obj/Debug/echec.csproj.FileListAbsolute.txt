@@ -38,7 +38,6 @@ D:\Echec\echec\bin\Debug\ressource\09ReineNoire.png
 D:\Echec\echec\bin\Debug\echec.exe
 D:\Echec\echec\bin\Debug\echec.pdb
 D:\Echec\echec\obj\Debug\echec.csprojResolveAssemblyReference.cache
-D:\Echec\echec\obj\Debug\echec.frmJeu.resources
 D:\Echec\echec\obj\Debug\echec.frmMenu.resources
 D:\Echec\echec\obj\Debug\echec.Properties.Resources.resources
 D:\Echec\echec\obj\Debug\echec.csproj.GenerateResource.Cache
@@ -64,3 +63,4 @@ F:\jeu\echec\echec\obj\Debug\echec.frmJeu.resources
 F:\jeu\echec\echec\obj\Debug\echec.frmMenu.resources
 F:\jeu\echec\echec\obj\Debug\echec.Properties.Resources.resources
 F:\jeu\echec\echec\obj\Debug\echec.csproj.GenerateResource.Cache
+D:\Echec\echec\obj\Debug\echec.frmGame.resources
