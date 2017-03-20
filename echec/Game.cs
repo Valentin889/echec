@@ -128,6 +128,13 @@ namespace echec
             int ligne = Convert.ToInt32(str[1]);
             lstPlayer[0].LastPiece = tabPiece[colonne][ligne];
             lstPlayer[0].LastPiece.Storagepossible(this);
+            if(lstPlayer[0].LastPiece==dicBlackPiece["KingBlack"]||lstPlayer[0].LastPiece==dicWhitePiece["KingWhite"])
+            {
+                King k = (King)lstPlayer[0].LastPiece;
+                k.AddRock(this);
+            }
+
+
 
             Game copyGame = this.Clone();
             copyGame.NoCheck(lstPlayer[0].LastPiece);
@@ -356,6 +363,8 @@ namespace echec
                     {
                         return false;
                     }
+                    
+                    
                     k.PositionX = 5;
                     if(k.IsCheck(this))
                     {
@@ -394,6 +403,7 @@ namespace echec
                     {
                         return false;
                     }
+                    /*
                     k.PositionX = 5;
                     if(k.IsCheck(this))
                     {
@@ -404,6 +414,7 @@ namespace echec
                     {
                         return false;
                     }
+                    */
                 }
                 catch
                 {
@@ -429,14 +440,25 @@ namespace echec
         public bool KingCheck(Piece pieceClone)
         {
             King k = null;
-            if (lstPlayer[0].Color == strColor2)
+            if (lstPlayer[0].Color == strColor1)
             {
-                k = (King)dicWhitePiece["KingWhite"];
+                k = (King)dicWhitePiece["KingWhite"].Clone();
+                if (k.GetType() == pieceClone.GetType())
+                {
+                    k.PositionX = pieceClone.PositionX;
+                    k.PositionY = pieceClone.PositionY;
+                }
             }
             else
             {
-                k = (King)dicBlackPiece["KingBlack"];
+                k = (King)dicBlackPiece["KingBlack"].Clone();
+                if (k.GetType() == pieceClone.GetType())
+                {
+                    k.PositionX = pieceClone.PositionX;
+                    k.PositionY = pieceClone.PositionY;
+                }
             }
+            
             return k.IsCheck(this);
         }
 

@@ -40,7 +40,11 @@ namespace echec
                     }
                 }
             }
-            
+        }
+
+        public void AddRock(Game game)
+        {
+            Game copyGame = game.Clone();
             if (copyGame.IsSmallRock(this.Color))
             {
                 if (this.Color == copyGame.Color1)
@@ -52,7 +56,7 @@ namespace echec
                     Specialmove.Add("0/6");
                 }
             }
-            if(copyGame.IsBigRock(this.Color))
+            if (copyGame.IsBigRock(this.Color))
             {
                 if (this.Color == copyGame.Color1)
                 {
@@ -63,19 +67,16 @@ namespace echec
                     Specialmove.Add("0/2");
                 }
             }
-
         }
 
         public bool IsCheck(Game game)
         {
-            bool Return = false;
-            if(this.Color==game.Color1)
+            if(this.Color==game.Color2)
             {
                 foreach(string s in game.DicWhitePiece.Keys)
                 {
                     Piece p = game.DicWhitePiece[s];
-                    Return = CalledByIsCheck(p, game);
-                    if(Return)
+                    if (CalledByIsCheck(p, game))
                     {
                         return true;
                     }
@@ -86,8 +87,7 @@ namespace echec
                 foreach (string s in game.DicBlackPiece.Keys)
                 {
                     Piece p = game.DicBlackPiece[s];
-                    Return = CalledByIsCheck(p, game);
-                    if (Return)
+                    if (CalledByIsCheck(p, game))
                     {
                         return true;
                     }
@@ -112,7 +112,6 @@ namespace echec
             }
             return false;
         }
-
 
         public List<String> Specialmove { get; set; }
         public bool AlreadyMove { get; set; }
