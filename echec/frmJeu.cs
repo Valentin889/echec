@@ -19,6 +19,11 @@ namespace echec
         private Game game;
         private List<String> pictureParts;
         private string strActifColor;
+        private bool bIsGameTurned;
+        private Piece[][] DisplayBoardGame;
+
+
+
 
         public frmJeu()
         {
@@ -39,8 +44,10 @@ namespace echec
             Controls.Add(tlpDisplay);
             LoadBoardGame();
             LoadColor();
+            DisplayBoardGame = game.TabPiece;
             PlacementParts();
             strActifColor = game.Color1;
+            bIsGameTurned = false;
         }
         public frmJeu(string nomJoueur1, string nomJoueur2)
             : this()
@@ -104,14 +111,65 @@ namespace echec
         }
         private void PlacementParts()
         {
+            if (bIsGameTurned)
+            {
+                Piece[][] tempHorizontal = new Piece[DisplayBoardGame.Length][];
+                Piece[][] tempVertical = new Piece[DisplayBoardGame.Length][];
+                for (int i = 0; i < tempHorizontal.Length; i++)
+                {
+                    tempHorizontal[i] = new Piece[DisplayBoardGame[i].Length];
+                    tempVertical[i] = new Piece[DisplayBoardGame[i].Length];
+                }
+
+                for (int i = 0; i < DisplayBoardGame.Length; i++)
+                {
+                    for (int j = 0; j < DisplayBoardGame[i].Length; j++)
+                    {
+                        tempHorizontal[i][j] = DisplayBoardGame[i][DisplayBoardGame[i].Length - j - 1];
+
+                    }
+                }
+                for (int i = 0; i < tempHorizontal.Length; i++)
+                {
+                    for (int j = 0; j < tempHorizontal[i].Length; j++)
+                    {
+                        tempVertical[i][j] = tempHorizontal[tempHorizontal.Length - i - 1][j];
+                    }
+                }
+                String[][] NewTag = new string[DisplayBoardGame.Length][];
+                
+                for(int i=0;i<DisplayBoardGame.Length;i++)
+                {
+                    NewTag[i] = new string[DisplayBoardGame[i].Length];
+
+                    for(int j=0; j<DisplayBoardGame[i].Length;j++)
+                    {
+                        int index = i * 8 + j;
+                        NewTag[i][j] = tlpDisplay.Controls[tlpDisplay.Controls.Count - index - 1].Tag.ToString();
+                    }
+                }
+                for(int i=0;i<NewTag.Length;i++)
+                {
+                    for(int j=0; j<NewTag[i].Length;j++)
+                    {
+                        int index = i * 8 + j;
+                        tlpDisplay.Controls[index].Tag = NewTag[i][j];
+                    }
+                }
+
+
+
+
+                DisplayBoardGame = tempVertical;
+            }
             int x = 0;
             int y = 0;
-            for (int i = 0; i < game.TabCase.Length * game.TabCase[0].Length; i++)
+            for (int i = 0; i < DisplayBoardGame.Length * DisplayBoardGame[0].Length; i++)
             {
 
-                if (game.TabCase[x][y] != null)
+                if (DisplayBoardGame[x][y] != null)
                 {
-                    PartsDiaplay(game.TabCase[x][y].Picture, (PictureBox)tlpDisplay.Controls[i]);
+                    PartsDiaplay(DisplayBoardGame[x][y].Picture, (PictureBox)tlpDisplay.Controls[i]);
                 }
                 else
                 {
@@ -181,11 +239,6 @@ namespace echec
                 p.Picture = pictureParts[index];
             }
         }
-        private void TurnGameAround()
-        {
-            game.TournGameAround();
-            PlacementParts();
-        }
         private void PictureBox_click(object sender, EventArgs e)
         {
             PictureBox pct = (PictureBox)sender;
@@ -198,12 +251,11 @@ namespace echec
                 Coup[0] = Convert.ToInt32(t[0]);
                 Coup[1] = Convert.ToInt32(t[1]);
 
-                game.Players[0].DernierPosition = Coup;
+                game.Players[0].LastPosition = Coup;
                 game.Play();
-                PlacementParts();
                 LoadColor();
                 game.NextPlayer();
-                TurnGameAround();
+                PlacementParts();
                 if (strActifColor == game.Color1)
                 {
                     strActifColor = game.Color2;
@@ -215,15 +267,29 @@ namespace echec
             }
             else if(pct.BackColor==Color.Orange)
             {
-
+                int[] Coup = new int[2];
+                Coup[0] = Convert.ToInt32(t[0]);
+                Coup[1] = Convert.ToInt32(t[1]);
+                game.Players[0].LastPosition = Coup;
+                game.DoRock(strActifColor);
+                PlacementParts();
+                LoadColor();
+                game.NextPlayer();
+                if (strActifColor == game.Color1)
+                {
+                    strActifColor = game.Color2;
+                }
+                else
+                {
+                    strActifColor = game.Color1;
+                }
             }
             else
             {
                 LoadColor();
-                Piece p = game.TabCase[Convert.ToInt32(t[0])][Convert.ToInt32(t[1])];
+                Piece p = game.TabPiece[Convert.ToInt32(t[0])][Convert.ToInt32(t[1])];
                 if (p != null)
                 {
-                    
                     if (strActifColor == p.Color)
                     {
                         game.SetMovePiece(t);
@@ -233,6 +299,11 @@ namespace echec
                         {
                             Game copiGame = game.Clone();
                             if (copiGame.IsSmallRock(p.Color))
+                            {
+                                King k = (King)p;
+                                ShowTraveling(k.Specialmove, Color.Orange);
+                            }
+                            if(copiGame.IsBigRock(p.Color))
                             {
                                 King k = (King)p;
                                 ShowTraveling(k.Specialmove, Color.Orange);
@@ -267,6 +338,11 @@ namespace echec
                 pct.BackColor = c;
 
             }
+        }
+
+        private void btnTurnGame_Click(object sender, EventArgs e)
+        {
+            bIsGameTurned = true;
         }
     }
 }

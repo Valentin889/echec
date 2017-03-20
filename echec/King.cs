@@ -15,17 +15,17 @@ namespace echec
         }
         public override void Storagepossible(Game game)
         {
-            Game copieGame = game.Clone();
-            copieGame.Players[0].LastPiece = this;
+            Game copyGame = game.Clone();
+            copyGame.Players[0].LastPiece = this;
             Move = new List<string>();
 
             for (int i = PositionY - 1; i <= PositionY + 1; i++)
             {
-                if (i < copieGame.TabCase.Length && i >= 0)
+                if (i < copyGame.TabPiece.Length && i >= 0)
                 {
                     for (int j = PositionX - 1; j <= PositionX + 1; j++)
                     {
-                        if (j < copieGame.TabCase.Length && j >= 0)
+                        if (j < copyGame.TabPiece.Length && j >= 0)
                         {
                             if (i == PositionY && j == PositionX)
                             {
@@ -33,16 +33,16 @@ namespace echec
                             }
                             else
                             {
-                                AddMove(copieGame, i, j);
+                                AddMove(copyGame, i, j);
                             }
                         }
                     }
                 }
             }
             
-            if (copieGame.IsSmallRock(this.Color))
+            if (copyGame.IsSmallRock(this.Color))
             {
-                if (this.Color == copieGame.Color1)
+                if (this.Color == copyGame.Color1)
                 {
                     Specialmove.Add("7/6");
                 }
@@ -51,9 +51,9 @@ namespace echec
                     Specialmove.Add("7/1");
                 }
             }
-            if(copieGame.IsBigRock(this.Color))
+            if(copyGame.IsBigRock(this.Color))
             {
-                if (this.Color == copieGame.Color1)
+                if (this.Color == copyGame.Color1)
                 {
                     Specialmove.Add("7/2");
                 }

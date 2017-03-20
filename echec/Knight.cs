@@ -24,13 +24,13 @@ namespace echec
 
             i = PositionY + 2;
             j = PositionX + 1;
-            if(i<jeuCopie.TabCase.Length&&j<jeuCopie.TabCase[0].Length)
+            if(i<jeuCopie.TabPiece.Length&&j<jeuCopie.TabPiece[0].Length)
             {
                 AddMove(jeuCopie, i, j);
             }
 
             j = PositionX - 1;
-            if(i<jeuCopie.TabCase.Length&&j>=0)
+            if(i<jeuCopie.TabPiece.Length&&j>=0)
             {
                 AddMove(jeuCopie, i, j);
             }
@@ -38,20 +38,20 @@ namespace echec
 
             i = PositionY + 1;
             j = PositionX + 2;
-            if (i < jeuCopie.TabCase.Length && j < jeuCopie.TabCase[0].Length)
+            if (i < jeuCopie.TabPiece.Length && j < jeuCopie.TabPiece[0].Length)
             {
                 AddMove(jeuCopie, i, j);
             }
 
             j = PositionX - 2;
-            if (i < jeuCopie.TabCase.Length && j >= 0)
+            if (i < jeuCopie.TabPiece.Length && j >= 0)
             {
                 AddMove(jeuCopie, i, j);
             }
 
             i = PositionY - 1;
             j = PositionX + 2;
-            if (i > 0&&j<jeuCopie.TabCase[0].Length)
+            if (i > 0&&j<jeuCopie.TabPiece[0].Length)
             {
                 AddMove(jeuCopie, i, j);
             }
@@ -65,7 +65,7 @@ namespace echec
             i = PositionY - 2;
             j = PositionX + 1;
 
-            if(i>=0&&j<jeuCopie.TabCase[0].Length)
+            if(i>=0&&j<jeuCopie.TabPiece[0].Length)
             {
                 AddMove(jeuCopie, i, j);
             }

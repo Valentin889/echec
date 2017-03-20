@@ -26,25 +26,49 @@ namespace echec
                 bPremierDeplacement = value;
             }
         }
-        public override void Storagepossible(Game jeu)
+        public override void Storagepossible(Game game)
         {
-            Game jeuCopie = jeu;
-            jeuCopie.Players[0].LastPiece = this;
+            game.Players[0].LastPiece = this;
 
-            if (PositionY!=6)
-            {
-                bPremierDeplacement = false;
-            }
             Move = new List<string>();
-
-            if (PositionY - 1 >=0)
+            if (this.Color == game.Color1)
             {
-                AddMove(jeuCopie, PositionY - 1, PositionX);
-                if (bPremierDeplacement)
+
+                if (PositionY != 6)
                 {
-                    if (PositionY - 2 >= 0)
+                    bPremierDeplacement = false;
+                }
+
+
+                if (PositionY - 1 >= 0)
+                {
+                    AddMove(game, PositionY - 1, PositionX);
+                    if (bPremierDeplacement)
                     {
-                        AddMove(jeuCopie, PositionY - 2, PositionX);
+                        if (PositionY - 2 >= 0)
+                        {
+                            AddMove(game, PositionY - 2, PositionX);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (PositionY != 1)
+                {
+                    bPremierDeplacement = false;
+                }
+
+
+                if (PositionY + 1 <= game.TabPiece.Length)
+                {
+                    AddMove(game, PositionY + 1, PositionX);
+                    if (bPremierDeplacement)
+                    {
+                        if (PositionY + 2 <= game.TabPiece.Length)
+                        {
+                            AddMove(game, PositionY + 2, PositionX);
+                        }
                     }
                 }
             }

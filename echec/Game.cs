@@ -112,7 +112,7 @@ namespace echec
             copyGame.NoCheck(lstPlayer[0].LastPiece);
 
         }
-        
+            
         public void NoCheck(Piece piece)
         {
             Piece pieceClone = piece.Clone();
@@ -129,11 +129,11 @@ namespace echec
                 Coup[0] = colonne;
                 Coup[1] = ligne;
 
-                Players[0].DernierPosition = Coup;
+                Players[0].LastPosition = Coup;
 
                 tabPiece[pieceClone.PositionY][pieceClone.PositionX] = null;
-                pieceClone.PositionY=lstPlayer[0].DernierPosition[0] ;
-                pieceClone.PositionX=lstPlayer[0].DernierPosition[1];
+                pieceClone.PositionY=lstPlayer[0].LastPosition[0] ;
+                pieceClone.PositionX=lstPlayer[0].LastPosition[1];
                 tabPiece[pieceClone.PositionY][pieceClone.PositionX] = pieceClone;
 
                 if(KingCheck(pieceClone))
@@ -174,16 +174,84 @@ namespace echec
         {
             if(color==Color1)
             {
-
+                if(lstPlayer[0].LastPosition[1]==6)
+                {
+                    DoSmallRock(color);
+                }
+                else
+                {
+                    doBigRock(color);
+                }
+            }
+            else
+            {
+                if(lstPlayer[0].LastPosition[1]==1)
+                {
+                    DoSmallRock(color);
+                }
+                else
+                {
+                    doBigRock(color);
+                }
             }
         }
         private void DoSmallRock(string color)
         {
+            if(color==strColor1)
+            {
+                lstPlayer[0].LastPiece = tabPiece[7][7];
+                lstPlayer[0].LastPosition[0] = 7;
+                lstPlayer[0].LastPosition[1] = 5;
+                Play();
 
+
+                lstPlayer[0].LastPiece = tabPiece[7][4];
+                lstPlayer[0].LastPosition[0] = 7;
+                lstPlayer[0].LastPosition[1] = 6;
+                Play();
+            }
+            else
+            {
+                lstPlayer[0].LastPiece = tabPiece[7][0];
+                lstPlayer[0].LastPosition[0] = 7;
+                lstPlayer[0].LastPosition[1] = 2;
+                Play();
+
+
+                lstPlayer[0].LastPiece = tabPiece[7][3];
+                lstPlayer[0].LastPosition[0] = 7;
+                lstPlayer[0].LastPosition[1] = 1;
+                Play();
+            }
         }
         private void doBigRock(string color)
         {
+            if (color == strColor1)
+            {
+                lstPlayer[0].LastPiece = tabPiece[7][0];
+                lstPlayer[0].LastPosition[0] = 7;
+                lstPlayer[0].LastPosition[1] = 3;
+                Play();
 
+
+                lstPlayer[0].LastPiece = tabPiece[7][4];
+                lstPlayer[0].LastPosition[0] = 7;
+                lstPlayer[0].LastPosition[1] = 2;
+                Play();
+            }
+            else
+            {
+                lstPlayer[0].LastPiece = tabPiece[7][7];
+                lstPlayer[0].LastPosition[0] = 7;
+                lstPlayer[0].LastPosition[1] = 4;
+                Play();
+
+
+                lstPlayer[0].LastPiece = tabPiece[7][3];
+                lstPlayer[0].LastPosition[0] = 7;
+                lstPlayer[0].LastPosition[1] = 5;
+                Play();
+            }
         }
         public bool IsBigRock(string color)
         {
@@ -206,10 +274,6 @@ namespace echec
                 {
                     King k = (King)tabPiece[7][4];
                     if(k.AlreadyMove)
-                    {
-                        return false;
-                    }
-                    if(k.IsCheck(this))
                     {
                         return false;
                     }
@@ -238,10 +302,6 @@ namespace echec
                 {
                     King k = (King)tabPiece[7][3];
                     if (k.AlreadyMove)
-                    {
-                        return false;
-                    }
-                    if (k.IsCheck(this))
                     {
                         return false;
                     }
@@ -277,10 +337,6 @@ namespace echec
                     {
                         return false;
                     }
-                    if (k.IsCheck(this))
-                    {
-                        return false;
-                    }
                 }
                 catch
                 {
@@ -309,10 +365,6 @@ namespace echec
                     {
                         return false;
                     }
-                    if (k.IsCheck(this))
-                    {
-                        return false;
-                    }
                 }
                 catch
                 {
@@ -325,8 +377,8 @@ namespace echec
         {
             Piece p = lstPlayer[0].LastPiece;
             tabPiece[p.PositionY][p.PositionX] = null;
-            p.PositionY = lstPlayer[0].DernierPosition[0];
-            p.PositionX = lstPlayer[0].DernierPosition[1];
+            p.PositionY = lstPlayer[0].LastPosition[0];
+            p.PositionX = lstPlayer[0].LastPosition[1];
             tabPiece[p.PositionY][p.PositionX] = p;
         }
 
@@ -365,7 +417,7 @@ namespace echec
                 return lstPlayer;
             }
         }
-        public Piece[][] TabCase
+        public Piece[][] TabPiece
         {
             get
             {
@@ -377,44 +429,6 @@ namespace echec
             foreach (Piece p in lstPiece)
             {
                 tabPiece[p.PositionY][p.PositionX] = p;
-            }
-        }
-        public void TournGameAround()
-        {
-            Piece[][] tempHorizontal = new Piece[tabPiece.Length][];
-            Piece[][] temp = new Piece[tabPiece.Length][];
-            for (int i = 0; i < tempHorizontal.Length; i++)
-            {
-                tempHorizontal[i] = new Piece[tabPiece[i].Length];
-                temp[i] = new Piece[tabPiece[i].Length];
-            }
-
-            for (int i = 0; i < tabPiece.Length; i++)
-            {
-                for (int j = 0; j < tabPiece[i].Length; j++)
-                {
-                    tempHorizontal[i][j] = tabPiece[i][tabPiece[i].Length - j - 1];
-
-                }
-            }
-            for (int i = 0; i < tempHorizontal.Length; i++)
-            {
-                for (int j = 0; j < tempHorizontal[i].Length; j++)
-                {
-                    temp[i][j] = tempHorizontal[tempHorizontal.Length - i - 1][j];
-                }
-            }
-            tabPiece = temp;
-            for (int i = 0; i < tabPiece.Length; i++)
-            {
-                for (int j = 0; j < tabPiece[i].Length; j++)
-                {
-                    if (tabPiece[i][j] != null)
-                    {
-                        tabPiece[i][j].PositionY = i;
-                        tabPiece[i][j].PositionX = j;
-                    }
-                }
             }
         }
         public string Color1

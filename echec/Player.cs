@@ -17,7 +17,7 @@ namespace echec
 
 
        public Piece LastPiece { get; set; }
-       public int[] DernierPosition { get; set; }
+       public int[] LastPosition { get; set; }
 
         public string Color { get; private set; }
 
@@ -34,7 +34,7 @@ namespace echec
                     break;
             }
             clone.LastPiece = this.LastPiece;
-            clone.DernierPosition = this.DernierPosition;
+            clone.LastPosition = this.LastPosition;
             clone.Color = this.Color;
 
 

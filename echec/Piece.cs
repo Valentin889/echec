@@ -34,13 +34,13 @@ namespace echec
         {
 
             bool b = true;
-            if (game.TabCase[i][j] == null)
+            if (game.TabPiece[i][j] == null)
             {
                 lstMove.Add(i.ToString() + "/" + j.ToString());
             }
             else
             {
-                if (Color != game.TabCase[i][j].Color)
+                if (Color != game.TabPiece[i][j].Color)
                 {
                     lstMove.Add(i.ToString() + "/" + j.ToString());
                 }
