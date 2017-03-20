@@ -171,28 +171,15 @@ namespace echec
 
         public void DoRock(string color)
         {
-            if(color==Color1)
+            if (lstPlayer[0].LastPosition[1] == 6)
             {
-                if(lstPlayer[0].LastPosition[1]==6)
-                {
-                    DoSmallRock(color);
-                }
-                else
-                {
-                    doBigRock(color);
-                }
+                DoSmallRock(color);
             }
             else
             {
-                if(lstPlayer[0].LastPosition[1]==1)
-                {
-                    DoSmallRock(color);
-                }
-                else
-                {
-                    doBigRock(color);
-                }
+                doBigRock(color);
             }
+
         }
         private void DoSmallRock(string color)
         {
@@ -201,25 +188,28 @@ namespace echec
                 lstPlayer[0].LastPiece = tabPiece[7][7];
                 lstPlayer[0].LastPosition[0] = 7;
                 lstPlayer[0].LastPosition[1] = 5;
+                Affichage.PlayDisplayMove();
                 Play();
-
 
                 lstPlayer[0].LastPiece = tabPiece[7][4];
                 lstPlayer[0].LastPosition[0] = 7;
                 lstPlayer[0].LastPosition[1] = 6;
+                Affichage.PlayDisplayMove();
                 Play();
             }
             else
             {
-                lstPlayer[0].LastPiece = tabPiece[7][0];
-                lstPlayer[0].LastPosition[0] = 7;
-                lstPlayer[0].LastPosition[1] = 2;
+                lstPlayer[0].LastPiece = tabPiece[0][7];
+                lstPlayer[0].LastPosition[0] = 0;
+                lstPlayer[0].LastPosition[1] = 5;
+                Affichage.PlayDisplayMove();
                 Play();
 
 
-                lstPlayer[0].LastPiece = tabPiece[7][3];
-                lstPlayer[0].LastPosition[0] = 7;
-                lstPlayer[0].LastPosition[1] = 1;
+                lstPlayer[0].LastPiece = tabPiece[0][4];
+                lstPlayer[0].LastPosition[0] = 0;
+                lstPlayer[0].LastPosition[1] = 6;
+                Affichage.PlayDisplayMove();
                 Play();
             }
         }
@@ -230,25 +220,27 @@ namespace echec
                 lstPlayer[0].LastPiece = tabPiece[7][0];
                 lstPlayer[0].LastPosition[0] = 7;
                 lstPlayer[0].LastPosition[1] = 3;
+                Affichage.PlayDisplayMove();
                 Play();
-
 
                 lstPlayer[0].LastPiece = tabPiece[7][4];
                 lstPlayer[0].LastPosition[0] = 7;
                 lstPlayer[0].LastPosition[1] = 2;
+                Affichage.PlayDisplayMove();
                 Play();
             }
             else
             {
-                lstPlayer[0].LastPiece = tabPiece[7][7];
-                lstPlayer[0].LastPosition[0] = 7;
-                lstPlayer[0].LastPosition[1] = 4;
+                lstPlayer[0].LastPiece = tabPiece[0][0];
+                lstPlayer[0].LastPosition[0] = 0;
+                lstPlayer[0].LastPosition[1] = 3;
+                Affichage.PlayDisplayMove();
                 Play();
 
-
-                lstPlayer[0].LastPiece = tabPiece[7][3];
-                lstPlayer[0].LastPosition[0] = 7;
-                lstPlayer[0].LastPosition[1] = 5;
+                lstPlayer[0].LastPiece = tabPiece[0][4];
+                lstPlayer[0].LastPosition[0] = 0;
+                lstPlayer[0].LastPosition[1] = 2;
+                Affichage.PlayDisplayMove();
                 Play();
             }
         }
@@ -287,19 +279,19 @@ namespace echec
             {
                 try
                 {
-                    Rook r = (Rook)tabPiece[7][7];
+                    Rook r = (Rook)tabPiece[0][0];
                 }
                 catch
                 {
                     return false;
                 }
-                if (tabPiece[7][4] != null || tabPiece[7][5] != null|| tabPiece[7][6] != null)
+                if (tabPiece[0][1] != null || tabPiece[0][2] != null|| tabPiece[0][3] != null)
                 {
                     return false;
                 }
                 try
                 {
-                    King k = (King)tabPiece[7][3];
+                    King k = (King)tabPiece[0][4];
                     if (k.AlreadyMove)
                     {
                         return false;
@@ -314,7 +306,6 @@ namespace echec
         }
         public bool IsSmallRock(string color)
         {
-
             if (color == strColor1)
             {
                 try
@@ -341,25 +332,24 @@ namespace echec
                 {
                     return false;
                 }
-
             }
             else
             {
                 try
                 {
-                    Rook r = (Rook)tabPiece[7][0];
+                    Rook r = (Rook)tabPiece[0][7];
                 }
                 catch
                 {
                     return false;
                 }
-                if (tabPiece[7][1] != null || tabPiece[7][2] != null)
+                if (tabPiece[0][6] != null || tabPiece[0][5] != null)
                 {
                     return false;
                 }
                 try
                 {
-                    King k = (King)tabPiece[7][3];
+                    King k = (King)tabPiece[0][4];
                     if (k.AlreadyMove)
                     {
                         return false;

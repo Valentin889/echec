@@ -342,7 +342,7 @@ namespace echec
                 }
             }
         }
-        private void PlayDisplayMove()
+        public void PlayDisplayMove()
         {
             Piece p = game.Clone().Players[0].LastPiece.Clone();
             DisplayBoardGame[p.PositionY][p.PositionX] = null;

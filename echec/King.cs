@@ -48,7 +48,7 @@ namespace echec
                 }
                 else
                 {
-                    Specialmove.Add("7/1");
+                    Specialmove.Add("0/6");
                 }
             }
             if(copyGame.IsBigRock(this.Color))
@@ -59,7 +59,7 @@ namespace echec
                 }
                 else
                 {
-                    Specialmove.Add("7/5");
+                    Specialmove.Add("0/2");
                 }
             }
 
