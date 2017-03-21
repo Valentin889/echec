@@ -38,16 +38,43 @@ namespace echec
                 {
                     bPremierDeplacement = false;
                 }
-
-
                 if (PositionY - 1 >= 0)
                 {
-                    AddMove(game, PositionY - 1, PositionX);
-                    if (bPremierDeplacement)
+                    int i = PositionY - 1;
+                    int j = PositionX;
+                    if (game.TabPiece[i][j] == null)
                     {
-                        if (PositionY - 2 >= 0)
+                        Move.Add(i.ToString() + "/" + j.ToString());
+                        if (bPremierDeplacement)
                         {
-                            AddMove(game, PositionY - 2, PositionX);
+                            i -= 1;
+                            if (game.TabPiece[i][j] == null)
+                            {
+                                Move.Add(i.ToString() + "/" + j.ToString());
+                            }
+                        }
+                    }
+                    i = PositionY - 1;
+                    if (PositionX != 0)
+                    {
+                        j = PositionX - 1;
+                        if (game.TabPiece[i][j] != null)
+                        {
+                            if (game.TabPiece[i][j].Color != this.Color)
+                            {
+                                Move.Add(i.ToString() + "/" + j.ToString());
+                            }
+                        }
+                    }
+                    if (PositionX < game.TabPiece[i].Length-1)
+                    {
+                        j += 2;
+                        if (game.TabPiece[i][j] != null)
+                        {
+                            if (game.TabPiece[i][j].Color != this.Color)
+                            {
+                                Move.Add(i.ToString() + "/" + j.ToString());
+                            }
                         }
                     }
                 }
@@ -62,12 +89,41 @@ namespace echec
 
                 if (PositionY + 1 <= game.TabPiece.Length)
                 {
-                    AddMove(game, PositionY + 1, PositionX);
-                    if (bPremierDeplacement)
+                    int i = PositionY + 1;
+                    int j = PositionX;
+                    if (game.TabPiece[i][j] == null)
                     {
-                        if (PositionY + 2 <= game.TabPiece.Length)
+                        Move.Add(i.ToString() + "/" + j.ToString());
+                        if (bPremierDeplacement)
                         {
-                            AddMove(game, PositionY + 2, PositionX);
+                            i += 1;
+                            if (game.TabPiece[i][j] == null)
+                            {
+                                Move.Add(i.ToString() + "/" + j.ToString());
+                            }
+                        }
+                    }
+                    i = PositionY + 1;
+                    if (PositionX != 0)
+                    {
+                        j = PositionX - 1;
+                        if (game.TabPiece[i][j] != null)
+                        {
+                            if (game.TabPiece[i][j].Color != this.Color)
+                            {
+                                Move.Add(i.ToString() + "/" + j.ToString());
+                            }
+                        }
+                    }
+                    if (PositionX < game.TabPiece[i].Length-1)
+                    {
+                        j += 2;
+                        if (game.TabPiece[i][j] != null)
+                        {
+                            if (game.TabPiece[i][j].Color != this.Color)
+                            {
+                                Move.Add(i.ToString() + "/" + j.ToString());
+                            }
                         }
                     }
                 }
