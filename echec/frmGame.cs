@@ -135,7 +135,7 @@ namespace echec
             }
         }
 
-        private void TurnGame()
+        public void TurnGame()
         {
             if (bTurnedGame)
             {
@@ -270,8 +270,7 @@ namespace echec
                     PlayDisplayMove();
                     TurnGame();
                 }
-
-
+                
                 game.Play();
                 LoadColor();
                 game.NextPlayer();
@@ -292,7 +291,6 @@ namespace echec
                 Coup[1] = Convert.ToInt32(t[1]);
                 game.Players[0].LastPosition = Coup;
                 game.DoRock(strActifColor);
-                TurnGame();
                 PlacementParts();
                 LoadColor();
                 game.NextPlayer();
@@ -315,26 +313,30 @@ namespace echec
                     {
                         game.SetMovePiece(t);
 
-                        List<String> Move = game.Players[0].LastPiece.Move;
-
-                        if(bIsGameTurned)
+                        List<String> Move = p.Move;
+                        List<String> specialMove = new List<string>();
+                        if(p.GetType()==typeof(King))
+                        {
+                            King k = (King)p;
+                            specialMove = k.Specialmove;
+                        }
+                        if (bIsGameTurned)
                         {
                             Move = TurnedList(Move);
+                            if(p.GetType()==typeof(King))
+                            {
+                                specialMove = TurnedList(specialMove);
+                            }
                         }
                         ShowTraveling(Move, Color.Green);
 
-                        if(p.ToString()=="echec.King")
+                        if(p.GetType()==typeof(King))
                         {
                             Game copiGame = game.Clone();
-                            if (copiGame.IsSmallRock(p.Color))
+                            if (copiGame.IsSmallRock(p.Color)||copiGame.IsBigRock(p.Color))
                             {
                                 King k = (King)p;
-                                ShowTraveling(k.Specialmove, Color.Orange);
-                            }
-                            if(copiGame.IsBigRock(p.Color))
-                            {
-                                King k = (King)p;
-                                ShowTraveling(k.Specialmove, Color.Orange);
+                                ShowTraveling(specialMove, Color.Orange);
                             }
                         }
 
@@ -359,7 +361,6 @@ namespace echec
             p.PositionX = game.Players[0].LastPosition[1];
             DisplayBoardGame[p.PositionY][p.PositionX] = p;
         }
-
         private List<String> TurnedList(List<String> lst)
         {
             List<String> Return = new List<string>();
@@ -400,6 +401,14 @@ namespace echec
         private void btnTurnGame_Click(object sender, EventArgs e)
         {
             bTurnedGame = true;
+        }
+
+        public bool IsGameTurned
+        {
+            get
+            {
+                return bIsGameTurned;
+            }
         }
     }
 }

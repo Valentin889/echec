@@ -133,23 +133,20 @@ namespace echec
                 King k = (King)lstPlayer[0].LastPiece;
                 k.AddRock(this);
             }
-
-
-
-            Game copyGame = this.Clone();
-            copyGame.NoCheck(lstPlayer[0].LastPiece);
+            NoCheck(lstPlayer[0].LastPiece);
 
         }
-            
         public void NoCheck(Piece piece)
         {
             Piece pieceClone = piece.Clone();
 
-            
+
             List<String> listTemp = new List<string>();
 
             foreach(string s in pieceClone.Move)
             {
+                Game copyGame = this.Clone();
+                
                 string[] tmp = s.Split('/');
                 int[] Coup = new int[2];
                 int colonne = Convert.ToInt32(tmp[0]);
@@ -159,12 +156,16 @@ namespace echec
 
                 Players[0].LastPosition = Coup;
 
-                tabPiece[pieceClone.PositionY][pieceClone.PositionX] = null;
+                if(copyGame.tabPiece[colonne][ligne]!=null)
+                {
+                    copyGame.CatchUpPiece(copyGame.tabPiece[colonne][ligne]);
+                }
+                copyGame.tabPiece[pieceClone.PositionY][pieceClone.PositionX] = null;
                 pieceClone.PositionY=lstPlayer[0].LastPosition[0] ;
                 pieceClone.PositionX=lstPlayer[0].LastPosition[1];
-                tabPiece[pieceClone.PositionY][pieceClone.PositionX] = pieceClone;
+                copyGame.tabPiece[pieceClone.PositionY][pieceClone.PositionX] = pieceClone;
 
-                if(KingCheck(pieceClone))
+                if(copyGame.KingCheck(pieceClone))
                 {
                     listTemp.Add(s);
                 }
@@ -183,6 +184,7 @@ namespace echec
             Game clone =new Game(Affichage);
             clone.iNumerberPiece = this.iNumerberPiece;
             clone.iNumberPiecePerColor = this.iNumberPiecePerColor;
+            
             foreach(Player p in this.lstPlayer)
             {
                 clone.lstPlayer.Add(p.Clone());
@@ -200,6 +202,7 @@ namespace echec
                 clone.dicWhitePiece.Add(s, p);
                 clone.tabPiece[p.PositionY][p.PositionX] = p;
             }
+            clone.RemplissageTablePiece();
             clone.strColor1 = this.strColor1;
             clone.strColor2 = this.strColor2;
             return clone;
@@ -237,6 +240,10 @@ namespace echec
                 lstPlayer[0].LastPiece = tabPiece[0][7];
                 lstPlayer[0].LastPosition[0] = 0;
                 lstPlayer[0].LastPosition[1] = 5;
+                if(Affichage.IsGameTurned)
+                {
+                    Affichage.TurnGame();
+                }
                 Affichage.PlayDisplayMove();
                 Play();
 
@@ -269,6 +276,10 @@ namespace echec
                 lstPlayer[0].LastPiece = tabPiece[0][0];
                 lstPlayer[0].LastPosition[0] = 0;
                 lstPlayer[0].LastPosition[1] = 3;
+                if (Affichage.IsGameTurned)
+                {
+                    Affichage.TurnGame();
+                }
                 Affichage.PlayDisplayMove();
                 Play();
 
@@ -456,6 +467,10 @@ namespace echec
                 King k = (King)p;
                 k.AlreadyMove = true;
             }
+            if(tabPiece[lstPlayer[0].LastPosition[0]][lstPlayer[0].LastPosition[1]]!=null)
+            {
+                CatchUpPiece(tabPiece[lstPlayer[0].LastPosition[0]][lstPlayer[0].LastPosition[1]]);
+            }
             tabPiece[p.PositionY][p.PositionX] = null;
             p.PositionY = lstPlayer[0].LastPosition[0];
             p.PositionX = lstPlayer[0].LastPosition[1];
@@ -486,6 +501,40 @@ namespace echec
             
             return k.IsCheck(this);
         }
+
+        private void CatchUpPiece(Piece piece)
+        {
+            Dictionary<String, Piece> TmpDico = new Dictionary<string, Piece>();
+            if(piece.Color==strColor1)
+            {
+                foreach(string s in dicWhitePiece.Keys)
+                {
+                    if(piece==dicWhitePiece[s])
+                    {
+                        TmpDico.Add(s, dicWhitePiece[s]);
+                    }
+                }
+                foreach(string s in TmpDico.Keys)
+                {
+                    dicWhitePiece.Remove(s);
+                }
+            }
+            else
+            {
+                foreach (string s in dicBlackPiece.Keys)
+                {
+                    if (piece == dicBlackPiece[s])
+                    {
+                        TmpDico.Add(s, dicBlackPiece[s]);
+                    }
+                }
+                foreach (string s in TmpDico.Keys)
+                {
+                    dicBlackPiece.Remove(s);
+                }
+            }
+        }
+
 
         public Dictionary<string,Piece> DicWhitePiece
         {
