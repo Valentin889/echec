@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomMsgBox.Designer.cs">
+      <DependentUpon>CustomMsgBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Knight.cs" />
     <Compile Include="Bishop.cs" />
     <Compile Include="frmMenu.cs">
@@ -70,6 +76,9 @@
     <Compile Include="Queen.cs" />
     <Compile Include="King.cs" />
     <Compile Include="Rook.cs" />
+    <EmbeddedResource Include="CustomMsgBox.resx">
+      <DependentUpon>CustomMsgBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmGame.resx">
       <DependentUpon>frmGame.cs</DependentUpon>
     </EmbeddedResource>

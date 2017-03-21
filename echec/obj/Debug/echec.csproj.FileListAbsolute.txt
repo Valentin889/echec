@@ -86,3 +86,4 @@ D:\Echec\echec\echec\obj\Debug\echec.frmGame.resources
 D:\Echec\echec\echec\obj\Debug\echec.frmMenu.resources
 D:\Echec\echec\echec\obj\Debug\echec.Properties.Resources.resources
 D:\Echec\echec\echec\obj\Debug\echec.csproj.GenerateResource.Cache
+D:\Echec\echec\echec\obj\Debug\echec.CustomMsgBox.resources

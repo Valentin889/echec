@@ -475,8 +475,17 @@ namespace echec
             p.PositionY = lstPlayer[0].LastPosition[0];
             p.PositionX = lstPlayer[0].LastPosition[1];
             tabPiece[p.PositionY][p.PositionX] = p;
+
         }
 
+        public bool isPawnLastLine(Piece p)
+        {
+            if(p.PositionY==0||p.PositionY==tabPiece.Length-1)
+            {
+                return true;
+            }
+            return false;
+        }
         public bool KingCheck(Piece pieceClone)
         {
             King k = null;
@@ -534,7 +543,46 @@ namespace echec
                 }
             }
         }
+        public void ChangePawn(Type type)
+        {
+            Piece p = lstPlayer[0].LastPiece;
+            String strRemove="";
+            if(p.Color == strColor1)
+            {
+                foreach (string s in dicWhitePiece.Keys)
+                {
+                    if (p == dicWhitePiece[s])
+                    {
+                        strRemove = s;
+                    }
+                }
+               dicWhitePiece.Remove(strRemove);
 
+                if(type==typeof(Queen))
+                {
+                    Piece newPiece = new Queen(p.Color);
+                    newPiece.PositionX = p.PositionX;
+                    newPiece.PositionY = p.PositionY;
+                    newPiece.Picture = "";  
+
+                    DicWhitePiece.Add("Queen1" + p.Color, new Queen(p.Color));
+                }
+                if (type == typeof(Rook))
+                {
+                    DicWhitePiece.Add("Rook3" + p.Color, new Rook(p.Color));
+                }
+                if (type == typeof(Bishop))
+                {
+                    DicWhitePiece.Add("Bishop3" + p.Color, new Bishop(p.Color));
+                }
+                if (type == typeof(Knights))
+                {
+                    DicWhitePiece.Add("Knight3" + p.Color, new Knights(p.Color));
+                }
+            }
+
+
+        }
 
         public Dictionary<string,Piece> DicWhitePiece
         {

@@ -273,8 +273,18 @@ namespace echec
                 
                 game.Play();
                 LoadColor();
-                game.NextPlayer();
                 PlacementParts();
+                if (game.Players[0].LastPiece.GetType() == typeof(Pawn))
+                 {
+                     if (game.isPawnLastLine(game.Players[0].LastPiece))
+                    {
+                        CustomMsgBox msg = new CustomMsgBox();
+                        msg.ShowDialog();
+                        Type Result = msg.Return;
+                        game.ChangePawn(Result);
+                    }
+                }
+                game.NextPlayer();
                 if (strActifColor == game.Color1)
                 {
                     strActifColor = game.Color2;
@@ -283,6 +293,8 @@ namespace echec
                 {
                     strActifColor = game.Color1;
                 }
+
+
             }
             else if(pct.BackColor==Color.Orange)
             {
