@@ -10,11 +10,17 @@ using System.Windows.Forms;
 
 namespace echec
 {
-    public partial class Form1 : Form
+    public partial class frmMenu : Form
     {
-        public Form1()
+        public frmMenu()
         {
             InitializeComponent();
+        }
+
+        private void btnJouer_Click(object sender, EventArgs e)
+        {
+            frmJeu form = new frmJeu(tbxNom1.Text, tbxNom2.Text);
+            form.Show();
         }
     }
 }
