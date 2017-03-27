@@ -203,7 +203,7 @@ namespace echec
                 SetPicture(game.DicBlackPiece[s]);
             }
         }
-        private void SetPicture(Piece p)
+        public void SetPicture(Piece p)
         {
             int index = 0;
             if (p.Color == game.Color2)
@@ -253,13 +253,12 @@ namespace echec
             }
             if (pct.BackColor == Color.Green)
             {
-                int[] Coup = new int[2];
-                Coup[0] = Convert.ToInt32(t[0]);
-                Coup[1] = Convert.ToInt32(t[1]);
+                int[] move = new int[2];
+                move[0] = Convert.ToInt32(t[0]);
+                move[1] = Convert.ToInt32(t[1]);
 
                 
-                game.Players[0].LastPosition = Coup;
-
+                game.Players[0].LastPosition = move;
                 if (bIsGameTurned)
                 {
                     TurnGame();
@@ -270,10 +269,10 @@ namespace echec
                     PlayDisplayMove();
                     TurnGame();
                 }
-                
                 game.Play();
                 LoadColor();
                 PlacementParts();
+
                 if (game.Players[0].LastPiece.GetType() == typeof(Pawn))
                  {
                      if (game.isPawnLastLine(game.Players[0].LastPiece))
@@ -282,9 +281,20 @@ namespace echec
                         msg.ShowDialog();
                         Type Result = msg.Return;
                         game.ChangePawn(Result);
+
+                        int[] MoveDisplay = new int[2];
+                        MoveDisplay[0] = move[0];
+                        MoveDisplay[1] = move[1];
+                        if (bIsGameTurned)
+                        {
+                            MoveDisplay[0] = DisplayBoardGame.Length - 1 - MoveDisplay[0];
+                            MoveDisplay[1] = DisplayBoardGame[move[0]].Length - 1 - MoveDisplay[1];
+                        }
+                        DisplayBoardGame[MoveDisplay[0]][MoveDisplay[1]] = game.TabPiece[move[0]][move[1]];
+                        PlacementParts();
                     }
                 }
-                game.NextPlayer();
+
                 if (strActifColor == game.Color1)
                 {
                     strActifColor = game.Color2;
@@ -293,6 +303,7 @@ namespace echec
                 {
                     strActifColor = game.Color1;
                 }
+                game.NextPlayer();
 
 
             }

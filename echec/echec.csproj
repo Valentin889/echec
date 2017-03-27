@@ -109,7 +109,7 @@
     <None Include="ressource\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ressource\00TourBlancheBlanc.png">
+    <Content Include="ressource\00TourBlanche.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ressource\10RoiNoir.png">

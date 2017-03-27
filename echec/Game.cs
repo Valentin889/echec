@@ -19,7 +19,7 @@ namespace echec
         private string strColor2;
         private frmGame Affichage;
         private Piece[][] tabPiece;
-
+        private int iPawnChange;
         public Game(frmGame form)
         {
             iNumerberPiece = 32;
@@ -37,6 +37,7 @@ namespace echec
             {
                 tabPiece[i] = new Piece[8];
             }
+            iPawnChange = 0;
         }
         public void Creationpiece()
         {
@@ -138,15 +139,15 @@ namespace echec
         }
         public void NoCheck(Piece piece)
         {
-            Piece pieceClone = piece.Clone();
 
+            
 
             List<String> listTemp = new List<string>();
 
-            foreach(string s in pieceClone.Move)
+            foreach(string s in piece.Move)
             {
                 Game copyGame = this.Clone();
-                
+                Piece pieceClone = piece.Clone();
                 string[] tmp = s.Split('/');
                 int[] Coup = new int[2];
                 int colonne = Convert.ToInt32(tmp[0]);
@@ -174,9 +175,8 @@ namespace echec
             }
             foreach(string s in listTemp)
             {
-                pieceClone.Move.Remove(s);
+                piece.Move.Remove(s);
             }
-            this.Players[0].LastPiece = piece;
         }
 
         public Game Clone()
@@ -545,9 +545,33 @@ namespace echec
         }
         public void ChangePawn(Type type)
         {
+            iPawnChange++;
             Piece p = lstPlayer[0].LastPiece;
-            String strRemove="";
-            if(p.Color == strColor1)
+            String strRemove = "";
+            Piece newPiece = null;
+            if (type == typeof(Queen))
+            {
+                newPiece = new Queen(p.Color);
+            }
+            if (type == typeof(Rook))
+            {
+                newPiece = new Rook(p.Color);
+            }
+            if (type == typeof(Bishop))
+            {
+                newPiece = new Bishop(p.Color);
+            }
+            if (type == typeof(Knights))
+            {
+                newPiece = new Knights(p.Color);
+            }
+            newPiece.PositionX = p.PositionX;
+            newPiece.PositionY = p.PositionY;
+            Affichage.SetPicture(newPiece);
+
+
+            iPawnChange += 2;
+            if (p.Color == strColor1)
             {
                 foreach (string s in dicWhitePiece.Keys)
                 {
@@ -556,32 +580,26 @@ namespace echec
                         strRemove = s;
                     }
                 }
-               dicWhitePiece.Remove(strRemove);
-
-                if(type==typeof(Queen))
-                {
-                    Piece newPiece = new Queen(p.Color);
-                    newPiece.PositionX = p.PositionX;
-                    newPiece.PositionY = p.PositionY;
-                    newPiece.Picture = "";  
-
-                    DicWhitePiece.Add("Queen1" + p.Color, new Queen(p.Color));
-                }
-                if (type == typeof(Rook))
-                {
-                    DicWhitePiece.Add("Rook3" + p.Color, new Rook(p.Color));
-                }
-                if (type == typeof(Bishop))
-                {
-                    DicWhitePiece.Add("Bishop3" + p.Color, new Bishop(p.Color));
-                }
-                if (type == typeof(Knights))
-                {
-                    DicWhitePiece.Add("Knight3" + p.Color, new Knights(p.Color));
-                }
+                dicWhitePiece.Remove(strRemove);
+                
+                dicWhitePiece.Add(type.Name + iPawnChange.ToString() + p.Color, newPiece);
+                
             }
+            else
+            {
+                foreach (string s in dicBlackPiece.Keys)
+                {
+                    if (p == dicBlackPiece[s])
+                    {
+                        strRemove = s;
+                    }
+                }
+                dicBlackPiece.Remove(strRemove);
+                dicBlackPiece.Add(type.Name + iPawnChange.ToString() + p.Color, newPiece);
+            }
+            iPawnChange -= 2;
 
-
+            RemplissageTablePiece();
         }
 
         public Dictionary<string,Piece> DicWhitePiece
