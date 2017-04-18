@@ -89,6 +89,7 @@
             this.btnRègle.TabIndex = 5;
             this.btnRègle.Text = "règle";
             this.btnRègle.UseVisualStyleBackColor = true;
+            this.btnRègle.Click += new System.EventHandler(this.btnRègle_Click);
             // 
             // label1
             // 
@@ -137,7 +138,6 @@
             this.Controls.Add(this.lblNom1);
             this.Name = "frmMenu";
             this.Text = "menu";
-            this.Load += new System.EventHandler(this.frmMenu_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

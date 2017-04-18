@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,9 +37,10 @@ namespace echec
             form.Show();
         }
 
-        private void frmMenu_Load(object sender, EventArgs e)
+        private void btnRègle_Click(object sender, EventArgs e)
         {
-
+            string path = @"ressource\PresentationRegles.pdf";
+            Process.Start(path);
         }
     }
 }

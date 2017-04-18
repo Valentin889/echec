@@ -91,3 +91,4 @@ F:\jeu\echec\echec\echec\obj\Debug\echec.frmGame.resources
 \\s2.rpn.ch\home\CPLN\Eleves\ET\SchneebergVa\info\atelier\sacchetti\echec\echec\echec\bin\Debug\echec.exe.config
 \\s2.rpn.ch\home\CPLN\Eleves\ET\SchneebergVa\info\atelier\sacchetti\echec\echec\echec\obj\Debug\echec.exe
 \\s2.rpn.ch\home\CPLN\Eleves\ET\SchneebergVa\info\atelier\sacchetti\echec\echec\echec\obj\Debug\echec.pdb
+D:\Echec\echec\echec\bin\Debug\ressource\PresentationRegles.pdf

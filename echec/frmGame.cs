@@ -391,7 +391,14 @@ namespace echec
                 }
                 if(game.IsCheckmate(strActifColor))
                 {
-                    MessageBox.Show("échec et math");
+                    if (strActifColor == game.Color1)
+                    {
+                        MessageBox.Show("échec et math "+strNamePlayer1+" a gagné");
+                    }
+                    else
+                    {
+                        MessageBox.Show("échec et math "+ strNamePlayer2 + " a gagné");
+                    }
                     btnQuitter_Click(new object(), new EventArgs());
                 }
                 else if(game.IsDraw(strActifColor))
