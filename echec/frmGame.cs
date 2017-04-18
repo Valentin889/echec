@@ -336,7 +336,7 @@ namespace echec
                     game.ConterEqualGame=0;
                 }
                 FlashGameForDraw.Add(game.Clone());
-                if(FlashGameForDraw.Count>10)
+                if(FlashGameForDraw.Count>6)
                 {
                     FlashGameForDraw.Remove(FlashGameForDraw[0]);
                 }
@@ -361,8 +361,8 @@ namespace echec
                 LoadColor();
                 PlacementParts();
                 if (LastPiece.GetType() == typeof(Pawn))
-                 {
-                     if (game.isPawnLastLine((Pawn)LastPiece))
+                {
+                    if (game.isPawnLastLine((Pawn)LastPiece))
                     {
                         CustomMsgBox msg = new CustomMsgBox();
                         msg.ShowDialog();
@@ -392,10 +392,12 @@ namespace echec
                 if(game.IsCheckmate(strActifColor))
                 {
                     MessageBox.Show("échec et math");
+                    btnQuitter_Click(new object(), new EventArgs());
                 }
                 else if(game.IsDraw(strActifColor))
                 {
                     MessageBox.Show("Match nul");
+                    btnQuitter_Click(new object(), new EventArgs());
                 }
                 else if(game.isKingCheck(strActifColor))
                 {

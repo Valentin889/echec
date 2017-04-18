@@ -21,8 +21,7 @@ namespace echec
         private frmGame Affichage;
         private Piece[][] tabPiece;
         private int iPawnChange;
-        private int iConterEqualGameWhite;
-        private int iConterEqualGameBlack;
+        private int iConterEqualGame;
 
         //constructeur
         public Game(frmGame form)
@@ -251,13 +250,13 @@ namespace echec
 
             foreach(string s in dicBlackPiece.Keys)
             {
-                Piece p = dicBlackPiece[s];
+                Piece p = dicBlackPiece[s].Clone();
                 clone.dicBlackPiece.Add(s, p);
                 clone.tabPiece[p.PositionY][p.PositionX] = p;
             }
             foreach (string s in dicWhitePiece.Keys)
             {
-                Piece p = dicWhitePiece[s];
+                Piece p = dicWhitePiece[s].Clone();
                 clone.dicWhitePiece.Add(s, p);
                 clone.tabPiece[p.PositionY][p.PositionX] = p;
             }
@@ -838,7 +837,7 @@ namespace echec
         /// <returns></returns>
         public bool IsDraw(string Color)
         {
-            if (iConterEqualGameWhite == 3||iConterEqualGameBlack==3)
+            if (iConterEqualGame==3)
             {
                 return true;
             }
@@ -970,28 +969,15 @@ namespace echec
                 return strColor2;
             }
         }
-
-        public int ConterEqualGameWhite
-        {
-            get
-            {
-                return iConterEqualGameWhite;
-            }
-            set
-            {
-                iConterEqualGameWhite = value;
-            }
-        }
-
         public int ConterEqualGame
         {
             get
             {
-                return iConterEqualGameBlack;
+                return iConterEqualGame;
             }
             set
             {
-                iConterEqualGameBlack = value;
+                iConterEqualGame = value;
             }
         }
 
