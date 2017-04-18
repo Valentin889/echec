@@ -322,7 +322,6 @@ namespace echec
                 move[0] = Convert.ToInt32(t[0]);
                 move[1] = Convert.ToInt32(t[1]);
 
-                
                 game.Players[0].LastPosition = move;
                 if (bIsGameTurned)
                 {
@@ -337,7 +336,6 @@ namespace echec
                 game.Play();
                 LoadColor();
                 PlacementParts();
-
                 if (game.Players[0].LastPiece.GetType() == typeof(Pawn))
                  {
                      if (game.isPawnLastLine((Pawn)game.Players[0].LastPiece))
@@ -451,11 +449,15 @@ namespace echec
         /// </summary>
         public void PlayDisplayMove()
         {
-            Piece p = game.Clone().Players[0].LastPiece.Clone();
+            Piece p = game.Players[0].LastPiece.Clone();
             DisplayBoardGame[p.PositionY][p.PositionX] = null;
-            p.PositionY = game.Players[0].LastPosition[0];
-            p.PositionX = game.Players[0].LastPosition[1];
+            p.SetPosition(game.Players[0].LastPosition);
             DisplayBoardGame[p.PositionY][p.PositionX] = p;
+        }
+
+        public void RemoveFromDisplay(int y,int x)
+        {
+            DisplayBoardGame[y][x]=null;
         }
 
         /// <summary>

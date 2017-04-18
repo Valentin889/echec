@@ -42,7 +42,6 @@ namespace echec
             }
             iPawnChange = 0;
         }
-
         //methode
 
         /// <summary>
@@ -554,17 +553,14 @@ namespace echec
         {
 
             Piece p = lstPlayer[0].LastPiece;
-            if(tabPiece[lstPlayer[0].LastPosition[0]][lstPlayer[0].LastPosition[1]]!=null)
+            int NewY = lstPlayer[0].LastPosition[0];
+            int NewX = lstPlayer[0].LastPosition[1];
+            //si un pion se déplace de deux cases il regarde à gauche et à droite si il y a un pion advserse, si tel est le cas il lui initialise un passing a true
+            if (p.GetType() == typeof(Pawn) && !p.IsAlreadyMove)
             {
-                CatchUpPiece(tabPiece[lstPlayer[0].LastPosition[0]][lstPlayer[0].LastPosition[1]]);
-            }
-
-            if(p.GetType()==typeof(Pawn)&&!p.IsAlreadyMove)
-            {
-                if(p.Color==strColor1)
+                if (p.Color == strColor1)
                 {
-
-                    if(lstPlayer[0].LastPosition[0]==4)
+                    if (lstPlayer[0].LastPosition[0] == 4)
                     {
                         SetPassing();
                     }
@@ -577,13 +573,40 @@ namespace echec
                     }
                 }
             }
+            if (p.GetType() == typeof(Pawn))
+            {
+                // série de test pour savion si le pion qui vient de se déplacer effectue une prise en passant
+
+                if (p.PositionY + 1 == NewY && p.PositionX + 1 == NewX)
+                {
+                    IsPawnBlackUsedPassing(NewY, NewX);
+                }
+                if (p.PositionY + 1 == NewY && p.PositionX - 1 == NewX)
+                {
+                    IsPawnBlackUsedPassing(NewY, NewX);
+                }
+                if (p.PositionY - 1 == NewY && p.PositionX + 1 == NewX)
+                {
+                    IsPawnWhiteUsedPassing(NewY, NewX);
+                }
+                if (p.PositionY - 1 == NewY && p.PositionX - 1 == NewX)
+                {
+                    IsPawnWhiteUsedPassing(NewY, NewX);
+                }
+            }
+            if (tabPiece[NewY][NewX] != null)
+            {
+                CatchUpPiece(tabPiece[NewY][NewX]);
+            }
+
             tabPiece[p.PositionY][p.PositionX] = null;
             p.SetPosition(lstPlayer[0].LastPosition);
             tabPiece[p.PositionY][p.PositionX] = p;
             p.IsAlreadyMove = true;
 
+            //pour chaque pièce adverse défini un passing à faux
             Dictionary<string, Piece> d;
-            if(p.Color==strColor1)
+            if (p.Color == strColor1)
             {
                 d = dicWhitePiece;
             }
@@ -596,10 +619,12 @@ namespace echec
                 piece.SetPassingLeft(false);
                 piece.SetPassingRight(false);
             }
-        
+        }
 
-    }
 
+        /// <summary>
+        /// test si il y a un passing à gauche et à droite du dernier pion jouer et si tel est le cas défini une variable à true pour le pion concerné
+        /// </summary>
         private void SetPassing()
         {
             int positionY = lstPlayer[0].LastPosition[0];
@@ -611,8 +636,7 @@ namespace echec
                 {
                     if (Adj.GetType() == typeof(Pawn))
                     {
-                        Pawn PawnAdj = (Pawn)Adj;
-                        PawnAdj.IsPassingRight = true;
+                        Adj.SetPassingRight(true);
                     }
                 }
                 Adj = tabPiece[positionY][positionX + 1];
@@ -620,12 +644,40 @@ namespace echec
                 {
                     if (Adj.GetType() == typeof(Pawn))
                     {
-                        Pawn PawnAdj = (Pawn)Adj;
-                        PawnAdj.IsPassginLeft = true;
+                       Adj.SetPassingLeft(true);
                     }
                 }
             }
         }
+
+        /// <summary>
+        /// est appelé lorsqu'on déplace un pion blanc pour savoir si il est entrain de faire du passing, si tel est le cas la méthode CatchupPiece est appelée pour gerer la capture du pion pris en passant   
+        /// </summary>
+        /// <param name="Y"></param>
+        /// <param name="X"></param>
+        private void IsPawnWhiteUsedPassing(int Y, int X)
+        {
+            if (tabPiece[Y][X] == null)
+            {
+                CatchUpPiece(tabPiece[Y + 1][X]);
+                Affichage.RemoveFromDisplay(Y + 1, X);
+            }
+        }
+
+        /// <summary>
+        /// est appelé lorsqu'on déplace un pion noir pour savoir si il est entrain de faire du passing, si tel est le cas la méthode CatchupPiece est appelée pour gerer la capture du pion pris en passant   
+        /// </summary>
+        /// <param name="Y"></param>
+        /// <param name="X"></param>
+        private void IsPawnBlackUsedPassing(int Y, int X)
+        {
+            if(tabPiece[Y][X]==null)
+            {
+                CatchUpPiece(tabPiece[Y - 1][X]);
+                Affichage.RemoveFromDisplay(Y-1, X);
+            }
+        }
+
 
         /// <summary>
         /// test si le pion reçu en paramètre se trouve sur la dernière ligne
@@ -707,6 +759,7 @@ namespace echec
                     dicBlackPiece.Remove(s);
                 }
             }
+            tabPiece[piece.PositionY][piece.PositionX] = null;
         }
 
         /// <summary>
