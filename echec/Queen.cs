@@ -13,7 +13,7 @@ namespace echec
         {
 
         }
-        public override void Storagepossible(Game jeu)
+        public override void SetPossibleMoves(Game jeu)
         {
             Game jeuCopie = jeu;
             jeuCopie.Players[0].LastPiece = this;

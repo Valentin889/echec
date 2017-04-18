@@ -30,7 +30,6 @@
         {
             this.btnQuitter = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.btnTurnGame = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnQuitter
@@ -53,26 +52,15 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.btnQuitter_Click);
             // 
-            // btnTurnGame
-            // 
-            this.btnTurnGame.Location = new System.Drawing.Point(1193, 38);
-            this.btnTurnGame.Name = "btnTurnGame";
-            this.btnTurnGame.Size = new System.Drawing.Size(75, 23);
-            this.btnTurnGame.TabIndex = 2;
-            this.btnTurnGame.Text = "Tourne Jeu";
-            this.btnTurnGame.UseVisualStyleBackColor = true;
-            this.btnTurnGame.Click += new System.EventHandler(this.btnTurnGame_Click);
-            // 
-            // frmJeu
+            // frmGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 1024);
-            this.Controls.Add(this.btnTurnGame);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnQuitter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "frmJeu";
+            this.Name = "frmGame";
             this.Text = "FrmJeu";
             this.ResumeLayout(false);
 
@@ -82,6 +70,5 @@
 
         private System.Windows.Forms.Button btnQuitter;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnTurnGame;
     }
 }

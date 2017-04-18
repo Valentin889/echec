@@ -1,5 +1,4 @@
 F:\jeu\echec\echec\echec\bin\Debug\echec.exe.config
-F:\jeu\echec\echec\echec\bin\Debug\ressource\00TourBlancheBlanc.png
 F:\jeu\echec\echec\echec\bin\Debug\ressource\10RoiNoir.png
 F:\jeu\echec\echec\echec\bin\Debug\ressource\11PionNoir.png
 F:\jeu\echec\echec\echec\bin\Debug\ressource\01CavalierBlanc.png
@@ -14,7 +13,6 @@ F:\jeu\echec\echec\echec\bin\Debug\ressource\09ReineNoire.png
 F:\jeu\echec\echec\echec\bin\Debug\echec.exe
 F:\jeu\echec\echec\echec\bin\Debug\echec.pdb
 F:\jeu\echec\echec\echec\obj\Debug\echec.csprojResolveAssemblyReference.cache
-F:\jeu\echec\echec\echec\obj\Debug\echec.frmJeu.resources
 F:\jeu\echec\echec\echec\obj\Debug\echec.frmMenu.resources
 F:\jeu\echec\echec\echec\obj\Debug\echec.Properties.Resources.resources
 F:\jeu\echec\echec\echec\obj\Debug\echec.csproj.GenerateResource.Cache
@@ -87,3 +85,9 @@ D:\Echec\echec\echec\obj\Debug\echec.Properties.Resources.resources
 D:\Echec\echec\echec\obj\Debug\echec.csproj.GenerateResource.Cache
 D:\Echec\echec\echec\obj\Debug\echec.CustomMsgBox.resources
 D:\Echec\echec\echec\bin\Debug\ressource\00TourBlanche.png
+F:\jeu\echec\echec\echec\bin\Debug\ressource\00TourBlanche.png
+F:\jeu\echec\echec\echec\obj\Debug\echec.CustomMsgBox.resources
+F:\jeu\echec\echec\echec\obj\Debug\echec.frmGame.resources
+\\s2.rpn.ch\home\CPLN\Eleves\ET\SchneebergVa\info\atelier\sacchetti\echec\echec\echec\bin\Debug\echec.exe.config
+\\s2.rpn.ch\home\CPLN\Eleves\ET\SchneebergVa\info\atelier\sacchetti\echec\echec\echec\obj\Debug\echec.exe
+\\s2.rpn.ch\home\CPLN\Eleves\ET\SchneebergVa\info\atelier\sacchetti\echec\echec\echec\obj\Debug\echec.pdb

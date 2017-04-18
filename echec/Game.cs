@@ -7,19 +7,22 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace echec
 {
+
     public class Game
     {
+        // déclaration variable 
         private int iNumerberPiece;
         private int iNumberPiecePerColor;
         private List<Player> lstPlayer;
         private Dictionary<string,Piece> dicWhitePiece;
         private Dictionary<string, Piece> dicBlackPiece;
-
         private string strColor1;
         private string strColor2;
         private frmGame Affichage;
         private Piece[][] tabPiece;
         private int iPawnChange;
+
+        //constructeur
         public Game(frmGame form)
         {
             iNumerberPiece = 32;
@@ -39,7 +42,13 @@ namespace echec
             }
             iPawnChange = 0;
         }
-        public void Creationpiece()
+
+        //methode
+
+        /// <summary>
+        /// appelé au démarage du jeu la méthode crée les pièces et les ajoutes dans les dictionnaire de pièces correspondant
+        /// </summary>
+        public void CreatPiece()
         {
             string Couleur = strColor2;
 
@@ -78,11 +87,21 @@ namespace echec
 
 
         }
-        public void CreationJoueur(Player joueur1, Player joueur2)
+
+        /// <summary>
+        /// ajoute dans la liste des joueurs deux joueurs reçu en paramètre
+        /// </summary>
+        /// <param name="joueur1"></param>
+        /// <param name="joueur2"></param>
+        public void CreatPlayer(Player joueur1, Player joueur2)
         {
             lstPlayer.Add(joueur1);
             lstPlayer.Add(joueur2);
         }
+
+        /// <summary>
+        /// appelé au début de la partie cette méthode place les pièces aux bons endroits 
+        /// </summary>
         public void PositionPiece()
         {
             int x = 0;
@@ -113,35 +132,66 @@ namespace echec
             }
             RemplissageTablePiece();
         }
+
+        /// <summary>
+        /// quand le jeu commence cette méthode demande un coup au premier joueur
+        /// </summary>
         public void BeginGame()
         {
             lstPlayer[0].Jouer();
         }
+
+        /// <summary>
+        /// rempli le tableau de pièce avec les pièces contenu dans les dictionnaire
+        /// </summary>
+        public void RemplissageTablePiece()
+        {
+            foreach(string s in dicWhitePiece.Keys)
+            {
+                Piece p = dicWhitePiece[s];
+                tabPiece[p.PositionY][p.PositionX] = p;
+            }
+            foreach (string s in dicBlackPiece.Keys)
+            {
+                Piece p = dicBlackPiece[s];
+                tabPiece[p.PositionY][p.PositionX] = p;
+            }
+
+        }
+        
+        /// <summary>
+        /// quand un joueur fini de jouer un coup cette méthode est appelé pour faire jouer le joueur suivant
+        /// </summary>
         public void NextPlayer()
         {
             lstPlayer.Add(lstPlayer[0]);
             lstPlayer.Remove(lstPlayer[0]);
             lstPlayer[0].Jouer();
         }
-        public void SetMovePiece(String[] str)
+
+        /// <summary>
+        /// reçoit une position en paramètre récupère la pièce à cette position et initialise tout les déplacement possible de cette pièce grace à la méthode Storagepossible(Game game) contenu dans pièce
+        /// </summary>
+        /// <param name="str"></param>
+        public void SetMovePiece(Piece p)
         {
-            int colonne = Convert.ToInt32(str[0]);
-            int ligne = Convert.ToInt32(str[1]);
-            lstPlayer[0].LastPiece = tabPiece[colonne][ligne];
-            lstPlayer[0].LastPiece.Storagepossible(this);
-            if(lstPlayer[0].LastPiece==dicBlackPiece["KingBlack"]||lstPlayer[0].LastPiece==dicWhitePiece["KingWhite"])
+            lstPlayer[0].LastPiece = p;
+            p.SetPossibleMoves(this);
+            if(p==dicBlackPiece["KingBlack"]||p==dicWhitePiece["KingWhite"])
             {
                 King k = (King)lstPlayer[0].LastPiece;
                 k.AddRock(this);
             }
             NoCheck(lstPlayer[0].LastPiece);
-
         }
+
+        /// <summary>
+        /// la méthode reçoit une pièce en paramètre et joue virtuellement chacun des déplacement possible de cette pièce, quand un coup est joué la méthode va vérifier si le roi se trouve en échec
+        /// si tel est le cas le coup est impossible et est donc retiré de la liste des déplacement possible de la pièce reçu
+        /// </summary>
+        /// <param name="piece"></param>
         public void NoCheck(Piece piece)
         {
-
-            
-
             List<String> listTemp = new List<string>();
 
             foreach(string s in piece.Move)
@@ -166,7 +216,7 @@ namespace echec
                 pieceClone.PositionX=lstPlayer[0].LastPosition[1];
                 copyGame.tabPiece[pieceClone.PositionY][pieceClone.PositionX] = pieceClone;
 
-                if(copyGame.KingCheck(pieceClone))
+                if(copyGame.isKingCheck(pieceClone))
                 {
                     listTemp.Add(s);
                 }
@@ -179,6 +229,10 @@ namespace echec
             }
         }
 
+        /// <summary>
+        /// cette méthode permet de cloner le jeu intégralement et revoit une parfaite copy
+        /// </summary>
+        /// <returns></returns>
         public Game Clone()
         {
             Game clone =new Game(Affichage);
@@ -207,6 +261,11 @@ namespace echec
             clone.strColor2 = this.strColor2;
             return clone;
         }
+
+        /// <summary>
+        /// exécute le petit ou le grand rock en fonction de la position du roi
+        /// </summary>
+        /// <param name="color"></param>
         public void DoRock(string color)
         {
             if (lstPlayer[0].LastPosition[1] == 6)
@@ -219,6 +278,11 @@ namespace echec
             }
 
         }
+
+        /// <summary>
+        /// éxécute un petit rock de la couleur reçu
+        /// </summary>
+        /// <param name="color"></param>
         private void DoSmallRock(string color)
         {
             if(color==strColor1)
@@ -255,6 +319,11 @@ namespace echec
                 Play();
             }
         }
+
+        /// <summary>
+        /// écécute un grand rock de la couleur reçu
+        /// </summary>
+        /// <param name="color"></param>
         private void doBigRock(string color)
         {
             if (color == strColor1)
@@ -290,6 +359,12 @@ namespace echec
                 Play();
             }
         }
+
+        /// <summary>
+        /// test si un petit rock est possible
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public bool IsBigRock(string color)
         {
             //implémente une série de test
@@ -310,7 +385,7 @@ namespace echec
                 try
                 {
                     King k = (King)tabPiece[7][4].Clone();
-                    if(k.AlreadyMove)
+                    if(k.IsAlreadyMove)
                     {
                         return false;
                     }
@@ -352,7 +427,7 @@ namespace echec
                 try
                 {
                     King k = (King)tabPiece[0][4].Clone();
-                    if (k.AlreadyMove)
+                    if (k.IsAlreadyMove)
                     {
                         return false;
                     }
@@ -376,6 +451,12 @@ namespace echec
             }
             return true;
         }
+
+        /// <summary>
+        /// test si un grand rock est possible
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public bool IsSmallRock(string color)
         {
             if (color == strColor1)
@@ -383,6 +464,10 @@ namespace echec
                 try
                 {
                     Rook r = (Rook)tabPiece[7][7];
+                    if(r.IsAlreadyMove)
+                    {
+                        return false;
+                    }
                 }
                 catch
                 {
@@ -395,7 +480,7 @@ namespace echec
                 try
                 {
                     King k = (King)tabPiece[7][4].Clone();
-                    if (k.AlreadyMove)
+                    if (k.IsAlreadyMove)
                     {
                         return false;
                     }
@@ -423,6 +508,10 @@ namespace echec
                 try
                 {
                     Rook r = (Rook)tabPiece[0][7];
+                    if(r.IsAlreadyMove)
+                    {
+                        return false;
+                    }
                 }
                 catch
                 {
@@ -435,11 +524,10 @@ namespace echec
                 try
                 {
                     King k = (King)tabPiece[0][4].Clone();
-                    if (k.AlreadyMove)
+                    if (k.IsAlreadyMove)
                     {
                         return false;
                     }
-                    /*
                     k.PositionX = 5;
                     if(k.IsCheck(this))
                     {
@@ -450,7 +538,6 @@ namespace echec
                     {
                         return false;
                     }
-                    */
                 }
                 catch
                 {
@@ -459,26 +546,93 @@ namespace echec
             }
             return true;
         }
+
+        /// <summary>
+        /// cette méthode joue le dernier coup enregistré
+        /// </summary>
         public void Play()
         {
+
             Piece p = lstPlayer[0].LastPiece;
-            if(p.GetType()==typeof(King))
-            {
-                King k = (King)p;
-                k.AlreadyMove = true;
-            }
             if(tabPiece[lstPlayer[0].LastPosition[0]][lstPlayer[0].LastPosition[1]]!=null)
             {
                 CatchUpPiece(tabPiece[lstPlayer[0].LastPosition[0]][lstPlayer[0].LastPosition[1]]);
             }
-            tabPiece[p.PositionY][p.PositionX] = null;
-            p.PositionY = lstPlayer[0].LastPosition[0];
-            p.PositionX = lstPlayer[0].LastPosition[1];
-            tabPiece[p.PositionY][p.PositionX] = p;
 
+            if(p.GetType()==typeof(Pawn)&&!p.IsAlreadyMove)
+            {
+                if(p.Color==strColor1)
+                {
+
+                    if(lstPlayer[0].LastPosition[0]==4)
+                    {
+                        SetPassing();
+                    }
+                }
+                else
+                {
+                    if (lstPlayer[0].LastPosition[0] == 3)
+                    {
+                        SetPassing();
+                    }
+                }
+            }
+            tabPiece[p.PositionY][p.PositionX] = null;
+            p.SetPosition(lstPlayer[0].LastPosition);
+            tabPiece[p.PositionY][p.PositionX] = p;
+            p.IsAlreadyMove = true;
+
+            Dictionary<string, Piece> d;
+            if(p.Color==strColor1)
+            {
+                d = dicWhitePiece;
+            }
+            else
+            {
+                d = dicBlackPiece;
+            }
+            foreach (Piece piece in d.Values)
+            {
+                piece.SetPassingLeft(false);
+                piece.SetPassingRight(false);
+            }
+        
+
+    }
+
+        private void SetPassing()
+        {
+            int positionY = lstPlayer[0].LastPosition[0];
+            int positionX = lstPlayer[0].LastPosition[1];
+            if (positionX - 1 >= 0 && positionX + 1 < tabPiece.Length)
+            {
+                Piece Adj = tabPiece[positionY][positionX - 1];
+                if (Adj != null)
+                {
+                    if (Adj.GetType() == typeof(Pawn))
+                    {
+                        Pawn PawnAdj = (Pawn)Adj;
+                        PawnAdj.IsPassingRight = true;
+                    }
+                }
+                Adj = tabPiece[positionY][positionX + 1];
+                if (Adj != null)
+                {
+                    if (Adj.GetType() == typeof(Pawn))
+                    {
+                        Pawn PawnAdj = (Pawn)Adj;
+                        PawnAdj.IsPassginLeft = true;
+                    }
+                }
+            }
         }
 
-        public bool isPawnLastLine(Piece p)
+        /// <summary>
+        /// test si le pion reçu en paramètre se trouve sur la dernière ligne
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public bool isPawnLastLine(Pawn p)
         {
             if(p.PositionY==0||p.PositionY==tabPiece.Length-1)
             {
@@ -486,31 +640,42 @@ namespace echec
             }
             return false;
         }
-        public bool KingCheck(Piece pieceClone)
+
+        /// <summary>
+        /// créer une copie du roi de la couleur de joueur actif, si la pièce que l'on reçoit en paramètre est la même que la copie du roi que nous venons de faire nous modifions la position du roi cloner
+        /// ensuite la méthode IsCheck(Game game) est appelée et revoit si le roi est en échec ou non 
+        /// </summary>
+        /// <param name="piece"></param>
+        /// <returns></returns>
+        public bool isKingCheck(Piece piece)
         {
             King k = null;
             if (lstPlayer[0].Color == strColor1)
             {
                 k = (King)dicWhitePiece["KingWhite"].Clone();
-                if (k.GetType() == pieceClone.GetType())
+                if (k.GetType() == piece.GetType())
                 {
-                    k.PositionX = pieceClone.PositionX;
-                    k.PositionY = pieceClone.PositionY;
+                    k.PositionX = piece.PositionX;
+                    k.PositionY = piece.PositionY;
                 }
             }
             else
             {
                 k = (King)dicBlackPiece["KingBlack"].Clone();
-                if (k.GetType() == pieceClone.GetType())
+                if (k.GetType() == piece.GetType())
                 {
-                    k.PositionX = pieceClone.PositionX;
-                    k.PositionY = pieceClone.PositionY;
+                    k.PositionX = piece.PositionX;
+                    k.PositionY = piece.PositionY;
                 }
             }
             
             return k.IsCheck(this);
         }
 
+        /// <summary>
+        /// supprime du dictionnaire correspondant la pièce reçu en paramètre
+        /// </summary>
+        /// <param name="piece"></param>
         private void CatchUpPiece(Piece piece)
         {
             Dictionary<String, Piece> TmpDico = new Dictionary<string, Piece>();
@@ -543,6 +708,11 @@ namespace echec
                 }
             }
         }
+
+        /// <summary>
+        /// transform un pion en une autre pièce reçu en paramètre
+        /// </summary>
+        /// <param name="type"></param>
         public void ChangePawn(Type type)
         {
             iPawnChange++;
@@ -601,7 +771,46 @@ namespace echec
 
             RemplissageTablePiece();
         }
+   
+        /// <summary>
+        /// méthode vérifiant si il y a échec et math
+        /// </summary>
+        /// <param name="Color"></param>
+        /// <returns></returns>
+        public bool IsCheckMath(string Color)
+        {
+            Game CopyGame = this.Clone();
+            if(Color==strColor1)
+            {
+                foreach(Piece p in CopyGame.dicWhitePiece.Values)
+                {
+                    p.SetPossibleMoves(this);
+                    CopyGame.NoCheck(p);
+                    if(p.Move.Count!=0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                foreach (Piece p in CopyGame.dicBlackPiece.Values)
+                {
+                    p.SetPossibleMoves(this);
+                    CopyGame.NoCheck(p);
+                    if (p.Move.Count != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        //propriété
 
+        /// <summary>
+        /// renvoie le dictionnaire de pièces blanches 
+        /// </summary>
         public Dictionary<string,Piece> DicWhitePiece
         {
             get
@@ -609,6 +818,10 @@ namespace echec
                 return dicWhitePiece;
             }
         }
+
+        /// <summary>
+        /// renvoie le dictionnaire de pièces noires
+        /// </summary>
         public Dictionary<String,Piece> DicBlackPiece
         {
             get
@@ -616,6 +829,10 @@ namespace echec
                 return dicBlackPiece;
             }
         }
+
+        /// <summary>
+        /// renvoie la liste des joueurs
+        /// </summary>
         public List<Player> Players
         {
             get
@@ -623,6 +840,10 @@ namespace echec
                 return lstPlayer;
             }
         }
+
+        /// <summary>
+        /// renvoie le tableau de pièce
+        /// </summary>
         public Piece[][] TabPiece
         {
             get
@@ -630,20 +851,10 @@ namespace echec
                 return tabPiece;
             }
         }
-        public void RemplissageTablePiece()
-        {
-            foreach(string s in dicWhitePiece.Keys)
-            {
-                Piece p = dicWhitePiece[s];
-                tabPiece[p.PositionY][p.PositionX] = p;
-            }
-            foreach (string s in dicBlackPiece.Keys)
-            {
-                Piece p = dicBlackPiece[s];
-                tabPiece[p.PositionY][p.PositionX] = p;
-            }
 
-        }
+        /// <summary>
+        /// renvoi la couleur 1
+        /// </summary>
         public string Color1
         {
             get
@@ -651,6 +862,10 @@ namespace echec
                 return strColor1;
             }
         }
+
+        /// <summary>
+        /// renvoie la couleur deux
+        /// </summary>
         public string Color2
         {
             get
@@ -658,5 +873,7 @@ namespace echec
                 return strColor2;
             }
         }
+
+
     }
 }

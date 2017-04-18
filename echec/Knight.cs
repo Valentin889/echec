@@ -12,9 +12,9 @@ namespace echec
         public Knights(string couleur)
             : base(couleur)
         {
-
+           
         }
-        public override void Storagepossible(Game game)
+        public override void SetPossibleMoves(Game game)
         {
             Game jeuCopie = game;
             jeuCopie.Players[0].LastPiece = this;
@@ -108,7 +108,7 @@ namespace echec
 
         private bool CalledByIsCheck(Piece p, Game game)
         {
-            p.Storagepossible(game);
+            p.SetPossibleMoves(game);
             foreach (string s in p.Move)
             {
                 string[] tmp = s.Split('/');
@@ -122,6 +122,8 @@ namespace echec
             }
             return false;
         }
+
+        
 
     }
 }

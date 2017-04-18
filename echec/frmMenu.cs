@@ -31,8 +31,13 @@ namespace echec
 
         private void btnJouer_Click(object sender, EventArgs e)
         {
-            frmGame form = new frmGame(tbxNom1.Text, tbxNom2.Text);
+            frmGame form = new frmGame(tbxNom1.Text, tbxNom2.Text,rbtnYes.Checked);
             form.Show();
+        }
+
+        private void frmMenu_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
