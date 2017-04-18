@@ -24,11 +24,12 @@ namespace echec
                 lstMove = value;
             }
         }
-        public abstract void Storagepossible(Game jeu);
+        public abstract void SetPossibleMoves(Game jeu);
         public string Picture { get; set; }
         public Piece(string couleur)
         {
             Color = couleur;
+            IsAlreadyMove = false;
         }
         public bool AddMove(Game game, int i, int j)
         {
@@ -52,6 +53,17 @@ namespace echec
 
         }
 
+        public void SetPosition(int[] Position)
+        {
+            PositionY = Position[0];
+            PositionX = Position[1];
+        }
+
+        public virtual void SetPassingLeft(bool bValue) {; }
+        public virtual void SetPassingRight(bool bValue) { ; }
+
+
+
         public Piece Clone()
         {
             Piece Clone;
@@ -65,10 +77,6 @@ namespace echec
                     break;
                 case "echec.Pawn":
                     Clone = new Pawn(this.Color);
-                    Pawn pClone = (Pawn)Clone;
-                    Pawn pOriginal = (Pawn)this;
-                    pClone.PremierDeplacement = pOriginal.PremierDeplacement;
-                    Clone = pClone;
                     break;
                 case "echec.Knights":
                     Clone = new Knights(this.Color);
@@ -88,13 +96,15 @@ namespace echec
             Clone.PositionX = this.PositionX;
             Clone.PositionY = this.PositionY;
             Clone.Picture = this.Picture;
+            Clone.IsAlreadyMove = this.IsAlreadyMove;
             return Clone;
 
 
 
         }
 
-        
+        public bool IsAlreadyMove { get; set; }
+
     }
 }
     

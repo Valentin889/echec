@@ -8,36 +8,19 @@ namespace echec
 {
     public class Pawn : Piece
     {
-        bool bPremierDeplacement;
-        public Pawn(string couleur)
-            : base(couleur)
+        public Pawn(string Color)
+            : base(Color)
         {
-            bPremierDeplacement = true;
+            IsPassingRight = false;
+            IsPassginLeft = false;
         }
-
-        public bool PremierDeplacement
-        {
-            get
-            {
-                return bPremierDeplacement;
-            }
-            set
-            {
-                bPremierDeplacement = value;
-            }
-        }
-        public override void Storagepossible(Game game)
+        public override void SetPossibleMoves(Game game)
         {
             game.Players[0].LastPiece = this;
 
             Move = new List<string>();
             if (this.Color == game.Color1)
             {
-
-                if (PositionY != 6)
-                {
-                    bPremierDeplacement = false;
-                }
                 if (PositionY - 1 >= 0)
                 {
                     int i = PositionY - 1;
@@ -45,7 +28,7 @@ namespace echec
                     if (game.TabPiece[i][j] == null)
                     {
                         Move.Add(i.ToString() + "/" + j.ToString());
-                        if (bPremierDeplacement)
+                        if (!IsAlreadyMove)
                         {
                             i -= 1;
                             if (game.TabPiece[i][j] == null)
@@ -77,16 +60,24 @@ namespace echec
                             }
                         }
                     }
+
+                    if(IsPassingRight)
+                    {
+                        j = PositionX + 1;
+                        i = PositionY - 1;
+                        Move.Add(i.ToString() + "/" + j.ToString());
+                    }
+                    if(IsPassginLeft)
+                    {
+                        j = PositionX - 1;
+                        i = PositionY - 1;
+                        Move.Add(i.ToString() + "/" + j.ToString());
+                    }
+
                 }
             }
             else
             {
-                if (PositionY != 1)
-                {
-                    bPremierDeplacement = false;
-                }
-
-
                 if (PositionY + 1 <= game.TabPiece.Length)
                 {
                     int i = PositionY + 1;
@@ -94,7 +85,7 @@ namespace echec
                     if (game.TabPiece[i][j] == null)
                     {
                         Move.Add(i.ToString() + "/" + j.ToString());
-                        if (bPremierDeplacement)
+                        if (!IsAlreadyMove)
                         {
                             i += 1;
                             if (game.TabPiece[i][j] == null)
@@ -126,8 +117,30 @@ namespace echec
                             }
                         }
                     }
+
+
+                    if (IsPassingRight)
+                    {
+                        j = PositionX + 1;
+                        i = PositionY + 1;
+                        Move.Add(i.ToString() + "/" + j.ToString());
+                    }
+                    if (IsPassginLeft)
+                    {
+                        j = PositionX - 1;
+                        i = PositionY + 1;
+                        Move.Add(i.ToString() + "/" + j.ToString());
+                    }
                 }
             }
         }
+
+        public bool IsPassingRight { get; set; }
+        public bool IsPassginLeft { get; set; }
+
+        public override void SetPassingLeft(bool bValue) { IsPassginLeft = bValue; }
+        public override void SetPassingRight(bool bValue) { IsPassingRight = bValue; }
+
+
     }
 }

@@ -13,6 +13,7 @@ namespace echec
 {
     public partial class frmGame : Form
     {
+        // déclaration variable
         private TableLayoutPanel tlpDisplay;
         private int iColonne;
         private int iLigne;
@@ -22,15 +23,20 @@ namespace echec
         private bool bTurnedGame;
         private bool bIsGameTurned;
         private Piece[][] DisplayBoardGame;
+        private string strNamePlayer1;
+        private string strNamePlayer2;
+        private List<Game> FlashGameForDraw;
+        //contructeur
 
-
-
+        /// <summary>
+        /// contructeur par défaut initialise les composant
+        /// </summary>
         public frmGame()
         {
             InitializeComponent();
             game = new Game(this);
-            game.Creationpiece();
-            game.CreationJoueur(new Human(game.Color1), new Human(game.Color2));
+            game.CreatPiece();
+            game.CreatPlayer(new Human(game.Color1), new Human(game.Color2));
             game.PositionPiece();
             pictureParts = new List<string>();
 
@@ -48,18 +54,38 @@ namespace echec
             TurnGame();
             PlacementParts();
             strActifColor = game.Color1;
-            bTurnedGame = false;
             bIsGameTurned = false;
+            FlashGameForDraw = new List<Game>();
         }
-        public frmGame(string nomJoueur1, string nomJoueur2)
+
+        /// <summary>
+        /// contructeur paramétré, reçoit les noms des joueurs les inscrits en mémoire, reçoit un bool définissant si le jeu tourne à chaque déplacement ou non et appelle le constructeur par défaut
+        /// </summary>
+        /// <param name="NamePlayer1"></param>
+        /// <param name="NamePlayer2"></param>
+        public frmGame(string NamePlayer1, string NamePlayer2, bool GameTurn)
             : this()
         {
-
+            strNamePlayer1 = NamePlayer1;
+            strNamePlayer2 = NamePlayer2;
+            bTurnedGame = GameTurn;
         }
+
+        //méthode
+
+        /// <summary>
+        /// bouton permettant de quiter le jeu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnQuitter_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        /// <summary>
+        /// méthode permettant de charger le plateau de jeu
+        /// </summary>
         private void LoadBoardGame()
         {
             iColonne = 8;
@@ -86,6 +112,10 @@ namespace echec
             }
 
         }
+
+        /// <summary>
+        /// méthode permettant de colorer les case en noir ou en blanc
+        /// </summary>
         private void LoadColor()
         {
             bool bColor = true;
@@ -111,6 +141,10 @@ namespace echec
 
 
         }
+
+        /// <summary>
+        /// méthode chargent les immage de chaque pièce sur la bonne case
+        /// </summary>
         private void PlacementParts()
         {
             int x = 0;
@@ -135,6 +169,9 @@ namespace echec
             }
         }
 
+        /// <summary>
+        /// méthode permettant de tourner le jeu
+        /// </summary>
         public void TurnGame()
         {
             if (bTurnedGame)
@@ -166,6 +203,10 @@ namespace echec
                 bIsGameTurned = !bIsGameTurned;
             }
         }
+
+        /// <summary>
+        /// méthode qui chargent les immages contenu dans un dossier ressource et ajoutes les chemins des ces immages dans une liste de string
+        /// </summary>
         private void LoadPicture()
         {
             string path = "ressource";
@@ -180,6 +221,11 @@ namespace echec
 
         }
 
+        /// <summary>
+        /// reçoit le nom d'un pièce et une picturebox, charge l'image de la pièce dans cette picturebox
+        /// </summary>
+        /// <param name="strPiece"></param>
+        /// <param name="pct"></param>
         private void PartsDiaplay(string strPiece, PictureBox pct)
         {
             FileStream fs = new FileStream(@"ressource\" + strPiece, FileMode.Open);
@@ -187,10 +233,19 @@ namespace echec
             fs.Close();
             pct.SizeMode = PictureBoxSizeMode.CenterImage;
         }
+
+        /// <summary>
+        /// reçoit une pictureBox en paramète et supprime son image
+        /// </summary>
+        /// <param name="pct"></param>
         private void ResetImage(PictureBox pct)
         {
             pct.Image = null;
         }
+
+        /// <summary>
+        /// appelle pour chaque pièce la méthode set picture pièce
+        /// </summary>
         private void AddPicturePerPiece()
         {
             foreach (string s in game.DicWhitePiece.Keys)
@@ -203,6 +258,11 @@ namespace echec
                 SetPicture(game.DicBlackPiece[s]);
             }
         }
+        
+        /// <summary>
+        /// reçoit une pièce et lui charge son image
+        /// </summary>
+        /// <param name="p"></param>
         public void SetPicture(Piece p)
         {
             int index = 0;
@@ -232,7 +292,13 @@ namespace echec
             p.Picture = pictureParts[index];
         }
 
-        private void PictureBox_click(object sender, EventArgs e)
+        /// <summary>
+        /// quand l'utilisateur clic sur une picture box si aucune pièce n'est dessus rien ne se passe, si il presse sur une pièce adverse rien ne se passe, si il pressque sur une de ses pièces les déplacements s'affichent
+        /// si il presse sur une des picturebox afficher en vert la pièces séléctionner plus tôt se déplace
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void PictureBox_click(object sender, EventArgs e)
         {
             PictureBox pct = (PictureBox)sender;
 
@@ -253,12 +319,34 @@ namespace echec
             }
             if (pct.BackColor == Color.Green)
             {
+                bool bFlash = false;
+                foreach(Game g in FlashGameForDraw)
+                {
+                    if(CompareGame(game,g))
+                    {
+                        bFlash = true;
+                    }
+                }
+                if(bFlash)
+                {
+                    game.ConterEqualGame++;
+                }
+                else
+                {
+                    game.ConterEqualGame=0;
+                }
+                FlashGameForDraw.Add(game.Clone());
+                if(FlashGameForDraw.Count>6)
+                {
+                    FlashGameForDraw.Remove(FlashGameForDraw[0]);
+                }
                 int[] move = new int[2];
                 move[0] = Convert.ToInt32(t[0]);
                 move[1] = Convert.ToInt32(t[1]);
 
-                
                 game.Players[0].LastPosition = move;
+
+                Piece LastPiece = game.Players[0].LastPiece;
                 if (bIsGameTurned)
                 {
                     TurnGame();
@@ -272,10 +360,9 @@ namespace echec
                 game.Play();
                 LoadColor();
                 PlacementParts();
-
-                if (game.Players[0].LastPiece.GetType() == typeof(Pawn))
-                 {
-                     if (game.isPawnLastLine(game.Players[0].LastPiece))
+                if (LastPiece.GetType() == typeof(Pawn))
+                {
+                    if (game.isPawnLastLine((Pawn)LastPiece))
                     {
                         CustomMsgBox msg = new CustomMsgBox();
                         msg.ShowDialog();
@@ -294,7 +381,6 @@ namespace echec
                         PlacementParts();
                     }
                 }
-
                 if (strActifColor == game.Color1)
                 {
                     strActifColor = game.Color2;
@@ -303,8 +389,22 @@ namespace echec
                 {
                     strActifColor = game.Color1;
                 }
+                if(game.IsCheckmate(strActifColor))
+                {
+                    MessageBox.Show("échec et math");
+                    btnQuitter_Click(new object(), new EventArgs());
+                }
+                else if(game.IsDraw(strActifColor))
+                {
+                    MessageBox.Show("Match nul");
+                    btnQuitter_Click(new object(), new EventArgs());
+                }
+                else if(game.isKingCheck(strActifColor))
+                {
+                    MessageBox.Show("Echec");
+                }
                 game.NextPlayer();
-
+                game.AskMovePlayer();
 
             }
             else if(pct.BackColor==Color.Orange)
@@ -317,6 +417,7 @@ namespace echec
                 PlacementParts();
                 LoadColor();
                 game.NextPlayer();
+                game.AskMovePlayer();
                 if (strActifColor == game.Color1)
                 {
                     strActifColor = game.Color2;
@@ -334,7 +435,7 @@ namespace echec
                 {
                     if (strActifColor == p.Color)
                     {
-                        game.SetMovePiece(t);
+                        game.SetMovePiece(p);
 
                         List<String> Move = p.Move;
                         List<String> specialMove = new List<string>();
@@ -376,14 +477,50 @@ namespace echec
                 }
             }
         }
+
+        private bool CompareGame(Game game1, Game game2)
+        {
+            foreach(String s in game1.DicWhitePiece.Keys)
+            {
+                if(game1.DicWhitePiece[s].PositionX!=game2.DicWhitePiece[s].PositionX&&game1.DicWhitePiece[s].PositionY!=game2.DicWhitePiece[s].PositionY)
+                {
+                    return false;
+                }
+
+            }
+
+            foreach (String s in game1.DicBlackPiece.Keys)
+            {
+                if (game1.DicBlackPiece[s].PositionX != game2.DicBlackPiece[s].PositionX && game1.DicBlackPiece[s].PositionY != game2.DicBlackPiece[s].PositionY)
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// joue le coup sur le plateau que les utilisateurs voient
+        /// </summary>
         public void PlayDisplayMove()
         {
-            Piece p = game.Clone().Players[0].LastPiece.Clone();
+            Piece p = game.Players[0].LastPiece.Clone();
             DisplayBoardGame[p.PositionY][p.PositionX] = null;
-            p.PositionY = game.Players[0].LastPosition[0];
-            p.PositionX = game.Players[0].LastPosition[1];
+            p.SetPosition(game.Players[0].LastPosition);
             DisplayBoardGame[p.PositionY][p.PositionX] = p;
         }
+
+        public void RemoveFromDisplay(int y,int x)
+        {
+            DisplayBoardGame[y][x]=null;
+        }
+
+        /// <summary>
+        /// reçoit une liste ^contenant des coordonnées de jeu etinverse leurs ordre
+        /// </summary>
+        /// <param name="lst"></param>
+        /// <returns></returns>
         private List<String> TurnedList(List<String> lst)
         {
             List<String> Return = new List<string>();
@@ -405,6 +542,11 @@ namespace echec
 
         }
 
+        /// <summary>
+        /// reçoit une liste de coordonnées ainsi qu'une couleur, défini le fond de chaque picturebox aux coordonnées reçu de la couleur reçu
+        /// </summary>
+        /// <param name="move"></param>
+        /// <param name="c"></param>
         private void ShowTraveling(List<String> move, Color c)
         {
             foreach (string s in move)
@@ -421,11 +563,8 @@ namespace echec
 
             }
         }
-        private void btnTurnGame_Click(object sender, EventArgs e)
-        {
-            bTurnedGame = true;
-        }
 
+        //propriété
         public bool IsGameTurned
         {
             get

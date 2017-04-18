@@ -13,7 +13,7 @@ namespace echec
         {
             Specialmove = new List<string>();
         }
-        public override void Storagepossible(Game game)
+        public override void SetPossibleMoves(Game game)
         {
             Game copyGame = game.Clone();
             copyGame.Players[0].LastPiece = this;
@@ -98,7 +98,7 @@ namespace echec
         }
         private bool CalledByIsCheck(Piece p,Game game)
         {
-            p.Storagepossible(game);
+            p.SetPossibleMoves(game);
             foreach (string s in p.Move)
             {
                 string[] tmp = s.Split('/');
@@ -114,6 +114,5 @@ namespace echec
         }
 
         public List<String> Specialmove { get; set; }
-        public bool AlreadyMove { get; set; }
     }
 }
