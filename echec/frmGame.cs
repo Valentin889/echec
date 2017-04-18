@@ -25,12 +25,12 @@ namespace echec
         private Piece[][] DisplayBoardGame;
         private string strNamePlayer1;
         private string strNamePlayer2;
-
+        private List<Game> FlashGameForDraw;
         //contructeur
 
-       /// <summary>
-       /// contructeur par défaut initialise les composant
-       /// </summary>
+        /// <summary>
+        /// contructeur par défaut initialise les composant
+        /// </summary>
         public frmGame()
         {
             InitializeComponent();
@@ -55,6 +55,7 @@ namespace echec
             PlacementParts();
             strActifColor = game.Color1;
             bIsGameTurned = false;
+            FlashGameForDraw = new List<Game>();
         }
 
         /// <summary>
@@ -297,7 +298,7 @@ namespace echec
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void PictureBox_click(object sender, EventArgs e)
+        public void PictureBox_click(object sender, EventArgs e)
         {
             PictureBox pct = (PictureBox)sender;
 
@@ -318,11 +319,34 @@ namespace echec
             }
             if (pct.BackColor == Color.Green)
             {
+                bool bFlash = false;
+                foreach(Game g in FlashGameForDraw)
+                {
+                    if(CompareGame(game,g))
+                    {
+                        bFlash = true;
+                    }
+                }
+                if(bFlash)
+                {
+                    game.ConterEqualGame++;
+                }
+                else
+                {
+                    game.ConterEqualGame=0;
+                }
+                FlashGameForDraw.Add(game.Clone());
+                if(FlashGameForDraw.Count>10)
+                {
+                    FlashGameForDraw.Remove(FlashGameForDraw[0]);
+                }
                 int[] move = new int[2];
                 move[0] = Convert.ToInt32(t[0]);
                 move[1] = Convert.ToInt32(t[1]);
 
                 game.Players[0].LastPosition = move;
+
+                Piece LastPiece = game.Players[0].LastPiece;
                 if (bIsGameTurned)
                 {
                     TurnGame();
@@ -336,9 +360,9 @@ namespace echec
                 game.Play();
                 LoadColor();
                 PlacementParts();
-                if (game.Players[0].LastPiece.GetType() == typeof(Pawn))
+                if (LastPiece.GetType() == typeof(Pawn))
                  {
-                     if (game.isPawnLastLine((Pawn)game.Players[0].LastPiece))
+                     if (game.isPawnLastLine((Pawn)LastPiece))
                     {
                         CustomMsgBox msg = new CustomMsgBox();
                         msg.ShowDialog();
@@ -357,7 +381,6 @@ namespace echec
                         PlacementParts();
                     }
                 }
-
                 if (strActifColor == game.Color1)
                 {
                     strActifColor = game.Color2;
@@ -366,12 +389,20 @@ namespace echec
                 {
                     strActifColor = game.Color1;
                 }
-                if(game.IsCheckMath(strActifColor))
+                if(game.IsCheckmate(strActifColor))
                 {
                     MessageBox.Show("échec et math");
                 }
+                else if(game.IsDraw(strActifColor))
+                {
+                    MessageBox.Show("Match nul");
+                }
+                else if(game.isKingCheck(strActifColor))
+                {
+                    MessageBox.Show("Echec");
+                }
                 game.NextPlayer();
-
+                game.AskMovePlayer();
 
             }
             else if(pct.BackColor==Color.Orange)
@@ -384,6 +415,7 @@ namespace echec
                 PlacementParts();
                 LoadColor();
                 game.NextPlayer();
+                game.AskMovePlayer();
                 if (strActifColor == game.Color1)
                 {
                     strActifColor = game.Color2;
@@ -442,6 +474,28 @@ namespace echec
                     game.Players[0].LastPiece = null;
                 }
             }
+        }
+
+        private bool CompareGame(Game game1, Game game2)
+        {
+            foreach(String s in game1.DicWhitePiece.Keys)
+            {
+                if(game1.DicWhitePiece[s].PositionX!=game2.DicWhitePiece[s].PositionX&&game1.DicWhitePiece[s].PositionY!=game2.DicWhitePiece[s].PositionY)
+                {
+                    return false;
+                }
+
+            }
+
+            foreach (String s in game1.DicBlackPiece.Keys)
+            {
+                if (game1.DicBlackPiece[s].PositionX != game2.DicBlackPiece[s].PositionX && game1.DicBlackPiece[s].PositionY != game2.DicBlackPiece[s].PositionY)
+                {
+                    return false;
+                }
+
+            }
+            return true;
         }
 
         /// <summary>

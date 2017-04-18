@@ -21,6 +21,8 @@ namespace echec
         private frmGame Affichage;
         private Piece[][] tabPiece;
         private int iPawnChange;
+        private int iConterEqualGameWhite;
+        private int iConterEqualGameBlack;
 
         //constructeur
         public Game(frmGame form)
@@ -49,35 +51,35 @@ namespace echec
         /// </summary>
         public void CreatPiece()
         {
-            string Couleur = strColor2;
+            string Color = strColor2;
 
-            dicBlackPiece.Add("Rook1" + Couleur, new Rook(Couleur));
-            dicBlackPiece.Add("Knights1" + Couleur, new Knights(Couleur));
-            dicBlackPiece.Add("Bishop1" + Couleur, new Bishop(Couleur));
-            dicBlackPiece.Add("Queen" + Couleur, new Queen(Couleur));
-            dicBlackPiece.Add("King" + Couleur, new King(Couleur));
-            dicBlackPiece.Add("Bishop2" + Couleur, new Bishop(Couleur));
-            dicBlackPiece.Add("Knights2" + Couleur, new Knights(Couleur));
-            dicBlackPiece.Add("Rook2" + Couleur, new Rook(Couleur));
+            dicBlackPiece.Add("Rook1" + Color, new Rook(Color));
+            dicBlackPiece.Add("Knights1" + Color, new Knights(Color));
+            dicBlackPiece.Add("Bishop1" + Color, new Bishop(Color));
+            dicBlackPiece.Add("Queen" + Color, new Queen(Color));
+            dicBlackPiece.Add("King" + Color, new King(Color));
+            dicBlackPiece.Add("Bishop2" + Color, new Bishop(Color));
+            dicBlackPiece.Add("Knights2" + Color, new Knights(Color));
+            dicBlackPiece.Add("Rook2" + Color, new Rook(Color));
 
             for (int i =1; i<9;i++)
             {
-                dicBlackPiece.Add("Pawn" + i + Couleur, new Pawn(Couleur));
+                dicBlackPiece.Add("Pawn" + i + Color, new Pawn(Color));
             }
-            Couleur = strColor1;
+            Color = strColor1;
 
             for (int i = 1; i < 9; i++)
             {
-                dicWhitePiece.Add("Pawn" + i + Couleur, new Pawn(Couleur));
+                dicWhitePiece.Add("Pawn" + i + Color, new Pawn(Color));
             }
-            dicWhitePiece.Add("Rook1" + Couleur, new Rook(Couleur));
-            dicWhitePiece.Add("Knights1" + Couleur, new Knights(Couleur));
-            dicWhitePiece.Add("Bishop1" + Couleur, new Bishop(Couleur));
-            dicWhitePiece.Add("Queen" + Couleur, new Queen(Couleur));
-            dicWhitePiece.Add("King" + Couleur, new King(Couleur));
-            dicWhitePiece.Add("Bishop2" + Couleur, new Bishop(Couleur));
-            dicWhitePiece.Add("Knights2" + Couleur, new Knights(Couleur));
-            dicWhitePiece.Add("Rook2" + Couleur, new Rook(Couleur));
+            dicWhitePiece.Add("Rook1" + Color, new Rook(Color));
+            dicWhitePiece.Add("Knights1" + Color, new Knights(Color));
+            dicWhitePiece.Add("Bishop1" + Color, new Bishop(Color));
+            dicWhitePiece.Add("Queen" + Color, new Queen(Color));
+            dicWhitePiece.Add("King" + Color, new King(Color));
+            dicWhitePiece.Add("Bishop2" + Color, new Bishop(Color));
+            dicWhitePiece.Add("Knights2" + Color, new Knights(Color));
+            dicWhitePiece.Add("Rook2" + Color, new Rook(Color));
 
 
 
@@ -129,7 +131,7 @@ namespace echec
                     x = 0;
                 }
             }
-            RemplissageTablePiece();
+            FillTablePiece();
         }
 
         /// <summary>
@@ -143,7 +145,7 @@ namespace echec
         /// <summary>
         /// rempli le tableau de pièce avec les pièces contenu dans les dictionnaire
         /// </summary>
-        public void RemplissageTablePiece()
+        public void FillTablePiece()
         {
             foreach(string s in dicWhitePiece.Keys)
             {
@@ -165,6 +167,10 @@ namespace echec
         {
             lstPlayer.Add(lstPlayer[0]);
             lstPlayer.Remove(lstPlayer[0]);
+        }
+
+        public void AskMovePlayer()
+        {
             lstPlayer[0].Jouer();
         }
 
@@ -204,18 +210,18 @@ namespace echec
                 Coup[0] = colonne;
                 Coup[1] = ligne;
 
-                Players[0].LastPosition = Coup;
+                copyGame.Players[0].LastPosition = Coup;
 
                 if(copyGame.tabPiece[colonne][ligne]!=null)
                 {
                     copyGame.CatchUpPiece(copyGame.tabPiece[colonne][ligne]);
                 }
                 copyGame.tabPiece[pieceClone.PositionY][pieceClone.PositionX] = null;
-                pieceClone.PositionY=lstPlayer[0].LastPosition[0] ;
-                pieceClone.PositionX=lstPlayer[0].LastPosition[1];
+                pieceClone.SetPosition(copyGame.Players[0].LastPosition);
                 copyGame.tabPiece[pieceClone.PositionY][pieceClone.PositionX] = pieceClone;
+                copyGame.lstPlayer[0].LastPiece = pieceClone;
 
-                if(copyGame.isKingCheck(pieceClone))
+                if(copyGame.isKingCheck(copyGame.lstPlayer[0].LastPiece.Color))
                 {
                     listTemp.Add(s);
                 }
@@ -255,7 +261,7 @@ namespace echec
                 clone.dicWhitePiece.Add(s, p);
                 clone.tabPiece[p.PositionY][p.PositionX] = p;
             }
-            clone.RemplissageTablePiece();
+            clone.FillTablePiece();
             clone.strColor1 = this.strColor1;
             clone.strColor2 = this.strColor2;
             return clone;
@@ -699,10 +705,11 @@ namespace echec
         /// </summary>
         /// <param name="piece"></param>
         /// <returns></returns>
-        public bool isKingCheck(Piece piece)
+        public bool isKingCheck(string Color)
         {
             King k = null;
-            if (lstPlayer[0].Color == strColor1)
+            Piece piece = lstPlayer[0].LastPiece;
+            if (Color == strColor1)
             {
                 k = (King)dicWhitePiece["KingWhite"].Clone();
                 if (k.GetType() == piece.GetType())
@@ -720,7 +727,6 @@ namespace echec
                     k.PositionY = piece.PositionY;
                 }
             }
-            
             return k.IsCheck(this);
         }
 
@@ -822,24 +828,37 @@ namespace echec
             }
             iPawnChange -= 2;
 
-            RemplissageTablePiece();
+            FillTablePiece();
         }
    
         /// <summary>
-        /// méthode vérifiant si il y a échec et math
+        /// méthode vérifiant si il y a match nul
         /// </summary>
         /// <param name="Color"></param>
         /// <returns></returns>
-        public bool IsCheckMath(string Color)
+        public bool IsDraw(string Color)
+        {
+            if (iConterEqualGameWhite == 3||iConterEqualGameBlack==3)
+            {
+                return true;
+            }
+            if(IsKingcantMove(Color))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsKingcantMove(string Color)
         {
             Game CopyGame = this.Clone();
-            if(Color==strColor1)
+            if (Color == strColor1)
             {
-                foreach(Piece p in CopyGame.dicWhitePiece.Values)
+                foreach (Piece p in CopyGame.DicWhitePiece.Values)
                 {
                     p.SetPossibleMoves(this);
                     CopyGame.NoCheck(p);
-                    if(p.Move.Count!=0)
+                    if (p.Move.Count != 0)
                     {
                         return false;
                     }
@@ -847,7 +866,7 @@ namespace echec
             }
             else
             {
-                foreach (Piece p in CopyGame.dicBlackPiece.Values)
+                foreach (Piece p in CopyGame.DicBlackPiece.Values)
                 {
                     p.SetPossibleMoves(this);
                     CopyGame.NoCheck(p);
@@ -858,6 +877,19 @@ namespace echec
                 }
             }
             return true;
+        }
+        /// <summary>
+        /// méthode véifiant si il y a échec et math
+        /// </summary>
+        /// <param name="Color"></param>
+        /// <returns></returns>
+        public bool IsCheckmate(string Color )
+        {
+            if(isKingCheck(Color)&&IsKingcantMove(Color))
+            {
+                return true;
+            }
+            return false;
         }
         //propriété
 
@@ -870,6 +902,10 @@ namespace echec
             {
                 return dicWhitePiece;
             }
+            set
+            {
+                dicWhitePiece = value;
+            }
         }
 
         /// <summary>
@@ -880,6 +916,10 @@ namespace echec
             get
             {
                 return dicBlackPiece;
+            }
+            set
+            {
+                dicBlackPiece = value;
             }
         }
 
@@ -902,6 +942,10 @@ namespace echec
             get
             {
                 return tabPiece;
+            }
+            set
+            {
+               tabPiece=value;
             }
         }
 
@@ -927,6 +971,29 @@ namespace echec
             }
         }
 
+        public int ConterEqualGameWhite
+        {
+            get
+            {
+                return iConterEqualGameWhite;
+            }
+            set
+            {
+                iConterEqualGameWhite = value;
+            }
+        }
+
+        public int ConterEqualGame
+        {
+            get
+            {
+                return iConterEqualGameBlack;
+            }
+            set
+            {
+                iConterEqualGameBlack = value;
+            }
+        }
 
     }
 }
