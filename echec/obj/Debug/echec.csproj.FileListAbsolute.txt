@@ -21,7 +21,6 @@ F:\jeu\echec\echec\echec\obj\Debug\echec.pdb
 D:\Echec\echec\bin\Debug\echec.exe.config
 D:\Echec\echec\obj\Debug\echec.exe
 D:\Echec\echec\obj\Debug\echec.pdb
-D:\Echec\echec\bin\Debug\ressource\00TourBlancheBlanc.png
 D:\Echec\echec\bin\Debug\ressource\10RoiNoir.png
 D:\Echec\echec\bin\Debug\ressource\11PionNoir.png
 D:\Echec\echec\bin\Debug\ressource\01CavalierBlanc.png
@@ -92,3 +91,6 @@ F:\jeu\echec\echec\echec\obj\Debug\echec.frmGame.resources
 \\s2.rpn.ch\home\CPLN\Eleves\ET\SchneebergVa\info\atelier\sacchetti\echec\echec\echec\obj\Debug\echec.exe
 \\s2.rpn.ch\home\CPLN\Eleves\ET\SchneebergVa\info\atelier\sacchetti\echec\echec\echec\obj\Debug\echec.pdb
 D:\Echec\echec\echec\bin\Debug\ressource\PresentationRegles.pdf
+D:\Echec\echec\bin\Debug\ressource\00TourBlanche.png
+D:\Echec\echec\bin\Debug\ressource\PresentationRegles.pdf
+D:\Echec\echec\obj\Debug\echec.CustomMsgBox.resources

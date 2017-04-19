@@ -489,7 +489,7 @@ namespace echec
         {
             foreach(String s in game1.DicWhitePiece.Keys)
             {
-                if(game1.DicWhitePiece[s].PositionX!=game2.DicWhitePiece[s].PositionX&&game1.DicWhitePiece[s].PositionY!=game2.DicWhitePiece[s].PositionY)
+                if(game1.DicWhitePiece[s].PositionX!=game2.DicWhitePiece[s].PositionX || game1.DicWhitePiece[s].PositionY!=game2.DicWhitePiece[s].PositionY)
                 {
                     return false;
                 }
@@ -498,7 +498,7 @@ namespace echec
 
             foreach (String s in game1.DicBlackPiece.Keys)
             {
-                if (game1.DicBlackPiece[s].PositionX != game2.DicBlackPiece[s].PositionX && game1.DicBlackPiece[s].PositionY != game2.DicBlackPiece[s].PositionY)
+                if (game1.DicBlackPiece[s].PositionX != game2.DicBlackPiece[s].PositionX || game1.DicBlackPiece[s].PositionY != game2.DicBlackPiece[s].PositionY)
                 {
                     return false;
                 }
