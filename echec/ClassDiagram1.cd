@@ -1,87 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="echec.Human" Collapsed="true">
-    <Position X="0.75" Y="5.5" Width="1.5" />
+  <Class Name="echec.Human">
+    <Position X="5.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Human.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="echec.Game" Collapsed="true">
-    <Position X="5" Y="3" Width="2" />
+  <Class Name="echec.Game">
+    <Position X="0.5" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AEBMSEARCFIIIFAEAMFQAAACAkIgAEgAhAAGiAAAIFI=</HashCode>
+      <HashCode>AEBMSEARCFIIIFAEAMFQAAACAkIgAAgAhAAGiAAAIFI=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="tabPiece" />
+      <Field Name="lstPlayer" />
+    </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="echec.King" Collapsed="true">
-    <Position X="5.5" Y="5.5" Width="1.5" />
+  <Class Name="echec.King">
+    <Position X="6" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAMAAAABAAAAAAgAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>King.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="echec.Knights" Collapsed="true">
-    <Position X="9.25" Y="5.5" Width="1.5" />
+  <Class Name="echec.Knights">
+    <Position X="6" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAABAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Knight.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="echec.Pawn" Collapsed="true">
-    <Position X="13" Y="5.5" Width="1.5" />
+  <Class Name="echec.Pawn">
+    <Position X="6" Y="11.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAABACEAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
       <FileName>Pawn.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="echec.Piece" Collapsed="true">
-    <Position X="7.25" Y="4.25" Width="1.75" />
+  <Class Name="echec.Piece">
+    <Position X="3.25" Y="3.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>ABAEgAAAAIAAAAAgAAACUAAAAAAAAgAAAEAAgAAAABA=</HashCode>
       <FileName>Piece.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="echec.Player" Collapsed="true">
-    <Position X="1.75" Y="4" Width="1.5" />
+  <Class Name="echec.Player">
+    <Position X="3.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAFA=</HashCode>
       <FileName>Player.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="echec.Queen" Collapsed="true">
-    <Position X="7.25" Y="5.5" Width="1.5" />
+  <Class Name="echec.Queen">
+    <Position X="6" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Queen.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="echec.Rook" Collapsed="true">
-    <Position X="11" Y="5.5" Width="1.5" />
+  <Class Name="echec.Rook">
+    <Position X="6" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Rook.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="echec.Bishop" Collapsed="true">
-    <Position X="3.75" Y="5.5" Width="1.5" />
+  <Class Name="echec.Bishop">
+    <Position X="6" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Bishop.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="echec.frmMenu" Collapsed="true">
-    <Position X="5.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAACAQABAAAQCAAAACYGAAAAAoQQAAgAAAAAA=</HashCode>
-      <FileName>frmMenu.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="echec.frmGame" Collapsed="true">
-    <Position X="5.25" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAACIABJCDCEIgggACICAAOBAEJDIwIAAAAAAAIABA=</HashCode>
-      <FileName>frmGame.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

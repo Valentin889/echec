@@ -78,7 +78,7 @@ namespace echec
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnQuitter_Click(object sender, EventArgs e)
+        private void btnExit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -154,7 +154,7 @@ namespace echec
 
                 if (DisplayBoardGame[x][y] != null)
                 {
-                    PartsDiaplay(DisplayBoardGame[x][y].Picture, (PictureBox)tlpDisplay.Controls[i]);
+                    PartsDisplay(DisplayBoardGame[x][y].Picture, (PictureBox)tlpDisplay.Controls[i]);
                 }
                 else
                 {
@@ -226,7 +226,7 @@ namespace echec
         /// </summary>
         /// <param name="strPiece"></param>
         /// <param name="pct"></param>
-        private void PartsDiaplay(string strPiece, PictureBox pct)
+        private void PartsDisplay(string strPiece, PictureBox pct)
         {
             FileStream fs = new FileStream(@"ressource\" + strPiece, FileMode.Open);
             pct.Image = Image.FromStream(fs);
@@ -399,14 +399,14 @@ namespace echec
                     {
                         MessageBox.Show("échec et math "+ strNamePlayer2 + " a gagné");
                     }
-                    btnQuitter_Click(new object(), new EventArgs());
+                    btnExit_Click(new object(), new EventArgs());
                 }
                 else if(game.IsDraw(strActifColor))
                 {
                     MessageBox.Show("Match nul");
-                    btnQuitter_Click(new object(), new EventArgs());
+                    btnExit_Click(new object(), new EventArgs());
                 }
-                else if(game.isKingCheck(strActifColor))
+                else if(game.IsKingCheck(strActifColor))
                 {
                     MessageBox.Show("Echec");
                 }

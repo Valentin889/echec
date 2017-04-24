@@ -18,7 +18,7 @@ namespace echec
         private Dictionary<string, Piece> dicBlackPiece;
         private string strColor1;
         private string strColor2;
-        private frmGame Affichage;
+        private frmGame Display;
         private Piece[][] tabPiece;
         private int iPawnChange;
         private int iConterEqualGame;
@@ -33,7 +33,7 @@ namespace echec
             dicBlackPiece = new Dictionary<string, Piece>();
 
             
-            Affichage = form;
+            Display = form;
             strColor1 = "White";
             strColor2 = "Black";
             tabPiece = new Piece[8][];
@@ -91,12 +91,12 @@ namespace echec
         /// <summary>
         /// ajoute dans la liste des joueurs deux joueurs reçu en paramètre
         /// </summary>
-        /// <param name="joueur1"></param>
-        /// <param name="joueur2"></param>
-        public void CreatPlayer(Player joueur1, Player joueur2)
+        /// <param name="Player1"></param>
+        /// <param name="Player2"></param>
+        public void CreatPlayer(Player Player1, Player Player2)
         {
-            lstPlayer.Add(joueur1);
-            lstPlayer.Add(joueur2);
+            lstPlayer.Add(Player1);
+            lstPlayer.Add(Player2);
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace echec
                 copyGame.tabPiece[pieceClone.PositionY][pieceClone.PositionX] = pieceClone;
                 copyGame.lstPlayer[0].LastPiece = pieceClone;
 
-                if(copyGame.isKingCheck(copyGame.lstPlayer[0].LastPiece.Color))
+                if(copyGame.IsKingCheck(copyGame.lstPlayer[0].LastPiece.Color))
                 {
                     listTemp.Add(s);
                 }
@@ -239,7 +239,7 @@ namespace echec
         /// <returns></returns>
         public Game Clone()
         {
-            Game clone =new Game(Affichage);
+            Game clone =new Game(Display);
             clone.iNumerberPiece = this.iNumerberPiece;
             clone.iNumberPiecePerColor = this.iNumberPiecePerColor;
             
@@ -278,7 +278,7 @@ namespace echec
             }
             else
             {
-                doBigRock(color);
+                DoBigRock(color);
             }
 
         }
@@ -294,13 +294,13 @@ namespace echec
                 lstPlayer[0].LastPiece = tabPiece[7][7];
                 lstPlayer[0].LastPosition[0] = 7;
                 lstPlayer[0].LastPosition[1] = 5;
-                Affichage.PlayDisplayMove();
+                Display.PlayDisplayMove();
                 Play();
 
                 lstPlayer[0].LastPiece = tabPiece[7][4];
                 lstPlayer[0].LastPosition[0] = 7;
                 lstPlayer[0].LastPosition[1] = 6;
-                Affichage.PlayDisplayMove();
+                Display.PlayDisplayMove();
                 Play();
             }
             else
@@ -308,18 +308,18 @@ namespace echec
                 lstPlayer[0].LastPiece = tabPiece[0][7];
                 lstPlayer[0].LastPosition[0] = 0;
                 lstPlayer[0].LastPosition[1] = 5;
-                if(Affichage.IsGameTurned)
+                if(Display.IsGameTurned)
                 {
-                    Affichage.TurnGame();
+                    Display.TurnGame();
                 }
-                Affichage.PlayDisplayMove();
+                Display.PlayDisplayMove();
                 Play();
 
 
                 lstPlayer[0].LastPiece = tabPiece[0][4];
                 lstPlayer[0].LastPosition[0] = 0;
                 lstPlayer[0].LastPosition[1] = 6;
-                Affichage.PlayDisplayMove();
+                Display.PlayDisplayMove();
                 Play();
             }
         }
@@ -328,20 +328,20 @@ namespace echec
         /// écécute un grand rock de la couleur reçu
         /// </summary>
         /// <param name="color"></param>
-        private void doBigRock(string color)
+        private void DoBigRock(string color)
         {
             if (color == strColor1)
             {
                 lstPlayer[0].LastPiece = tabPiece[7][0];
                 lstPlayer[0].LastPosition[0] = 7;
                 lstPlayer[0].LastPosition[1] = 3;
-                Affichage.PlayDisplayMove();
+                Display.PlayDisplayMove();
                 Play();
 
                 lstPlayer[0].LastPiece = tabPiece[7][4];
                 lstPlayer[0].LastPosition[0] = 7;
                 lstPlayer[0].LastPosition[1] = 2;
-                Affichage.PlayDisplayMove();
+                Display.PlayDisplayMove();
                 Play();
             }
             else
@@ -349,17 +349,17 @@ namespace echec
                 lstPlayer[0].LastPiece = tabPiece[0][0];
                 lstPlayer[0].LastPosition[0] = 0;
                 lstPlayer[0].LastPosition[1] = 3;
-                if (Affichage.IsGameTurned)
+                if (Display.IsGameTurned)
                 {
-                    Affichage.TurnGame();
+                    Display.TurnGame();
                 }
-                Affichage.PlayDisplayMove();
+                Display.PlayDisplayMove();
                 Play();
 
                 lstPlayer[0].LastPiece = tabPiece[0][4];
                 lstPlayer[0].LastPosition[0] = 0;
                 lstPlayer[0].LastPosition[1] = 2;
-                Affichage.PlayDisplayMove();
+                Display.PlayDisplayMove();
                 Play();
             }
         }
@@ -465,59 +465,60 @@ namespace echec
         {
             if (color == strColor1)
             {
-                try
-                {
-                    Rook r = (Rook)tabPiece[7][7];
-                    if(r.IsAlreadyMove)
-                    {
-                        return false;
-                    }
-                }
-                catch
+                if (tabPiece[7][7] == null)
                 {
                     return false;
                 }
+                if (tabPiece[7][7].GetType() != typeof(Rook))
+                {
+                    return false;
+                }
+                if (tabPiece[7][7].IsAlreadyMove)
+                {
+                    return false;
+                }
+                    
                 if (tabPiece[7][6] != null || tabPiece[7][5] != null)
                 {
                     return false;
                 }
-                try
-                {
-                    King k = (King)tabPiece[7][4].Clone();
-                    if (k.IsAlreadyMove)
-                    {
-                        return false;
-                    }
-                    
-                    
-                    k.PositionX = 5;
-                    if(k.IsCheck(this))
-                    {
-                        return false;
-                    }
-                    k.PositionX = 6;
-                    if(k.IsCheck(this))
-                    {
-                        return false;
-                    }
-                    
-                }
-                catch
+                if (tabPiece[7][4] == null)
                 {
                     return false;
                 }
+                if (tabPiece[7][4].GetType()!=typeof(King))
+                {
+                    return false;
+                }
+                King k = (King)tabPiece[7][4].Clone();
+                if (k.IsAlreadyMove)
+                {
+                    return false;
+                }
+                k.PositionX = 5;
+                if(k.IsCheck(this))
+                {
+                    return false;
+                }
+                k.PositionX = 6;
+                if(k.IsCheck(this))
+                {
+                    return false;
+                }
+                    
             }
             else
             {
-                try
+
+                if (tabPiece[0][7] == null)
                 {
-                    Rook r = (Rook)tabPiece[0][7];
-                    if(r.IsAlreadyMove)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-                catch
+                if (tabPiece[0][7].GetType()!=typeof(Rook))
+                {
+                    return false;
+                }
+                if(tabPiece[0][7].IsAlreadyMove)
                 {
                     return false;
                 }
@@ -525,25 +526,26 @@ namespace echec
                 {
                     return false;
                 }
-                try
+                if (tabPiece[0][4] == null)
                 {
-                    King k = (King)tabPiece[0][4].Clone();
-                    if (k.IsAlreadyMove)
-                    {
-                        return false;
-                    }
-                    k.PositionX = 5;
-                    if(k.IsCheck(this))
-                    {
-                        return false;
-                    }
-                    k.PositionX = 6;
-                    if(k.IsCheck(this))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-                catch
+                if (tabPiece[0][4].GetType()!=typeof(King))
+                {
+                    return false;
+                }
+                King k = (King)tabPiece[0][4].Clone();
+                if (k.IsAlreadyMove)
+                {
+                    return false;
+                }
+                k.PositionX = 5;
+                if (k.IsCheck(this))
+                {
+                    return false;
+                }
+                k.PositionX = 6;
+                if (k.IsCheck(this))
                 {
                     return false;
                 }
@@ -556,7 +558,6 @@ namespace echec
         /// </summary>
         public void Play()
         {
-
             Piece p = lstPlayer[0].LastPiece;
             int NewY = lstPlayer[0].LastPosition[0];
             int NewX = lstPlayer[0].LastPosition[1];
@@ -665,7 +666,7 @@ namespace echec
             if (tabPiece[Y][X] == null)
             {
                 CatchUpPiece(tabPiece[Y + 1][X]);
-                Affichage.RemoveFromDisplay(Y + 1, X);
+                Display.RemoveFromDisplay(Y + 1, X);
             }
         }
 
@@ -679,7 +680,7 @@ namespace echec
             if(tabPiece[Y][X]==null)
             {
                 CatchUpPiece(tabPiece[Y - 1][X]);
-                Affichage.RemoveFromDisplay(Y-1, X);
+                Display.RemoveFromDisplay(Y-1, X);
             }
         }
 
@@ -704,27 +705,28 @@ namespace echec
         /// </summary>
         /// <param name="piece"></param>
         /// <returns></returns>
-        public bool isKingCheck(string Color)
+        public bool IsKingCheck(string color)
         {
             King k = null;
             Piece piece = lstPlayer[0].LastPiece;
-            if (Color == strColor1)
+            Dictionary<string, Piece> dTemp;
+            string Key;
+            if (color == strColor1)
             {
-                k = (King)dicWhitePiece["KingWhite"].Clone();
-                if (k.GetType() == piece.GetType())
-                {
-                    k.PositionX = piece.PositionX;
-                    k.PositionY = piece.PositionY;
-                }
+                dTemp = dicWhitePiece;
+                Key = "KingWhite";
             }
             else
             {
-                k = (King)dicBlackPiece["KingBlack"].Clone();
-                if (k.GetType() == piece.GetType())
-                {
-                    k.PositionX = piece.PositionX;
-                    k.PositionY = piece.PositionY;
-                }
+                dTemp = dicBlackPiece;
+                Key = "KingBlack";
+                
+            }
+            k = (King)dTemp[Key].Clone();
+            if (k.GetType() == piece.GetType())
+            {
+                k.PositionX = piece.PositionX;
+                k.PositionY = piece.PositionY;
             }
             return k.IsCheck(this);
         }
@@ -795,7 +797,7 @@ namespace echec
             }
             newPiece.PositionX = p.PositionX;
             newPiece.PositionY = p.PositionY;
-            Affichage.SetPicture(newPiece);
+            Display.SetPicture(newPiece);
 
 
             iPawnChange += 2;
@@ -833,25 +835,25 @@ namespace echec
         /// <summary>
         /// méthode vérifiant si il y a match nul
         /// </summary>
-        /// <param name="Color"></param>
+        /// <param name="color"></param>
         /// <returns></returns>
-        public bool IsDraw(string Color)
+        public bool IsDraw(string color)
         {
             if (iConterEqualGame==3)
             {
                 return true;
             }
-            if(IsKingcantMove(Color))
+            if(IsPossibleMove(color))
             {
                 return true;
             }
             return false;
         }
 
-        private bool IsKingcantMove(string Color)
+        private bool IsPossibleMove(string color)
         {
             Game CopyGame = this.Clone();
-            if (Color == strColor1)
+            if (color == strColor1)
             {
                 foreach (Piece p in CopyGame.DicWhitePiece.Values)
                 {
@@ -880,11 +882,11 @@ namespace echec
         /// <summary>
         /// méthode véifiant si il y a échec et math
         /// </summary>
-        /// <param name="Color"></param>
+        /// <param name="color"></param>
         /// <returns></returns>
-        public bool IsCheckmate(string Color )
+        public bool IsCheckmate(string color )
         {
-            if(isKingCheck(Color)&&IsKingcantMove(Color))
+            if(IsKingCheck(color)&&IsPossibleMove(color))
             {
                 return true;
             }
@@ -934,21 +936,6 @@ namespace echec
         }
 
         /// <summary>
-        /// renvoie le tableau de pièce
-        /// </summary>
-        public Piece[][] TabPiece
-        {
-            get
-            {
-                return tabPiece;
-            }
-            set
-            {
-               tabPiece=value;
-            }
-        }
-
-        /// <summary>
         /// renvoi la couleur 1
         /// </summary>
         public string Color1
@@ -981,5 +968,16 @@ namespace echec
             }
         }
 
+        public Piece[][] TabPiece
+        {
+            get
+            {
+                return tabPiece;
+            }
+            set
+            {
+                tabPiece = value;
+            }
+        }
     }
 }

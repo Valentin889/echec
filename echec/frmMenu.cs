@@ -18,19 +18,6 @@ namespace echec
         {
             InitializeComponent();
         }
-
-        public frmGame frmJeu
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
         private void btnJouer_Click(object sender, EventArgs e)
         {
             frmGame form = new frmGame(tbxNom1.Text, tbxNom2.Text,rbtnYes.Checked);
