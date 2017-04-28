@@ -15,17 +15,16 @@ namespace echec
         }
         public override void SetPossibleMoves(Game game)
         {
-            Game copyGame = game.Clone();
-            copyGame.Players[0].LastPiece = this;
+            game.Players[0].LastPiece = this;
             Move = new List<string>();
 
             for (int i = PositionY - 1; i <= PositionY + 1; i++)
             {
-                if (i < copyGame.TabPiece.Length && i >= 0)
+                if (i < game.TabPiece.Length && i >= 0)
                 {
                     for (int j = PositionX - 1; j <= PositionX + 1; j++)
                     {
-                        if (j < copyGame.TabPiece.Length && j >= 0)
+                        if (j < game.TabPiece.Length && j >= 0)
                         {
                             if (i == PositionY && j == PositionX)
                             {
@@ -33,7 +32,7 @@ namespace echec
                             }
                             else
                             {
-                                    AddMove(copyGame, i, j);
+                                    AddMove(game, i, j);
 
                             }
                         }

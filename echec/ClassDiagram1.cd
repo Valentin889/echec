@@ -10,12 +10,12 @@
   <Class Name="echec.Game">
     <Position X="0.5" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AEBMSEARCFIIIFAEAMFQAAACAkIgAAgAhAAGiAAAIFI=</HashCode>
+      <HashCode>AEBMSEABCFIIAFAEAOFQARACAkIgAEgAhBAEiAAAIFA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Field Name="tabPiece" />
       <Field Name="lstPlayer" />
+      <Field Name="tabPiece" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="echec.King">

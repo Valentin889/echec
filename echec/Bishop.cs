@@ -13,42 +13,42 @@ namespace echec
         {
 
         }
-        public override void SetPossibleMoves(Game jeu)
+        public override void SetPossibleMoves(Game game)
         {
-            Game jeuCopie = jeu;
-            jeuCopie.Players[0].LastPiece = this;
+            Game copyGame = game.Clone();
+            copyGame.Players[0].LastPiece = this;
             Move = new List<string>();
 
-            for (int i = PositionY + 1, j = PositionX + 1; i < jeuCopie.TabPiece.Length && j < jeuCopie.TabPiece[0].Length; i++, j++)
+            for (int i = PositionY + 1, j = PositionX + 1; i < copyGame.TabPiece.Length && j < copyGame.TabPiece[0].Length; i++, j++)
             {
-                if (!AddMove(jeuCopie, i, j))
+                if (!AddMove(copyGame, i, j))
                 {
-                    i = jeuCopie.TabPiece.Length;
-                    j = jeuCopie.TabPiece[0].Length;
+                    i = copyGame.TabPiece.Length;
+                    j = copyGame.TabPiece[0].Length;
                 }
             }
 
-            for (int i = PositionY + 1, j = PositionX - 1; i < jeuCopie.TabPiece.Length && j >= 0; i++, j--)
+            for (int i = PositionY + 1, j = PositionX - 1; i < copyGame.TabPiece.Length && j >= 0; i++, j--)
             {
-                if (!AddMove(jeuCopie, i, j))
+                if (!AddMove(copyGame, i, j))
                 {
-                    i = jeuCopie.TabPiece.Length;
+                    i = copyGame.TabPiece.Length;
                     j = -1;
                 }
             }
 
-            for (int i = PositionY - 1, j = PositionX + 1; i >= 0 && j < jeuCopie.TabPiece[0].Length; i--, j++)
+            for (int i = PositionY - 1, j = PositionX + 1; i >= 0 && j < copyGame.TabPiece[0].Length; i--, j++)
             {
-                if (!AddMove(jeuCopie, i, j))
+                if (!AddMove(copyGame, i, j))
                 {
                     i = -1;
-                    j = jeuCopie.TabPiece[0].Length;
+                    j = copyGame.TabPiece[0].Length;
                 }
             }
 
             for (int i = PositionY - 1, j = PositionX - 1; i >= 0 && j >= 0; i--, j--)
             {
-                if (!AddMove(jeuCopie, i, j))
+                if (!AddMove(copyGame, i, j))
                 {
                     i = -1;
                     j = -1;

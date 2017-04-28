@@ -566,14 +566,14 @@ namespace echec
             {
                 if (p.Color == strColor1)
                 {
-                    if (lstPlayer[0].LastPosition[0] == 4)
+                    if (NewY == 4)
                     {
                         SetPassing();
                     }
                 }
                 else
                 {
-                    if (lstPlayer[0].LastPosition[0] == 3)
+                    if (NewY == 3)
                     {
                         SetPassing();
                     }

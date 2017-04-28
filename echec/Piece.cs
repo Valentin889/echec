@@ -24,11 +24,11 @@ namespace echec
                 lstMove = value;
             }
         }
-        public abstract void SetPossibleMoves(Game jeu);
+        public abstract void SetPossibleMoves(Game game);
         public string Picture { get; set; }
-        public Piece(string couleur)
+        public Piece(string color)
         {
-            Color = couleur;
+            Color = color;
             IsAlreadyMove = false;
         }
         public bool AddMove(Game game, int i, int j)
@@ -59,7 +59,7 @@ namespace echec
             PositionX = Position[1];
         }
 
-        public virtual void SetPassingLeft(bool bValue) {; }
+        public virtual void SetPassingLeft(bool bValue) { ; }
         public virtual void SetPassingRight(bool bValue) { ; }
 
 
