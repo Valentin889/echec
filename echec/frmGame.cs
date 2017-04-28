@@ -472,11 +472,6 @@ namespace echec
                         }
 
                     }
-                    else
-                    {
-                        LoadColor();
-                    }
-
                 }
                 else
                 {

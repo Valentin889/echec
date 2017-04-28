@@ -109,7 +109,7 @@ namespace echec
                     }
                     if (PositionX < copyGame.TabPiece[i].Length-1)
                     {
-                        j += 2;
+                        j += 1;
                         if (copyGame.TabPiece[i][j] != null)
                         {
                             if (copyGame.TabPiece[i][j].Color != this.Color)
