@@ -450,6 +450,7 @@ namespace echec
                         {
                             King k = (King)p;
                             specialMove = k.Specialmove;
+                            k.Specialmove = new List<string>();
                         }
                         if (bIsGameTurned)
                         {
