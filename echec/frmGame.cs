@@ -35,8 +35,8 @@ namespace echec
         {
             InitializeComponent();
             game = new Game(this);
-            game.CreatPiece();
-            game.CreatPlayer(new Human(game.Color1), new Human(game.Color2));
+            game.CreatePiece();
+            game.CreatePlayer(new Human(game.Color1), new Human(game.Color2));
             game.PositionPiece();
             pictureParts = new List<string>();
 
@@ -389,7 +389,7 @@ namespace echec
                 {
                     strActifColor = game.Color1;
                 }
-                if(game.IsCheckmate(strActifColor))
+                if(game.IsCheckmat(strActifColor))
                 {
                     if (strActifColor == game.Color1)
                     {
@@ -420,7 +420,7 @@ namespace echec
                 Coup[0] = Convert.ToInt32(t[0]);
                 Coup[1] = Convert.ToInt32(t[1]);
                 game.Players[0].LastPosition = Coup;
-                game.DoRock(strActifColor);
+                game.DoCastling(strActifColor);
                 PlacementParts();
                 LoadColor();
                 game.NextPlayer();
@@ -465,7 +465,7 @@ namespace echec
                         if(p.GetType()==typeof(King))
                         {
                             Game copiGame = game.Clone();
-                            if (copiGame.IsSmallRock(p.Color)||copiGame.IsBigRock(p.Color))
+                            if (copiGame.IsSmallCastling(p.Color)||copiGame.IsBigCastling(p.Color))
                             {
                                 King k = (King)p;
                                 ShowTraveling(specialMove, Color.Orange);

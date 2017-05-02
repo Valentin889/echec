@@ -16,23 +16,22 @@ namespace echec
         }
         public override void SetPossibleMoves(Game game)
         {
-            Game copyGame = game.Clone();
-            copyGame.Players[0].LastPiece = this;
+            game.Players[0].LastPiece = this;
 
             Move = new List<string>();
-            if (this.Color == copyGame.Color1)
+            if (this.Color == game.Color1)
             {
                 if (PositionY - 1 >= 0)
                 {
                     int i = PositionY - 1;
                     int j = PositionX;
-                    if (copyGame.TabPiece[i][j] == null)
+                    if (game.TabPiece[i][j] == null)
                     {
                         Move.Add(i.ToString() + "/" + j.ToString());
                         if (!IsAlreadyMove)
                         {
                             i -= 1;
-                            if (copyGame.TabPiece[i][j] == null)
+                            if (game.TabPiece[i][j] == null)
                             {
                                 Move.Add(i.ToString() + "/" + j.ToString());
                             }
@@ -42,20 +41,20 @@ namespace echec
                     if (PositionX != 0)
                     {
                         j = PositionX - 1;
-                        if (copyGame.TabPiece[i][j] != null)
+                        if (game.TabPiece[i][j] != null)
                         {
-                            if (copyGame.TabPiece[i][j].Color != this.Color)
+                            if (game.TabPiece[i][j].Color != this.Color)
                             {
                                 Move.Add(i.ToString() + "/" + j.ToString());
                             }
                         }
                     }
-                    if (PositionX < copyGame.TabPiece[i].Length-1)
+                    if (PositionX < game.TabPiece[i].Length-1)
                     {
                         j += 2;
-                        if (copyGame.TabPiece[i][j] != null)
+                        if (game.TabPiece[i][j] != null)
                         {
-                            if (copyGame.TabPiece[i][j].Color != this.Color)
+                            if (game.TabPiece[i][j].Color != this.Color)
                             {
                                 Move.Add(i.ToString() + "/" + j.ToString());
                             }
@@ -79,17 +78,17 @@ namespace echec
             }
             else
             {
-                if (PositionY + 1 <= copyGame.TabPiece.Length)
+                if (PositionY + 1 <= game.TabPiece.Length)
                 {
                     int i = PositionY + 1;
                     int j = PositionX;
-                    if (copyGame.TabPiece[i][j] == null)
+                    if (game.TabPiece[i][j] == null)
                     {
                         Move.Add(i.ToString() + "/" + j.ToString());
                         if (!IsAlreadyMove)
                         {
                             i += 1;
-                            if (copyGame.TabPiece[i][j] == null)
+                            if (game.TabPiece[i][j] == null)
                             {
                                 Move.Add(i.ToString() + "/" + j.ToString());
                             }
@@ -99,20 +98,20 @@ namespace echec
                     if (PositionX != 0)
                     {
                         j = PositionX - 1;
-                        if (copyGame.TabPiece[i][j] != null)
+                        if (game.TabPiece[i][j] != null)
                         {
-                            if (copyGame.TabPiece[i][j].Color != this.Color)
+                            if (game.TabPiece[i][j].Color != this.Color)
                             {
                                 Move.Add(i.ToString() + "/" + j.ToString());
                             }
                         }
                     }
-                    if (PositionX < copyGame.TabPiece[i].Length-1)
+                    if (PositionX < game.TabPiece[i].Length-1)
                     {
                         j += 1;
-                        if (copyGame.TabPiece[i][j] != null)
+                        if (game.TabPiece[i][j] != null)
                         {
-                            if (copyGame.TabPiece[i][j].Color != this.Color)
+                            if (game.TabPiece[i][j].Color != this.Color)
                             {
                                 Move.Add(i.ToString() + "/" + j.ToString());
                             }

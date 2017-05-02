@@ -19,7 +19,7 @@ namespace TestEchec
         public void TestCheckmate()
         {
             Game game = new Game(new frmGame());
-            game.CreatPlayer(new Human(Color1),new Human(Color2));
+            game.CreatePlayer(new Human(Color1),new Human(Color2));
             dicWhitePiece = new Dictionary<string, Piece>();
             dicBlackPiece = new Dictionary<string, Piece>();
             dicWhitePiece.Add("KingWhite", new King(Color1));
@@ -35,13 +35,13 @@ namespace TestEchec
             game.DicWhitePiece = dicWhitePiece;
             game.FillTablePiece();
             game.Players[0].LastPiece = dicBlackPiece["QueenBlack"];
-            Assert.AreEqual( true, game.IsCheckmate(Color1));
+            Assert.AreEqual( true, game.IsCheckmat(Color1));
         }
         [TestMethod]
         public void TestDraw1()
         {
             Game game = new Game(new frmGame());
-            game.CreatPlayer(new Human(Color1), new Human(Color2));
+            game.CreatePlayer(new Human(Color1), new Human(Color2));
             dicWhitePiece = new Dictionary<string, Piece>();
             dicBlackPiece = new Dictionary<string, Piece>();
             dicWhitePiece.Add("KingWhite", new King(Color1));

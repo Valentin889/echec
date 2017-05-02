@@ -44,7 +44,7 @@ namespace echec
         public void AddRock(Game game)
         {
             Game copyGame = game.Clone();
-            if (copyGame.IsSmallRock(this.Color))
+            if (copyGame.IsSmallCastling(this.Color))
             {
                 if (this.Color == copyGame.Color1)
                 {
@@ -55,7 +55,7 @@ namespace echec
                     Specialmove.Add("0/6");
                 }
             }
-            if (copyGame.IsBigRock(this.Color))
+            if (copyGame.IsBigCastling(this.Color))
             {
                 if (this.Color == copyGame.Color1)
                 {

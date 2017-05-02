@@ -48,7 +48,7 @@ namespace echec
         /// <summary>
         /// appelé au démarage du jeu la méthode crée les pièces et les ajoutes dans les dictionnaire de pièces correspondant
         /// </summary>
-        public void CreatPiece()
+        public void CreatePiece()
         {
             string Color = strColor2;
 
@@ -93,7 +93,7 @@ namespace echec
         /// </summary>
         /// <param name="Player1"></param>
         /// <param name="Player2"></param>
-        public void CreatPlayer(Player Player1, Player Player2)
+        public void CreatePlayer(Player Player1, Player Player2)
         {
             lstPlayer.Add(Player1);
             lstPlayer.Add(Player2);
@@ -270,15 +270,15 @@ namespace echec
         /// exécute le petit ou le grand rock en fonction de la position du roi
         /// </summary>
         /// <param name="color"></param>
-        public void DoRock(string color)
+        public void DoCastling(string color)
         {
             if (lstPlayer[0].LastPosition[1] == 6)
             {
-                DoSmallRock(color);
+                DoSmallCastling(color);
             }
             else
             {
-                DoBigRock(color);
+                DoBigCastling(color);
             }
 
         }
@@ -287,7 +287,7 @@ namespace echec
         /// éxécute un petit rock de la couleur reçu
         /// </summary>
         /// <param name="color"></param>
-        private void DoSmallRock(string color)
+        private void DoSmallCastling(string color)
         {
             if(color==strColor1)
             {
@@ -328,7 +328,7 @@ namespace echec
         /// écécute un grand rock de la couleur reçu
         /// </summary>
         /// <param name="color"></param>
-        private void DoBigRock(string color)
+        private void DoBigCastling(string color)
         {
             if (color == strColor1)
             {
@@ -369,7 +369,7 @@ namespace echec
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public bool IsBigRock(string color)
+        public bool IsBigCastling(string color)
         {
             //implémente une série de test
             if(color==strColor1)
@@ -461,7 +461,7 @@ namespace echec
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public bool IsSmallRock(string color)
+        public bool IsSmallCastling(string color)
         {
             if (color == strColor1)
             {
@@ -568,14 +568,14 @@ namespace echec
                 {
                     if (NewY == 4)
                     {
-                        SetPassing();
+                        SetEnPassant();
                     }
                 }
                 else
                 {
                     if (NewY == 3)
                     {
-                        SetPassing();
+                        SetEnPassant();
                     }
                 }
             }
@@ -585,19 +585,19 @@ namespace echec
 
                 if (p.PositionY + 1 == NewY && p.PositionX + 1 == NewX)
                 {
-                    IsPawnBlackUsedPassing(NewY, NewX);
+                    IsPawnBlackUsedEnPassant(NewY, NewX);
                 }
                 if (p.PositionY + 1 == NewY && p.PositionX - 1 == NewX)
                 {
-                    IsPawnBlackUsedPassing(NewY, NewX);
+                    IsPawnBlackUsedEnPassant(NewY, NewX);
                 }
                 if (p.PositionY - 1 == NewY && p.PositionX + 1 == NewX)
                 {
-                    IsPawnWhiteUsedPassing(NewY, NewX);
+                    IsPawnWhiteUsedEnPassant(NewY, NewX);
                 }
                 if (p.PositionY - 1 == NewY && p.PositionX - 1 == NewX)
                 {
-                    IsPawnWhiteUsedPassing(NewY, NewX);
+                    IsPawnWhiteUsedEnPassant(NewY, NewX);
                 }
             }
             if (tabPiece[NewY][NewX] != null)
@@ -631,7 +631,7 @@ namespace echec
         /// <summary>
         /// test si il y a un passing à gauche et à droite du dernier pion jouer et si tel est le cas défini une variable à true pour le pion concerné
         /// </summary>
-        private void SetPassing()
+        private void SetEnPassant()
         {
             int positionY = lstPlayer[0].LastPosition[0];
             int positionX = lstPlayer[0].LastPosition[1];
@@ -661,7 +661,7 @@ namespace echec
         /// </summary>
         /// <param name="Y"></param>
         /// <param name="X"></param>
-        private void IsPawnWhiteUsedPassing(int Y, int X)
+        private void IsPawnWhiteUsedEnPassant(int Y, int X)
         {
             if (tabPiece[Y][X] == null)
             {
@@ -675,7 +675,7 @@ namespace echec
         /// </summary>
         /// <param name="Y"></param>
         /// <param name="X"></param>
-        private void IsPawnBlackUsedPassing(int Y, int X)
+        private void IsPawnBlackUsedEnPassant(int Y, int X)
         {
             if(tabPiece[Y][X]==null)
             {
@@ -884,7 +884,7 @@ namespace echec
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public bool IsCheckmate(string color )
+        public bool IsCheckmat(string color )
         {
             if(IsKingCheck(color)&&IsPossibleMove(color))
             {
