@@ -483,22 +483,29 @@ namespace echec
 
         private bool CompareGame(Game game1, Game game2)
         {
-            foreach(String s in game1.DicWhitePiece.Keys)
+            try
             {
-                if(game1.DicWhitePiece[s].PositionX!=game2.DicWhitePiece[s].PositionX || game1.DicWhitePiece[s].PositionY!=game2.DicWhitePiece[s].PositionY)
+                foreach (String s in game1.DicWhitePiece.Keys)
                 {
-                    return false;
+                    if (game1.DicWhitePiece[s].PositionX != game2.DicWhitePiece[s].PositionX || game1.DicWhitePiece[s].PositionY != game2.DicWhitePiece[s].PositionY)
+                    {
+                        return false;
+                    }
+
                 }
 
+                foreach (String s in game1.DicBlackPiece.Keys)
+                {
+                    if (game1.DicBlackPiece[s].PositionX != game2.DicBlackPiece[s].PositionX || game1.DicBlackPiece[s].PositionY != game2.DicBlackPiece[s].PositionY)
+                    {
+                        return false;
+                    }
+
+                }
             }
-
-            foreach (String s in game1.DicBlackPiece.Keys)
+            catch(KeyNotFoundException)
             {
-                if (game1.DicBlackPiece[s].PositionX != game2.DicBlackPiece[s].PositionX || game1.DicBlackPiece[s].PositionY != game2.DicBlackPiece[s].PositionY)
-                {
-                    return false;
-                }
-
+                return false;
             }
             return true;
         }
