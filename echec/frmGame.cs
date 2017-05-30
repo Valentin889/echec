@@ -36,7 +36,7 @@ namespace echec
             InitializeComponent();
             game = new Game(this);
             game.CreatePiece();
-            game.CreatePlayer(new Human(game.Color1), new Human(game.Color2));
+            game.CreatePlayer(new IA(game.Color1,3), new Human(game.Color2));
             game.PositionPiece();
             pictureParts = new List<string>();
 
@@ -56,6 +56,7 @@ namespace echec
             strActifColor = game.Color1;
             bIsGameTurned = false;
             FlashGameForDraw = new List<Game>();
+            game.BeginGame();
         }
 
         /// <summary>

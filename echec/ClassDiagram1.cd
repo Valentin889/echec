@@ -10,7 +10,7 @@
   <Class Name="echec.Game">
     <Position X="0.5" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AEBMSEABCFIIAFAEAOFQARACAkIgAEgAhBAEiAAAIFA=</HashCode>
+      <HashCode>AEBICEEJSkIIAEAAQMFQARAAAkogUEgAgBAEgAAAINA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -28,21 +28,21 @@
   <Class Name="echec.Knights">
     <Position X="6" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAABAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Knight.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="echec.Pawn">
     <Position X="6" Y="11.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAABACEAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <HashCode>AAAEAAAAAAAAAAACABAAAAAAAAAAAAAAAAAAAAAAAoA=</HashCode>
       <FileName>Pawn.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="echec.Piece">
     <Position X="3.25" Y="3.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>ABAEgAAAAIAAAAAgAAACUAAAAAAAAgAAAEAAgAAAABA=</HashCode>
+      <HashCode>ABAEgAAAAIAAAAAiAAAAQAAAAAAAAgAAAEAAgAAAAhA=</HashCode>
       <FileName>Piece.cs</FileName>
     </TypeIdentifier>
   </Class>

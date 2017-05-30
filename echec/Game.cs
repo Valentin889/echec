@@ -80,12 +80,6 @@ namespace echec
             dicWhitePiece.Add("Knights2" + Color, new Knights(Color));
             dicWhitePiece.Add("Rook2" + Color, new Rook(Color));
 
-
-
-
-
-
-
         }
 
         /// <summary>
@@ -138,7 +132,7 @@ namespace echec
         /// </summary>
         public void BeginGame()
         {
-            lstPlayer[0].Jouer();
+            lstPlayer[0].Jouer(this);
         }
 
         /// <summary>
@@ -170,7 +164,7 @@ namespace echec
 
         public void AskMovePlayer()
         {
-            lstPlayer[0].Jouer();
+            lstPlayer[0].Jouer(this);
         }
 
         /// <summary>
@@ -723,10 +717,13 @@ namespace echec
                 
             }
             k = (King)dTemp[Key].Clone();
-            if (k.GetType() == piece.GetType())
+            if (piece != null)
             {
-                k.PositionX = piece.PositionX;
-                k.PositionY = piece.PositionY;
+                if (k.GetType() == piece.GetType())
+                {
+                    k.PositionX = piece.PositionX;
+                    k.PositionY = piece.PositionY;
+                }
             }
             return k.IsCheck(this);
         }

@@ -8,7 +8,7 @@ namespace echec
 {
     public abstract class Player
     {
-        public abstract void Jouer();
+        public abstract void Jouer(Game game);
 
         public Player(string couleur)
         {
@@ -28,6 +28,9 @@ namespace echec
             {
                 case "echec.Human":
                     clone = new Human(this.Color);
+                    break;
+                case "echec.IA":
+                    clone = new IA(this.Color, 2);
                     break;
                 default:
                     clone = null;

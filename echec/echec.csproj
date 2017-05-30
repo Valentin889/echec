@@ -52,6 +52,7 @@
     <Compile Include="CustomMsgBox.Designer.cs">
       <DependentUpon>CustomMsgBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="IA.cs" />
     <Compile Include="Knight.cs" />
     <Compile Include="Bishop.cs" />
     <Compile Include="frmMenu.cs">

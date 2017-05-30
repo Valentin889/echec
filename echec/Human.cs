@@ -13,7 +13,7 @@ namespace echec
         {
 
         }
-        public override void Jouer()
+        public override void Jouer(Game game)
         {
             
         }
