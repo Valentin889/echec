@@ -622,8 +622,8 @@ namespace echec
             }
             foreach (Piece piece in d.Values)
             {
-                piece.SetPassingLeft(false);
-                piece.SetPassingRight(false);
+                piece.SetEnPassantLeft(false);
+                piece.SetEnPassantRight(false);
             }
         }
 
@@ -642,7 +642,7 @@ namespace echec
                 {
                     if (Adj.GetType() == typeof(Pawn))
                     {
-                        Adj.SetPassingRight(true);
+                        Adj.SetEnPassantRight(true);
                     }
                 }
                 Adj = tabPiece[positionY][positionX + 1];
@@ -650,7 +650,7 @@ namespace echec
                 {
                     if (Adj.GetType() == typeof(Pawn))
                     {
-                       Adj.SetPassingLeft(true);
+                       Adj.SetEnPassantLeft(true);
                     }
                 }
             }

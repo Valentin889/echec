@@ -59,8 +59,8 @@ namespace echec
             PositionX = Position[1];
         }
 
-        public virtual void SetPassingLeft(bool bValue) { ; }
-        public virtual void SetPassingRight(bool bValue) { ; }
+        public virtual void SetEnPassantLeft(bool bValue) { ; }
+        public virtual void SetEnPassantRight(bool bValue) { ; }
 
 
 

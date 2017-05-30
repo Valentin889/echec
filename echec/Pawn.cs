@@ -138,8 +138,8 @@ namespace echec
         public bool IsPassingRight { get;  private set; }
         public bool IsPassginLeft { get; private set; }
 
-        public override void SetPassingLeft(bool bValue) { IsPassginLeft = bValue; }
-        public override void SetPassingRight(bool bValue) { IsPassingRight = bValue; }
+        public override void SetEnPassantLeft(bool bValue) { IsPassginLeft = bValue; }
+        public override void SetEnPassantRight(bool bValue) { IsPassingRight = bValue; }
 
 
     }
