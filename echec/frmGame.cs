@@ -36,7 +36,7 @@ namespace echec
             InitializeComponent();
             game = new Game(this);
             game.CreatePiece();
-            game.CreatePlayer(new IA(game.Color1,3), new Human(game.Color2));
+            game.CreatePlayer(new IA(game.Color1,4), new Human(game.Color2));
             game.PositionPiece();
             pictureParts = new List<string>();
 
@@ -146,7 +146,7 @@ namespace echec
         /// <summary>
         /// méthode chargent les immage de chaque pièce sur la bonne case
         /// </summary>
-        private void PlacementParts()
+        public void PlacementParts()
         {
             int x = 0;
             int y = 0;

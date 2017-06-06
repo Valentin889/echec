@@ -619,6 +619,8 @@ namespace echec
                 piece.SetEnPassantLeft(false);
                 piece.SetEnPassantRight(false);
             }
+            Display.PlayDisplayMove();
+            Display.PlacementParts();
         }
 
 

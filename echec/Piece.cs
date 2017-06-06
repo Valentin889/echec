@@ -9,6 +9,7 @@ namespace echec
     public abstract class Piece
     {
         private List<String> lstMove;
+
         public String Color { get; private set; }
         public int PositionX { get; set; }
         public int PositionY { get; set; }

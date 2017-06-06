@@ -14,6 +14,8 @@ namespace echec
         private Dictionary<string, Piece> DicPieceAdverse;
         private int max;
         private int min;
+        private Piece lastPiece;
+        private Piece Pieceplay;
 
         public IA(string Color, int Depth)
             :base(Color)
@@ -34,25 +36,32 @@ namespace echec
                 DicPieceOwn = this.game.DicBlackPiece;
                 DicPieceAdverse = this.game.DicWhitePiece;
             }
+            max = int.MinValue;
+            min = int.MaxValue;
+
             CallMinMax(game.TabPiece, iDepth, true);
+            LastPiece = Pieceplay;
+            LastPosition = new int[2] { Pieceplay.PositionY, Pieceplay.PositionX }; 
+            game.Play();
+            game.NextPlayer();
         }
 
 
         private void CallMinMax(Piece[][] Table, int Depth, bool bIsMax)
         {
-            max = int.MinValue;
-            min = int.MaxValue;
+            
             if(bIsMax)
             {
-                int tmp = Max(Table, Depth - 1);
+                int tmp = Max(Table, Depth);
                 if(tmp>max)
                 {
+                    Pieceplay = lastPiece.Clone();
                     max = tmp;
                 }
             }
             else
             {
-                int tmp = Min(Table, Depth - 1);
+                int tmp = Min(Table, Depth);
                 if(tmp<min)
                 {
                     min = tmp;
@@ -70,8 +79,10 @@ namespace echec
 
             foreach (Piece p in DicPieceOwn.Values)
             {
+                p.SetPossibleMoves(game);
                 foreach (string s in p.Move)
                 {
+                    lastPiece = p;
                     string[] t = s.Split('/');
                     int NewY = Convert.ToInt32(t[0]);
                     int NewX = Convert.ToInt32(t[1]);
@@ -82,15 +93,14 @@ namespace echec
                     p.SetPosition(new int[] { NewY, NewX});
                     Table[p.PositionY][p.PositionX] = p;
                     
-                    CallMinMax(Table, Depth, false);
+                    CallMinMax(Table, Depth-1, false);
                     Table[p.PositionY][p.PositionX] = null;
                     p.SetPosition(new int[] { OldY, OldX });
                     Table[p.PositionY][p.PositionX] = p;
                
                 }
             }
-
-            return max;
+            return min;
         }
 
         private int Min(Piece[][] Table, int Depth)
@@ -102,6 +112,7 @@ namespace echec
 
             foreach (Piece p in DicPieceAdverse.Values)
             {
+                p.SetPossibleMoves(game);
                 foreach (string s in p.Move)
                 {
                     string[] t = s.Split('/');
@@ -114,7 +125,7 @@ namespace echec
                     p.SetPosition(new int[] { Y, X });
                     Table[p.PositionY][p.PositionX] = p;
 
-                    CallMinMax(Table, Depth, true);
+                    CallMinMax(Table, Depth-1, true);
                     
                     Table[p.PositionY][p.PositionX] = null;
                     p.SetPosition(new int[] { OldY, OldX });
@@ -127,7 +138,47 @@ namespace echec
 
         private int Eval(Piece[][] table)
         {
-            return 0;
+            int iOwn = 0;
+            int iOpp = 0;
+            foreach(Piece p in DicPieceOwn.Values)
+            {
+                if(p.GetType()==typeof(Pawn))
+                {
+                    iOwn += 1;
+                }
+                else if(p.GetType()==typeof(Bishop)||p.GetType()==typeof(Knights))
+                {
+                    iOwn += 3;
+                }
+                else if(p.GetType()==typeof(Rook))
+                {
+                    iOwn += 5;
+                }
+                else if(p.GetType()==typeof(Queen))
+                {
+                    iOwn += 9;
+                }
+            }
+            foreach (Piece p in DicPieceAdverse.Values)
+            {
+                if (p.GetType() == typeof(Pawn))
+                {
+                    iOpp += 1;
+                }
+                else if (p.GetType() == typeof(Bishop) || p.GetType() == typeof(Knights))
+                {
+                    iOpp += 3;
+                }
+                else if (p.GetType() == typeof(Rook))
+                {
+                    iOpp += 5;
+                }
+                else if (p.GetType() == typeof(Queen))
+                {
+                    iOpp += 9;
+                }
+            }
+            return iOwn - iOpp;
         }
 
     }
