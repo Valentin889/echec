@@ -8,8 +8,8 @@ namespace echec
 {
     public class Human : Player
     {
-        public Human(string Couleur)
-            :base(Couleur)
+        public Human(string Color1, string Color2)
+            :base(Color1,Color2)
         {
 
         }

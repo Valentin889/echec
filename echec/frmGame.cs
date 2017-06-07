@@ -36,7 +36,7 @@ namespace echec
             InitializeComponent();
             game = new Game(this);
             game.CreatePiece();
-            game.CreatePlayer(new IA(game.Color1,4), new Human(game.Color2));
+            game.CreatePlayer(new IA(game.Color1,game.Color2,2), new Human(game.Color2,game.Color1));
             game.PositionPiece();
             pictureParts = new List<string>();
 
@@ -358,7 +358,7 @@ namespace echec
                     PlayDisplayMove();
                     TurnGame();
                 }
-                game.Play();
+                game.Play(game.Players[0].LastPiece,Convert.ToString(pct.Tag));
                 LoadColor();
                 PlacementParts();
                 if (LastPiece.GetType() == typeof(Pawn))

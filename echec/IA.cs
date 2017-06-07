@@ -14,11 +14,13 @@ namespace echec
         private Dictionary<string, Piece> DicPieceAdverse;
         private int max;
         private int min;
-        private Piece lastPiece;
-        private Piece Pieceplay;
 
-        public IA(string Color, int Depth)
-            :base(Color)
+        private int iNewPosY;
+        private int iNewPosX;
+
+
+        public IA(string Color1, string Color2, int Depth)
+            :base(Color1,Color2)
         {
             iDepth = Depth;
         }
@@ -36,148 +38,102 @@ namespace echec
                 DicPieceOwn = this.game.DicBlackPiece;
                 DicPieceAdverse = this.game.DicWhitePiece;
             }
-            max = int.MinValue;
-            min = int.MaxValue;
+            CalculateMove(game.TabPiece);
 
-            CallMinMax(game.TabPiece, iDepth, true);
-            LastPiece = Pieceplay;
-            LastPosition = new int[2] { Pieceplay.PositionY, Pieceplay.PositionX }; 
+            
             game.Play();
             game.NextPlayer();
         }
 
-
-        private void CallMinMax(Piece[][] Table, int Depth, bool bIsMax)
+        private void CalculateMove(Piece[][] table)
         {
-            
-            if(bIsMax)
-            {
-                int tmp = Max(Table, Depth);
-                if(tmp>max)
-                {
-                    Pieceplay = lastPiece.Clone();
-                    max = tmp;
-                }
-            }
-            else
-            {
-                int tmp = Min(Table, Depth);
-                if(tmp<min)
-                {
-                    min = tmp;
-                }
-            }
-        }
-
-        private int Max(Piece[][] Table, int Depth)
-        {
-            if (Depth == 0 || game.IsCheckmat(game.Color1) || game.IsCheckmat(game.Color2))
-            {
-                return Eval(Table);
-            }
-
-
-            foreach (Piece p in DicPieceOwn.Values)
+            foreach(Piece p in DicPieceOwn.Values)
             {
                 p.SetPossibleMoves(game);
-                foreach (string s in p.Move)
+                foreach(string s in p.Move)
                 {
-                    lastPiece = p;
-                    string[] t = s.Split('/');
-                    int NewY = Convert.ToInt32(t[0]);
-                    int NewX = Convert.ToInt32(t[1]);
-
-                    int OldY = p.PositionY;
-                    int OldX = p.PositionX;
-                    Table[p.PositionY][p.PositionX] = null;
-                    p.SetPosition(new int[] { NewY, NewX});
-                    Table[p.PositionY][p.PositionX] = p;
                     
-                    CallMinMax(Table, Depth-1, false);
-                    Table[p.PositionY][p.PositionX] = null;
-                    p.SetPosition(new int[] { OldY, OldX });
-                    Table[p.PositionY][p.PositionX] = p;
-               
+                       
                 }
             }
-            return min;
+
         }
 
-        private int Min(Piece[][] Table, int Depth)
+        private int ValeurMinMax(Piece[][] table, bool IsMax)
         {
-            if (Depth == 0 || game.IsCheckmat(game.Color1) || game.IsCheckmat(game.Color2))
-            {
-                return Eval(Table);
-            }
-
-            foreach (Piece p in DicPieceAdverse.Values)
-            {
-                p.SetPossibleMoves(game);
-                foreach (string s in p.Move)
-                {
-                    string[] t = s.Split('/');
-                    int Y = Convert.ToInt32(t[0]);
-                    int X = Convert.ToInt32(t[1]);
-
-                    int OldY = p.PositionY;
-                    int OldX = p.PositionX;
-                    Table[p.PositionY][p.PositionX] = null;
-                    p.SetPosition(new int[] { Y, X });
-                    Table[p.PositionY][p.PositionX] = p;
-
-                    CallMinMax(Table, Depth-1, true);
-                    
-                    Table[p.PositionY][p.PositionX] = null;
-                    p.SetPosition(new int[] { OldY, OldX });
-                    Table[p.PositionY][p.PositionX] = p;
-                }
-            }
-
-            return max;
+            return 0;
         }
-
         private int Eval(Piece[][] table)
         {
             int iOwn = 0;
             int iOpp = 0;
-            foreach(Piece p in DicPieceOwn.Values)
+           
+
+            if(game.IsCheckmat(this.Color))
             {
-                if(p.GetType()==typeof(Pawn))
+                return int.MaxValue;
+            }
+            if(game.IsCheckmat(this.ColorAdverse))
+            {
+                return int.MinValue;
+            }
+            if(game.IsDraw(this.Color))
+            {
+                return 0;
+            }
+
+
+            for(int i=0; i<table.Length;i++)
+            {
+                for(int j=0; j<table[i].Length;j++)
                 {
-                    iOwn += 1;
-                }
-                else if(p.GetType()==typeof(Bishop)||p.GetType()==typeof(Knights))
-                {
-                    iOwn += 3;
-                }
-                else if(p.GetType()==typeof(Rook))
-                {
-                    iOwn += 5;
-                }
-                else if(p.GetType()==typeof(Queen))
-                {
-                    iOwn += 9;
+                    Piece p = table[i][j];
+                    if (p != null)
+                    {
+                        if(p.Color==this.Color)
+                        {
+                            if(p.GetType()==typeof(Pawn))
+                            {
+                                iOwn += 1;
+                            }
+                            if (p.GetType() == typeof(Knights)||p.GetType()==typeof(Bishop))
+                            {
+                                iOwn += 3;
+                            }
+                            if (p.GetType() == typeof(Rook))
+                            {
+                                iOwn += 5;
+                            }
+                            if (p.GetType() == typeof(Queen))
+                            {
+                                iOwn += 9;
+                            }
+                        }
+                        else
+                        {
+                            if (p.GetType() == typeof(Pawn))
+                            {
+                                iOpp += 1;
+                            }
+                            if (p.GetType() == typeof(Knights) || p.GetType() == typeof(Bishop))
+                            {
+                                iOpp += 3;
+                            }
+                            if (p.GetType() == typeof(Rook))
+                            {
+                                iOpp += 5;
+                            }
+                            if (p.GetType() == typeof(Queen))
+                            {
+                                iOpp += 9;
+                            }
+                        }
+                    }
                 }
             }
-            foreach (Piece p in DicPieceAdverse.Values)
-            {
-                if (p.GetType() == typeof(Pawn))
-                {
-                    iOpp += 1;
-                }
-                else if (p.GetType() == typeof(Bishop) || p.GetType() == typeof(Knights))
-                {
-                    iOpp += 3;
-                }
-                else if (p.GetType() == typeof(Rook))
-                {
-                    iOpp += 5;
-                }
-                else if (p.GetType() == typeof(Queen))
-                {
-                    iOpp += 9;
-                }
-            }
+
+
+
             return iOwn - iOpp;
         }
 
